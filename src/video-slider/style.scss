@@ -1,0 +1,49 @@
+.video-wrapper {
+    position: relative;
+    max-width: 100%;
+}
+
+.video-thumbnail {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.8);
+    border: none;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.buttons-wrapper {
+    margin-top: 15px;
+}
+
+.button-slider {
+    padding: 10px 20px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.button-subscribe {
+    background-color: #506ea8;
+    color: white;
+}
+
+.button-engage {
+    background-color: #c6aa60;
+    color: white;
+}

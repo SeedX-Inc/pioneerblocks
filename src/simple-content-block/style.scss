@@ -1,0 +1,21 @@
+.image-left,
+.image-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    img {
+        max-width: 150px;
+        height: auto;
+    }
+}
+
+.image-right {
+    flex-direction: row-reverse;
+}
+
+.image-button img {
+	max-width: 100px;
+	height: auto;
+	max-height: 200px !important;
+}

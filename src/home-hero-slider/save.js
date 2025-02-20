@@ -1,0 +1,119 @@
+import { useBlockProps } from '@wordpress/block-editor';
+
+export default function save( { attributes } ) {
+	return (
+		<div { ...useBlockProps.save() }>
+			<style>
+				{ `
+					.slider-wrapper {
+position: relative;
+overflow: hidden;
+width: 100%;
+max-width: 100vw;
+height: 60vh;
+margin: auto;
+text-align: center;
+}
+
+.slides-container {
+display: flex;
+height: 60vh;
+transition: transform 0.3s ease-in-out;
+width: 100%;
+}
+.slide-column{
+
+height: 60vh;
+}
+.slide {
+min-width: 100%;
+display: block;
+padding: 0;
+height: 60vh;
+text-align: center;
+}
+
+.nav-button {
+position: absolute;
+top: 50%;
+transform: translateY(-50%);
+background: none;
+border: none;
+color: #849DC1;
+padding: 10px 12px;
+cursor: pointer;
+}
+
+.button-slider {
+background: #293C5C;
+padding: 10px 12px;
+color: white;
+border: none;
+transition: .4s ease;
+
+}
+
+.button-slider:hover {
+background: #849DC1;
+color: white !important;
+transition: .4s ease;
+
+
+}
+
+.prev {
+left: 10px;
+}
+
+.next {
+right: 10px;
+}
+
+.hero-image {
+width: 100%;
+height: auto;
+margin-top: 10px;
+}
+
+.buttons-wrapper {
+display: flex;
+gap: 10px;
+justify-content: center;
+margin-top: 10px;
+}
+
+.arrows {
+width: 28px;
+height: 28px;
+border-color: #000;
+position: absolute;
+top: 50%;
+margin-top: -31px;
+}
+
+.prevArrow {
+
+border-bottom: 3px solid;
+border-left: 3px solid;
+transform: rotate(45deg);
+left: 10px;
+}
+
+
+.nextArrow {
+border-bottom: 3px solid;
+border-left: 3px solid;
+transform: rotate(-135deg);
+right: 10px;
+}
+
+
+				` }
+			</style>
+			<div
+				id="hero-slider-root"
+				data-slides={ JSON.stringify( attributes.slides ) }
+			></div>
+		</div>
+	);
+}

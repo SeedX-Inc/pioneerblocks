@@ -1,0 +1,31 @@
+{
+	"name": "pioneerblocks",
+	"version": "0.1.0",
+	"description": "Example block scaffolded with Create Block tool.",
+	"author": "The WordPress Contributors",
+	"license": "GPL-2.0-or-later",
+	"main": "build/index.js",
+	"scripts": {
+		"build": "wp-scripts build",
+		"format": "wp-scripts format",
+		"lint:css": "wp-scripts lint-style",
+		"lint:js": "wp-scripts lint-js",
+		"packages-update": "wp-scripts packages-update",
+		"plugin-zip": "wp-scripts plugin-zip",
+		"start": "wp-scripts start"
+	},
+	"devDependencies": {
+		"@babel/preset-env": "^7.26.8",
+		"@babel/preset-react": "^7.26.3",
+		"@wordpress/scripts": "^30.10.0",
+		"webpack": "^5.97.1",
+		"webpack-cli": "^6.0.1"
+	},
+	"dependencies": {
+		"bootstrap": "^5.3.3",
+		"html-react-parser": "^5.2.2",
+		"react": "^18.3.1",
+		"react-dom": "^18.3.1",
+		"swiper": "^11.2.3"
+	}
+}

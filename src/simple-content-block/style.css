@@ -1,0 +1,6 @@
+
+.image-button img {
+	max-width: 100px;
+	height: auto;
+	max-height: 200px !important;
+}

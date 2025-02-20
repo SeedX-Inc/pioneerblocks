@@ -1,0 +1,15 @@
+.custom-block-content {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+}
+
+.image-button img {
+	max-width: 100px;
+	height: auto;
+	max-height: 200px !important;
+}
+.image-right .custom-block-content {
+    flex-direction: row-reverse;
+}
