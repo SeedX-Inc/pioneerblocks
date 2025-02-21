@@ -2,13 +2,15 @@
 /**
  * Plugin Name:       Pioneer blocks
  * Description:       Pioneer custom blocks.
- * Version:           0.1.1
+ * Version:           0.1.2
  * Requires at least: 6.7
  * Requires PHP:      7.4
  * Author:            The WordPress Contributors
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       pioneerblocks
+ * Plugin URI: https://github.com/SeedX-Inc/pioneerblocks
+ * GitHub Plugin URI: https://github.com/SeedX-Inc/pioneerblocks
  *
  * @package CreateBlock
  */
