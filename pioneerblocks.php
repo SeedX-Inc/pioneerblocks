@@ -9,7 +9,7 @@
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       pioneerblocks
- * Plugin URI: https://github.com/SeedX-Inc/pioneerblocks
+ * Plugin URI:        https://github.com/SeedX-Inc/pioneerblocks
  * GitHub Plugin URI: https://github.com/SeedX-Inc/pioneerblocks
  *
  * @package CreateBlock
