@@ -1,119 +1,64 @@
-import { useBlockProps } from '@wordpress/block-editor';
+const Save = ({ attributes }) => {
+	const { slides } = attributes;
 
-export default function save( { attributes } ) {
+	if (!slides || slides.length === 0) return null;
+
+	const slide = slides[0];
+
 	return (
-		<div { ...useBlockProps.save() }>
-			<style>
-				{ `
-					.slider-wrapper {
-position: relative;
-overflow: hidden;
-width: 100%;
-max-width: 100vw;
-height: 60vh;
-margin: auto;
-text-align: center;
-}
-
-.slides-container {
-display: flex;
-height: 60vh;
-transition: transform 0.3s ease-in-out;
-width: 100%;
-}
-.slide-column{
-
-height: 60vh;
-}
-.slide {
-min-width: 100%;
-display: block;
-padding: 0;
-height: 60vh;
-text-align: center;
-}
-
-.nav-button {
-position: absolute;
-top: 50%;
-transform: translateY(-50%);
-background: none;
-border: none;
-color: #849DC1;
-padding: 10px 12px;
-cursor: pointer;
-}
-
-.button-slider {
-background: #293C5C;
-padding: 10px 12px;
-color: white;
-border: none;
-transition: .4s ease;
-
-}
-
-.button-slider:hover {
-background: #849DC1;
-color: white !important;
-transition: .4s ease;
-
-
-}
-
-.prev {
-left: 10px;
-}
-
-.next {
-right: 10px;
-}
-
-.hero-image {
-width: 100%;
-height: auto;
-margin-top: 10px;
-}
-
-.buttons-wrapper {
-display: flex;
-gap: 10px;
-justify-content: center;
-margin-top: 10px;
-}
-
-.arrows {
-width: 28px;
-height: 28px;
-border-color: #000;
-position: absolute;
-top: 50%;
-margin-top: -31px;
-}
-
-.prevArrow {
-
-border-bottom: 3px solid;
-border-left: 3px solid;
-transform: rotate(45deg);
-left: 10px;
-}
-
-
-.nextArrow {
-border-bottom: 3px solid;
-border-left: 3px solid;
-transform: rotate(-135deg);
-right: 10px;
-}
-
-
-				` }
-			</style>
+		<div className="slider-wrapper"
+			 style={{
+					 maxWidth: '100%',
+			 }}>
 			<div
-				id="hero-slider-root"
-				data-slides={ JSON.stringify( attributes.slides ) }
-			></div>
+				className="slide "
+				style={{
+					display: 'flex',
+					minHeight: '60vh',
+					alignItems: 'center',
+					background: `linear-gradient(to right, #fff, ${slide.gradient || "#ddd"})`,
+				}}
+			>
+				<div className="container">
+					<div className="row g-0"
+						 style={{
+							 textAlign: 'start'
+						 }}>
+						{/* Left Side: Text Content */}
+						<div
+							className="col-md-5 d-flex flex-column justify-content-center text-start align-items-start p-0 slide-column">
+							<h1 dangerouslySetInnerHTML={{__html: slide.title}}/>
+							<p dangerouslySetInnerHTML={{__html: slide.subtitle}}/>
+							<div className="buttons-wrapper">
+								{slide.buttons?.map((button, btnIndex) => (
+									<a
+										key={btnIndex}
+										href={button.link}
+										target="_blank"
+										rel="noopener noreferrer"
+									>
+										<button className="button-slider">{button.text}</button>
+									</a>
+								))}
+							</div>
+						</div>
+
+						{/* Right Side: Image */}
+						<div className="col-md-6 align-items-center p-0">
+							{slide.heroImage && (
+								<img
+									src={slide.heroImage}
+									alt="Hero"
+									className="hero-image"
+								/>
+							)}
+						</div>
+					</div>
+				</div>
+
+			</div>
 		</div>
 	);
-}
+};
+
+export default Save;

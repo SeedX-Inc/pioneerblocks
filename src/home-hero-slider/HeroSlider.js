@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import Swiper from 'swiper';
 import 'swiper/swiper-bundle.css';
 import './save.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navigation } from 'swiper/modules';
 
 const HeroSlider = ( { slides } ) => {

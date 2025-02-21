@@ -8,7 +8,7 @@ registerBlockType(metadata.name, {
     attributes: {
         title: {
             type: 'string',
-            default: 'Impact',
+            default: 'Title',
         },
         slides: {
             type: 'array',
@@ -22,6 +22,7 @@ registerBlockType(metadata.name, {
                         {
                             text: 'Learn More',
                             link: '#',
+							color: '#7b7b7b'
                         },
                     ],
                 },

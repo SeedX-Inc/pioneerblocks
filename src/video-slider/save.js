@@ -1,28 +1,50 @@
-import { useBlockProps, RichText } from '@wordpress/block-editor';
+import { RichText } from '@wordpress/block-editor';
 
-export default function save({ attributes }) {
-  return (
-    <div {...useBlockProps.save()}>
-      <h2>{attributes.title}</h2>
-      <div className="video-slider">
-        {attributes.slides.map((slide, index) => (
-          <div key={index} className="video-slide">
-            {slide.videoUrl ? (
-              <iframe
-                src={slide.videoUrl}
-                title="Video"
-                frameBorder="0"
-                allow="autoplay; encrypted-media"
-                allowFullScreen
-              ></iframe>
-            ) : (
-              <img src={slide.heroImage || 'default-thumbnail.jpg'} alt="Slide Media" />
-            )}
-            <h3>{slide.title}</h3>
-            <p>{slide.subtitle}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
+const Save = ({ attributes }) => {
+	const { title, slides } = attributes;
+
+	// Only show the first slide for the saved content
+	const slide = slides[0];
+
+	return (
+		<div className="block-container">
+			<h2>{title}</h2>
+			<div className="container">
+				<div className="row">
+					{slide && (
+						<>
+							<div className="col-6">
+								{slide.videoUrl ? (
+									<video style={{
+										maxWidth: '200px',
+										maxHeight: '200px'
+									}} src={slide.videoUrl} controls />
+								) : (
+									<img src={slide.heroImage} alt="Slide" />
+								)}
+							</div>
+							<div className="col-6">
+								<RichText.Content tagName="h3" value={slide.title} />
+								<RichText.Content tagName="p" value={slide.subtitle} />
+								<div className="buttons">
+									{slide.buttons.map((button, i) => (
+										<a
+											key={i}
+											href={button.link}
+											className="btn"
+											style={{ backgroundColor: button.color }}
+										>
+											{button.text}
+										</a>
+									))}
+								</div>
+							</div>
+						</>
+					)}
+				</div>
+			</div>
+		</div>
+	);
+};
+
+export default Save;

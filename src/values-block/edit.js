@@ -2,80 +2,103 @@ import { __ } from '@wordpress/i18n';
 import {
 	useBlockProps,
 	MediaUpload,
+	RichText,
+	InspectorControls,
 } from '@wordpress/block-editor';
-import { Button, TextControl } from '@wordpress/components';
+import { Button, PanelBody } from '@wordpress/components';
 
 const Edit = ({ attributes, setAttributes }) => {
-  const { blockTitle, svgValues } = attributes;
+	const { blockTitle, svgValues } = attributes;
 
-  const updateSVGValue = (index, newTitle, newDescription, newImageUrl) => {
-    const updatedValues = [...svgValues];
-    updatedValues[index] = { 
-      title: newTitle, 
-      description: newDescription,
-      imageUrl: newImageUrl 
-    };
-    setAttributes({ svgValues: updatedValues });
-  };
+	const updateSVGValue = (index, newTitle, newDescription, newImageUrl) => {
+		const updatedValues = [...svgValues];
+		updatedValues[index] = {
+			title: newTitle,
+			description: newDescription,
+			imageUrl: newImageUrl,
+		};
+		setAttributes({ svgValues: updatedValues });
+	};
 
-  const updateBlockTitle = (newTitle) => {
-    setAttributes({ blockTitle: newTitle });
-  };
+	return (
+		<div {...useBlockProps()}>
+			<InspectorControls>
+				<PanelBody title={__('Settings', 'my-custom-block')}>
+					<RichText
+						tagName="h2"
+						value={blockTitle}
+						onChange={(newTitle) => setAttributes({ blockTitle: newTitle })}
+						placeholder={__('Enter block title...', 'my-custom-block')}
+					/>
+				</PanelBody>
+			</InspectorControls>
 
-  return (
-    <div {...useBlockProps()}>
-      <TextControl
-        label={__('Block Title', 'my-custom-block')}
-        value={blockTitle}
-        onChange={updateBlockTitle}
-      />
-      <h3>{__('SVG Section', 'my-custom-block')}</h3>
-      <hr />
-      {svgValues.map((value, index) => (
-        <div key={index} className="svg-row">
-          <div className="svg-image">
-            <MediaUpload
-              onSelect={(media) => updateSVGValue(index, value.title, value.description, media.url)}
-              allowedTypes={['image', 'image/svg+xml']}
-              value={value.imageUrl}
-              render={({ open }) => (
-                <Button onClick={open}>
-                  {value.imageUrl ? __('Change Image', 'my-custom-block') : __('Select Image', 'my-custom-block')}
-                </Button>
-              )}
-            />
-          </div>
-          <div className="svg-titles">
-            <TextControl
-              label={__('SVG Title', 'my-custom-block')}
-              value={value.title}
-              onChange={(newTitle) => updateSVGValue(index, newTitle, value.description, value.imageUrl)}
-            />
-          </div>
-          <div className="svg-descriptions">
-            <TextControl
-              label={__('SVG Description', 'my-custom-block')}
-              value={value.description}
-              onChange={(newDescription) => updateSVGValue(index, value.title, newDescription, value.imageUrl)}
-            />
-          </div>
-        </div>
-      ))}
-      <Button
-        isPrimary
-        onClick={() =>
-          setAttributes({
-            svgValues: [
-              ...svgValues,
-              { title: 'New SVG', description: 'New Description', imageUrl: '' },
-            ],
-          })
-        }
-      >
-        {__('Add SVG', 'my-custom-block')}
-      </Button>
-    </div>
-  );
+			<div className="container">
+				<RichText
+					tagName="h2"
+					className="text-center mb-4"
+					value={blockTitle}
+					onChange={(newTitle) => setAttributes({ blockTitle: newTitle })}
+					placeholder={__('Enter block title...', 'my-custom-block')}
+				/>
+
+				<div className="row">
+					{svgValues.map((value, index) => (
+						<div key={index} className="col-md-4 mb-4">
+							<div className="card h-100 text-center p-3">
+								<div className="mb-3">
+									<MediaUpload
+										onSelect={(media) =>
+											updateSVGValue(index, value.title, value.description, media.url)
+										}
+										allowedTypes={['image', 'image/svg+xml']}
+										render={({ open }) => (
+											<Button onClick={open} className="btn btn-outline-primary">
+												{value.imageUrl ? __('Change Image', 'my-custom-block') : __('Select Image', 'my-custom-block')}
+											</Button>
+										)}
+									/>
+									{value.imageUrl && <img src={value.imageUrl} alt={value.title} className="img-fluid mt-2" />}
+								</div>
+
+								<div className="d-flex flex-column align-items-center">
+									<RichText
+										tagName="h3"
+										className="fw-bold"
+										value={value.title}
+										onChange={(newTitle) => updateSVGValue(index, newTitle, value.description, value.imageUrl)}
+										placeholder={__('Enter SVG title...', 'my-custom-block')}
+									/>
+									<RichText
+										tagName="p"
+										className="text-muted"
+										value={value.description}
+										onChange={(newDescription) => updateSVGValue(index, value.title, newDescription, value.imageUrl)}
+										placeholder={__('Enter SVG description...', 'my-custom-block')}
+									/>
+								</div>
+							</div>
+						</div>
+					))}
+				</div>
+
+				<Button
+					isPrimary
+					className="mt-3"
+					onClick={() =>
+						setAttributes({
+							svgValues: [
+								...svgValues,
+								{ title: 'New SVG', description: 'New Description', imageUrl: '' },
+							],
+						})
+					}
+				>
+					{__('Add SVG', 'my-custom-block')}
+				</Button>
+			</div>
+		</div>
+	);
 };
 
 export default Edit;
