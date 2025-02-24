@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Pioneer blocks
  * Description:       Pioneer custom blocks.
- * Version:           0.1.7
+ * Version:           0.1.8
  * Requires at least: 6.7
  * Requires PHP:      7.4
  * Author:            The WordPress Contributors
@@ -58,6 +58,10 @@ function check_for_plugin_update($transient) {
 
 	// Log the response data for debugging purposes
     error_log('GitHub API Response: ' . print_r($data, true));
+
+	// Make sure zipball_url is formatted correctly
+    $zip_url = str_replace('api.github.com/repos', 'github.com', $data->zipball_url);
+    $zip_url = str_replace('zipball', 'archive/refs/tags', $zip_url) . '.zip';
 
     // Get the plugin's current version
     $current_version = get_plugin_data(WP_PLUGIN_DIR . '/pioneerblocks/pioneerblocks.php')['Version'];
