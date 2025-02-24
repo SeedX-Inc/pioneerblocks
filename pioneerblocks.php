@@ -31,3 +31,43 @@ function enqueue_custom_block_assets() {
 	wp_enqueue_script('bootstrap-js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js', array('jquery'), '5.3.2', true);
 }
 add_action('enqueue_block_assets', 'enqueue_custom_block_assets');
+
+// Add the GitHub update check function
+add_filter('site_transient_update_plugins', 'check_for_plugin_update');
+
+function check_for_plugin_update($transient) {
+    // Set GitHub API URL for the plugin repository
+    $repo_url = 'https://api.github.com/repos/SeedX-Inc/pioneerblocks/releases/latest';
+
+    // GitHub Personal Access Token
+    $token = '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'; // Replace this with your actual token
+
+    // Set headers for authentication
+    $headers = array(
+        'Authorization' => 'Bearer ' . $token
+    );
+
+    // Get the latest release data from GitHub
+    $response = wp_remote_get($repo_url, array('headers' => $headers));
+
+    if (is_wp_error($response)) {
+        return $transient;
+    }
+
+    $data = json_decode(wp_remote_retrieve_body($response));
+
+    // Get the plugin's current version
+    $current_version = get_plugin_data(WP_PLUGIN_DIR . '/pioneerblocks/pioneerblocks.php')['Version'];
+
+    // If the new version is newer, mark the plugin for update
+    if (version_compare($data->tag_name, $current_version, '>')) {
+        $transient->response['pioneerblocks/pioneerblocks.php'] = array(
+            'slug' => 'pioneerblocks',
+            'new_version' => $data->tag_name,
+            'url' => $data->html_url,
+            'package' => $data->zipball_url
+        );
+    }
+
+    return $transient;
+}
