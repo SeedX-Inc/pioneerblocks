@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Pioneer blocks
  * Description:       Pioneer custom blocks.
- * Version:           0.1.11
+ * Version:           0.1.12
  * Requires at least: 6.7
  * Requires PHP:      7.4
  * Author:            The WordPress Contributors
@@ -86,7 +86,6 @@ class PioneerBlocks_Updater {
     private $github_repo;
     private $plugin_data;
     private $github_api_result;
-    private $access_token;
     private $plugin_activated;
     private $log_file;
 
@@ -98,7 +97,6 @@ class PioneerBlocks_Updater {
         $this->plugin_file = __FILE__;
         $this->github_username = 'SeedX-Inc';
         $this->github_repo = 'pioneerblocks';
-        $this->access_token = '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'; // SET YOUR GITHUB ACCESS TOKEN HERE
         $this->log_file = WP_CONTENT_DIR . '/pioneerblocks-update-logs.txt';
 
         // Get plugin data
@@ -114,38 +112,10 @@ class PioneerBlocks_Updater {
         $this->plugin_data = get_plugin_data($this->plugin_file);
         $this->plugin_activated = is_plugin_active($this->plugin_slug);
 
-        $this->log("======= NEW UPDATER SESSION =======");
-        $this->log("Updater initialized for {$this->github_username}/{$this->github_repo}");
-        $this->log("Plugin version: {$this->plugin_data['Version']}");
-        $this->log("Plugin slug: {$this->plugin_slug}");
-
         // Hook into the update system
         add_filter('pre_set_site_transient_update_plugins', array($this, 'check_update'), 10);
         add_filter('plugins_api', array($this, 'plugin_popup'), 10, 3);
         add_filter('upgrader_post_install', array($this, 'after_install'), 10, 3);
-
-        // Add debug action to check update manually + admin notice
-        add_action('admin_init', array($this, 'debug_check_update'));
-        add_action('admin_notices', array($this, 'show_update_notice'));
-    }
-
-    /**
-     * Show admin notice with debug information
-     */
-    public function show_update_notice() {
-        if (!current_user_can('manage_options')) {
-            return;
-        }
-
-        $debug_url = add_query_arg('debug_pioneerblocks_update', '1', admin_url('plugins.php'));
-
-        echo '<div class="notice notice-info is-dismissible">';
-        echo '<p><strong>PioneerBlocks Debug:</strong> ';
-        echo 'Current version: ' . $this->plugin_data['Version'] . ' | ';
-        echo '<a href="' . esc_url($debug_url) . '">Check for updates now</a> | ';
-        echo '<a href="' . esc_url(WP_CONTENT_URL . '/pioneerblocks-update-logs.txt') . '" target="_blank">View update logs</a>';
-        echo '</p>';
-        echo '</div>';
     }
 
     /**
@@ -166,60 +136,16 @@ class PioneerBlocks_Updater {
     }
 
     /**
-     * Manual debug check triggered by query parameter
-     */
-    public function debug_check_update() {
-        if (isset($_GET['debug_pioneerblocks_update']) && current_user_can('manage_options')) {
-            $this->log("====== MANUAL UPDATE CHECK TRIGGERED ======");
-
-            // Force check for updates
-            delete_site_transient('update_plugins');
-            $this->get_repository_info(true);
-
-            if (is_wp_error($this->github_api_result)) {
-                $this->log("ERROR: " . $this->github_api_result->get_error_message());
-                wp_die("Update check error: " . $this->github_api_result->get_error_message() . "<br>Check the log file at: " . $this->log_file);
-            } else {
-                // Compare versions
-                $current_version = $this->plugin_data['Version'];
-                if (isset($this->github_api_result->tag_name)) {
-                    $tag_name = $this->github_api_result->tag_name;
-                    // Remove 'v' prefix if it exists
-                    if (substr($tag_name, 0, 1) === 'v') {
-                        $tag_name = substr($tag_name, 1);
-                    }
-
-                    $this->log("Current version: {$current_version}, GitHub version: {$tag_name}");
-                    $update_available = version_compare($tag_name, $current_version, '>');
-                    $this->log("Update available: " . ($update_available ? "YES" : "NO"));
-                } else {
-                    $this->log("ERROR: No tag_name found in GitHub response");
-                }
-
-                // Manually create update object for testing
-                $this->log("Creating test update object");
-                $transient = get_site_transient('update_plugins');
-                if (!$transient) {
-                    $transient = new stdClass();
-                    $transient->checked = array();
-                    $transient->response = array();
-                }
-                $transient_check = $this->check_update($transient);
-
-                wp_die("Update check complete. See log file at: " . $this->log_file);
-            }
-        }
-    }
-
-    /**
      * Check for plugin updates
      */
     public function check_update($transient) {
         $this->log("check_update called");
 
+        // If transient->checked is empty, we need to ensure it is populated
         if (empty($transient->checked)) {
-            $this->log("Transient->checked is empty, returning original transient");
-            return $transient;
+            $this->log("Transient->checked is empty, setting checked property");
+            $transient->checked = array();
+            $transient->checked[$this->plugin_slug] = $this->plugin_data['Version'];  // Set the current plugin version
         }
 
         // Get plugin version information from GitHub
@@ -250,9 +176,13 @@ class PioneerBlocks_Updater {
                 $obj->plugin = $this->plugin_slug;
                 $obj->new_version = $tag_name;
                 $obj->url = "https://github.com/{$this->github_username}/{$this->github_repo}";
-                $obj->package = $this->github_api_result->zipball_url;
 
-                $this->log("Update object created: " . print_r($obj, true));
+                // Construct the package URL (public repository no longer requires authentication)
+                $package_url = "https://github.com/{$this->github_username}/{$this->github_repo}/archive/refs/tags/{$tag_name}.zip";
+                $obj->package = $package_url;
+
+                // Log successful fetch and return the update object
+                $this->log("Update package: {$obj->package}");
 
                 if (!isset($transient->response)) {
                     $transient->response = array();
@@ -280,22 +210,13 @@ class PioneerBlocks_Updater {
 
         // Query the GitHub API
         $url = "https://api.github.com/repos/{$this->github_username}/{$this->github_repo}/releases/latest";
-        $this->log("====== FETCHING FROM GITHUB API ======");
-        $this->log("GitHub API URL: {$url}");
+        $this->log("Fetching GitHub data from: {$url}");
 
         // Set headers for GitHub API
         $headers = array(
             'Accept' => 'application/json',
             'User-Agent' => 'WordPress/' . get_bloginfo('version') . '; ' . get_bloginfo('url')
         );
-
-        // Add Authorization header for GitHub API token
-        if (!empty($this->access_token)) {
-            $headers['Authorization'] = 'token ' . $this->access_token;
-            $this->log("Added authorization header for GitHub API");
-        }
-
-        $this->log("Request headers: " . print_r($headers, true));
 
         // Get the results
         $response = wp_remote_get($url, array(
@@ -317,9 +238,6 @@ class PioneerBlocks_Updater {
         $body = wp_remote_retrieve_body($response);
         $this->log("GitHub API response body: {$body}");
 
-        $response_headers = wp_remote_retrieve_headers($response);
-        $this->log("GitHub API response headers: " . print_r($response_headers, true));
-
         if ($http_code !== 200) {
             $this->log("GitHub API returned non-200 status code: {$http_code}");
             $this->github_api_result = new WP_Error('github_api_error', "GitHub API returned status code: {$http_code}");
@@ -330,9 +248,6 @@ class PioneerBlocks_Updater {
 
         if (empty($this->github_api_result)) {
             $this->log("ERROR: Empty GitHub API response");
-            if (json_last_error() !== JSON_ERROR_NONE) {
-                $this->log("JSON decode error: " . json_last_error_msg());
-            }
             $this->github_api_result = new WP_Error('github_api_invalid', 'Invalid response from GitHub API');
             return;
         }
@@ -344,54 +259,6 @@ class PioneerBlocks_Updater {
         }
 
         $this->log("Successfully retrieved GitHub data. Latest version: {$this->github_api_result->tag_name}");
-
-        // Check for zipball_url
-        if (!isset($this->github_api_result->zipball_url)) {
-            $this->log("WARNING: No zipball_url found, constructing fallback URL");
-            $this->github_api_result->zipball_url = "https://github.com/{$this->github_username}/{$this->github_repo}/archive/refs/tags/{$this->github_api_result->tag_name}.zip";
-        }
-    }
-
-    /**
-     * Show plugin information in the plugins list
-     */
-    public function plugin_popup($result, $action, $args) {
-        $this->log("plugin_popup called with action: {$action}");
-
-        if ($action !== 'plugin_information') {
-            return $result;
-        }
-
-        if (!isset($args->slug) || $args->slug !== dirname($this->plugin_slug)) {
-            return $result;
-        }
-
-        $this->log("Showing plugin information popup");
-        $this->get_repository_info();
-
-        if (is_wp_error($this->github_api_result)) {
-            $this->log("ERROR in plugin_popup: " . $this->github_api_result->get_error_message());
-            return $result;
-        }
-
-        $plugin_info = new stdClass();
-        $plugin_info->name = $this->plugin_data['Name'];
-        $plugin_info->slug = dirname($this->plugin_slug);
-        $plugin_info->version = $this->github_api_result->tag_name;
-        $plugin_info->author = $this->plugin_data['Author'];
-        $plugin_info->homepage = $this->plugin_data['PluginURI'];
-        $plugin_info->requires = '5.0';
-        $plugin_info->tested = '6.7';
-        $plugin_info->downloaded = 0;
-        $plugin_info->last_updated = $this->github_api_result->published_at;
-        $plugin_info->sections = array(
-            'description' => $this->plugin_data['Description'],
-            'changelog' => isset($this->github_api_result->body) ? $this->github_api_result->body : 'No changelog provided.'
-        );
-        $plugin_info->download_link = $this->github_api_result->zipball_url;
-
-        $this->log("Plugin info created: " . print_r($plugin_info, true));
-        return $plugin_info;
     }
 
     /**
@@ -414,10 +281,6 @@ class PioneerBlocks_Updater {
         $move_result = $wp_filesystem->move($result['destination'], $plugin_folder);
         $this->log("Move result: " . ($move_result ? "SUCCESS" : "FAILED"));
 
-        if (!$move_result) {
-            $this->log("Move failed. WP_Filesystem error: " . $wp_filesystem->errors->get_error_message());
-        }
-
         $result['destination'] = $plugin_folder;
 
         if ($this->plugin_activated) {
@@ -438,7 +301,6 @@ add_action('plugins_loaded', function() {
     new PioneerBlocks_Updater();
 });
 
-// Text Domain Loading (fixed as per previous message)
 function pioneerblocks_load_textdomain() {
     load_plugin_textdomain('pioneerblocks', false, dirname(plugin_basename(__FILE__)) . '/languages');
 }
