@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Pioneer blocks
  * Description:       Pioneer custom blocks.
- * Version:           0.1.12
+ * Version:           0.1.13
  * Requires at least: 6.7
  * Requires PHP:      7.4
  * Author:            The WordPress Contributors
@@ -24,6 +24,7 @@ function create_block_pioneerblocks_block_init() {
 	register_block_type( __DIR__ . '/build/simple-content-block' );
 	register_block_type( __DIR__ . '/build/values-block' );
 	register_block_type( __DIR__ . '/build/video-slider' );
+	register_block_type( __DIR__ . '/build/directors-list' );
 }
 add_action( 'init', 'create_block_pioneerblocks_block_init' );
 function enqueue_custom_block_assets() {

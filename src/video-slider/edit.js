@@ -167,7 +167,7 @@ const Edit = ({ attributes, setAttributes }) => {
 										<a
 											key={i}
 											href={button.link}
-											className="btn"
+											className="btn me-2"
 											style={{ backgroundColor: button.color }}
 										>
 											{button.text}

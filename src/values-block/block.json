@@ -16,9 +16,9 @@
 	  "svgValues": {
 		"type": "array",
 		"default": [
-		  { "title": "SVG 1", "description": "Description 1", "imageUrl": "" },
-		  { "title": "SVG 2", "description": "Description 2", "imageUrl": "" },
-		  { "title": "SVG 3", "description": "Description 3", "imageUrl": "" }
+		  { "title": "Title 1", "description": "Description 1", "imageUrl": "" },
+		  { "title": "Title 2", "description": "Description 2", "imageUrl": "" },
+		  { "title": "Title 3", "description": "Description 3", "imageUrl": "" }
 		]
 	  }
 	},

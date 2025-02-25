@@ -3,13 +3,12 @@ import { RichText } from '@wordpress/block-editor';
 const Save = ({ attributes }) => {
 	const { title, slides } = attributes;
 
-	// Only show the first slide for the saved content
 	const slide = slides[0];
 
 	return (
-		<div className="block-container">
+		<div className="block-container container">
 			<h2>{title}</h2>
-			<div className="container">
+			<div className="">
 				<div className="row">
 					{slide && (
 						<>
@@ -23,7 +22,7 @@ const Save = ({ attributes }) => {
 									<img src={slide.heroImage} alt="Slide" />
 								)}
 							</div>
-							<div className="col-6">
+							<div className="col-6 align-self-center">
 								<RichText.Content tagName="h3" value={slide.title} />
 								<RichText.Content tagName="p" value={slide.subtitle} />
 								<div className="buttons">
@@ -31,7 +30,7 @@ const Save = ({ attributes }) => {
 										<a
 											key={i}
 											href={button.link}
-											className="btn"
+											className="btn me-2 text-white"
 											style={{ backgroundColor: button.color }}
 										>
 											{button.text}

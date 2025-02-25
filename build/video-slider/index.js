@@ -1,1 +1,594 @@
-(()=>{"use strict";var e,t={568:()=>{const e=window.wp.blocks,t=window.wp.blockEditor,l=window.wp.components,i=window.wp.element,s=window.ReactJSXRuntime,n=JSON.parse('{"UU":"create-block/video-slider"}');(0,e.registerBlockType)(n.UU,{attributes:{title:{type:"string",default:"Title"},slides:{type:"array",default:[{videoUrl:"",heroImage:"",title:"Sample Slide Title",subtitle:"Sample slide subtitle text.",buttons:[{text:"Learn More",link:"#",color:"#7b7b7b"}]}]}},edit:({attributes:e,setAttributes:n})=>{const{title:o,slides:r}=e,[a,c]=(0,i.useState)(0),d=(e,t,l)=>{const i=r.map(((i,s)=>s===e?{...i,[t]:l}:i));n({slides:i})},h=(e,t,l,i)=>{const s=[...r];s[e].buttons[t]={...s[e].buttons[t],[l]:i},n({slides:s})};return(0,s.jsxs)("div",{...(0,t.useBlockProps)(),children:[(0,s.jsxs)(t.InspectorControls,{children:[(0,s.jsx)(l.PanelBody,{title:"Block Settings",initialOpen:!0,children:(0,s.jsx)(l.TextControl,{label:"Title",value:o,onChange:e=>n({title:e})})}),r.map(((e,i)=>(0,s.jsxs)(l.PanelBody,{title:`Slide ${i+1}`,initialOpen:!1,children:[(0,s.jsx)(l.TextControl,{label:"Slide Title",value:e.title,onChange:e=>d(i,"title",e)}),(0,s.jsx)(l.TextControl,{label:"Subtitle",value:e.subtitle,onChange:e=>d(i,"subtitle",e)}),(0,s.jsx)(t.MediaUpload,{onSelect:e=>d(i,"heroImage",e.url),type:"image",render:({open:e})=>(0,s.jsx)(l.Button,{onClick:e,variant:"secondary",children:"Select Image"})}),(0,s.jsx)(t.MediaUpload,{onSelect:e=>d(i,"videoUrl",e.url),type:"video",render:({open:e})=>(0,s.jsx)(l.Button,{onClick:e,variant:"secondary",children:"Select Video"})}),(0,s.jsx)("h4",{children:"Buttons"}),e.buttons.map(((e,t)=>(0,s.jsxs)("div",{className:"button-editor",children:[(0,s.jsx)(l.TextControl,{label:"Button Text",value:e.text,onChange:e=>h(i,t,"text",e)}),(0,s.jsx)(l.TextControl,{label:"Button Link",value:e.link,onChange:e=>h(i,t,"link",e)}),(0,s.jsx)(l.ColorPicker,{label:"Button Color",color:e.color,onChangeComplete:e=>h(i,t,"color",e.hex)}),(0,s.jsx)(l.Button,{onClick:()=>((e,t)=>{const l=[...r];l[e].buttons=l[e].buttons.filter(((e,l)=>l!==t)),n({slides:l})})(i,t),variant:"secondary",isDestructive:!0,children:"Remove Button"})]},t))),(0,s.jsx)(l.Button,{onClick:()=>(e=>{const t=[...r];t[e].buttons.push({text:"",link:"",color:"#000000"}),n({slides:t})})(i),variant:"primary",children:"Add Button"}),(0,s.jsx)(l.Button,{onClick:()=>(e=>{const t=r.filter(((t,l)=>l!==e));n({slides:t})})(i),variant:"secondary",isDestructive:!0,children:"Remove Slide"})]},i))),(0,s.jsx)(l.Button,{onClick:()=>{n({slides:[...r,{title:"",subtitle:"",videoUrl:"",heroImage:"",buttons:[]}]})},variant:"primary",children:"Add Slide"})]}),(0,s.jsx)("h2",{children:o}),(0,s.jsx)("div",{className:"container",children:(0,s.jsx)("div",{className:"row",children:r.length>0&&(0,s.jsxs)(s.Fragment,{children:[(0,s.jsx)("div",{className:"col-6",children:r[a].videoUrl?(0,s.jsx)("video",{src:r[a].videoUrl,controls:!0}):(0,s.jsx)("img",{src:r[a].heroImage,alt:"Slide"})}),(0,s.jsxs)("div",{className:"col-6",children:[(0,s.jsx)(t.RichText,{tagName:"h3",value:r[a].title,onChange:e=>d(a,"title",e),placeholder:"Slide Title"}),(0,s.jsx)(t.RichText,{tagName:"p",value:r[a].subtitle,onChange:e=>d(a,"subtitle",e),placeholder:"Slide Subtitle"}),(0,s.jsx)("div",{className:"buttons",children:r[a].buttons.map(((e,t)=>(0,s.jsx)("a",{href:e.link,className:"btn",style:{backgroundColor:e.color},children:e.text},t)))}),r.length>1&&(0,s.jsx)(l.Button,{onClick:()=>c((a+1)%r.length),variant:"secondary",children:"Next Slide"})]})]})})})]})},save:({attributes:e})=>{const{title:l,slides:i}=e,n=i[0];return(0,s.jsxs)("div",{className:"block-container",children:[(0,s.jsx)("h2",{children:l}),(0,s.jsx)("div",{className:"container",children:(0,s.jsx)("div",{className:"row",children:n&&(0,s.jsxs)(s.Fragment,{children:[(0,s.jsx)("div",{className:"col-6",children:n.videoUrl?(0,s.jsx)("video",{style:{maxWidth:"200px",maxHeight:"200px"},src:n.videoUrl,controls:!0}):(0,s.jsx)("img",{src:n.heroImage,alt:"Slide"})}),(0,s.jsxs)("div",{className:"col-6",children:[(0,s.jsx)(t.RichText.Content,{tagName:"h3",value:n.title}),(0,s.jsx)(t.RichText.Content,{tagName:"p",value:n.subtitle}),(0,s.jsx)("div",{className:"buttons",children:n.buttons.map(((e,t)=>(0,s.jsx)("a",{href:e.link,className:"btn",style:{backgroundColor:e.color},children:e.text},t)))})]})]})})})]})}})}},l={};function i(e){var s=l[e];if(void 0!==s)return s.exports;var n=l[e]={exports:{}};return t[e](n,n.exports,i),n.exports}i.m=t,e=[],i.O=(t,l,s,n)=>{if(!l){var o=1/0;for(d=0;d<e.length;d++){for(var[l,s,n]=e[d],r=!0,a=0;a<l.length;a++)(!1&n||o>=n)&&Object.keys(i.O).every((e=>i.O[e](l[a])))?l.splice(a--,1):(r=!1,n<o&&(o=n));if(r){e.splice(d--,1);var c=s();void 0!==c&&(t=c)}}return t}n=n||0;for(var d=e.length;d>0&&e[d-1][2]>n;d--)e[d]=e[d-1];e[d]=[l,s,n]},i.o=(e,t)=>Object.prototype.hasOwnProperty.call(e,t),(()=>{var e={199:0,375:0};i.O.j=t=>0===e[t];var t=(t,l)=>{var s,n,[o,r,a]=l,c=0;if(o.some((t=>0!==e[t]))){for(s in r)i.o(r,s)&&(i.m[s]=r[s]);if(a)var d=a(i)}for(t&&t(l);c<o.length;c++)n=o[c],i.o(e,n)&&e[n]&&e[n][0](),e[n]=0;return i.O(d)},l=globalThis.webpackChunkpioneerblocks=globalThis.webpackChunkpioneerblocks||[];l.forEach(t.bind(null,0)),l.push=t.bind(null,l.push.bind(l))})();var s=i.O(void 0,[375],(()=>i(568)));s=i.O(s)})();
+/******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./src/video-slider/block.json":
+/*!*************************************!*\
+  !*** ./src/video-slider/block.json ***!
+  \*************************************/
+/***/ ((module) => {
+
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"create-block/video-slider","version":"0.1.0","title":"Video Slider","category":"widgets","icon":"smiley","description":"Example block scaffolded with Create Block tool.","example":{},"supports":{"html":false},"textdomain":"video slider","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+
+/***/ }),
+
+/***/ "./src/video-slider/edit.js":
+/*!**********************************!*\
+  !*** ./src/video-slider/edit.js ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__);
+
+
+
+
+const Edit = ({
+  attributes,
+  setAttributes
+}) => {
+  const {
+    title,
+    slides
+  } = attributes;
+  const [activeIndex, setActiveIndex] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)(0);
+
+  // Add a new slide
+  const addSlide = () => {
+    setAttributes({
+      slides: [...slides, {
+        title: '',
+        subtitle: '',
+        videoUrl: '',
+        heroImage: '',
+        buttons: []
+      }]
+    });
+  };
+
+  // Remove a slide
+  const removeSlide = index => {
+    const updatedSlides = slides.filter((_, i) => i !== index);
+    setAttributes({
+      slides: updatedSlides
+    });
+  };
+
+  // Update slide details
+  const updateSlide = (index, key, value) => {
+    const updatedSlides = slides.map((slide, i) => i === index ? {
+      ...slide,
+      [key]: value
+    } : slide);
+    setAttributes({
+      slides: updatedSlides
+    });
+  };
+
+  // Add a new button for a slide
+  const addButton = index => {
+    const updatedSlides = [...slides];
+    updatedSlides[index].buttons.push({
+      text: '',
+      link: '',
+      color: '#000000'
+    }); // Default color
+    setAttributes({
+      slides: updatedSlides
+    });
+  };
+
+  // Remove a button from a slide
+  const removeButton = (slideIndex, buttonIndex) => {
+    const updatedSlides = [...slides];
+    updatedSlides[slideIndex].buttons = updatedSlides[slideIndex].buttons.filter((_, i) => i !== buttonIndex);
+    setAttributes({
+      slides: updatedSlides
+    });
+  };
+
+  // Update button text, link, or color
+  const updateButton = (slideIndex, buttonIndex, key, value) => {
+    const updatedSlides = [...slides];
+    updatedSlides[slideIndex].buttons[buttonIndex] = {
+      ...updatedSlides[slideIndex].buttons[buttonIndex],
+      [key]: value
+    };
+    setAttributes({
+      slides: updatedSlides
+    });
+  };
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+    ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.useBlockProps)(),
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.InspectorControls, {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.PanelBody, {
+        title: "Block Settings",
+        initialOpen: true,
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
+          label: "Title",
+          value: title,
+          onChange: value => setAttributes({
+            title: value
+          })
+        })
+      }), slides.map((slide, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.PanelBody, {
+        title: `Slide ${index + 1}`,
+        initialOpen: false,
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
+          label: "Slide Title",
+          value: slide.title,
+          onChange: value => updateSlide(index, 'title', value)
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
+          label: "Subtitle",
+          value: slide.subtitle,
+          onChange: value => updateSlide(index, 'subtitle', value)
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.MediaUpload, {
+          onSelect: media => updateSlide(index, 'heroImage', media.url),
+          type: "image",
+          render: ({
+            open
+          }) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
+            onClick: open,
+            variant: "secondary",
+            children: "Select Image"
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.MediaUpload, {
+          onSelect: media => updateSlide(index, 'videoUrl', media.url),
+          type: "video",
+          render: ({
+            open
+          }) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
+            onClick: open,
+            variant: "secondary",
+            children: "Select Video"
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h4", {
+          children: "Buttons"
+        }), slide.buttons.map((button, buttonIndex) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+          className: "button-editor",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
+            label: "Button Text",
+            value: button.text,
+            onChange: value => updateButton(index, buttonIndex, 'text', value)
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
+            label: "Button Link",
+            value: button.link,
+            onChange: value => updateButton(index, buttonIndex, 'link', value)
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.ColorPicker, {
+            label: "Button Color",
+            color: button.color,
+            onChangeComplete: value => updateButton(index, buttonIndex, 'color', value.hex)
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
+            onClick: () => removeButton(index, buttonIndex),
+            variant: "secondary",
+            isDestructive: true,
+            children: "Remove Button"
+          })]
+        }, buttonIndex)), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
+          onClick: () => addButton(index),
+          variant: "primary",
+          children: "Add Button"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
+          onClick: () => removeSlide(index),
+          variant: "secondary",
+          isDestructive: true,
+          children: "Remove Slide"
+        })]
+      }, index)), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
+        onClick: addSlide,
+        variant: "primary",
+        children: "Add Slide"
+      })]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h2", {
+      children: title
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+      className: "container",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+        className: "row",
+        children: slides.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+            className: "col-6",
+            children: slides[activeIndex].videoUrl ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("video", {
+              src: slides[activeIndex].videoUrl,
+              controls: true
+            }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
+              src: slides[activeIndex].heroImage,
+              alt: "Slide"
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+            className: "col-6",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.RichText, {
+              tagName: "h3",
+              value: slides[activeIndex].title,
+              onChange: value => updateSlide(activeIndex, 'title', value),
+              placeholder: "Slide Title"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.RichText, {
+              tagName: "p",
+              value: slides[activeIndex].subtitle,
+              onChange: value => updateSlide(activeIndex, 'subtitle', value),
+              placeholder: "Slide Subtitle"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+              className: "buttons",
+              children: slides[activeIndex].buttons.map((button, i) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+                href: button.link,
+                className: "btn me-2",
+                style: {
+                  backgroundColor: button.color
+                },
+                children: button.text
+              }, i))
+            }), slides.length > 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
+              onClick: () => setActiveIndex((activeIndex + 1) % slides.length),
+              variant: "secondary",
+              children: "Next Slide"
+            })]
+          })]
+        })
+      })
+    })]
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Edit);
+
+/***/ }),
+
+/***/ "./src/video-slider/index.js":
+/*!***********************************!*\
+  !*** ./src/video-slider/index.js ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./edit */ "./src/video-slider/edit.js");
+/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./save */ "./src/video-slider/save.js");
+/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./block.json */ "./src/video-slider/block.json");
+/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./style.scss */ "./src/video-slider/style.scss");
+
+
+
+
+
+(0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.registerBlockType)(_block_json__WEBPACK_IMPORTED_MODULE_3__.name, {
+  attributes: {
+    title: {
+      type: 'string',
+      default: 'Title'
+    },
+    slides: {
+      type: 'array',
+      default: [{
+        videoUrl: '',
+        heroImage: '',
+        title: 'Sample Slide Title',
+        subtitle: 'Sample slide subtitle text.',
+        buttons: [{
+          text: 'Learn More',
+          link: '#',
+          color: '#7b7b7b'
+        }]
+      }]
+    }
+  },
+  edit: _edit__WEBPACK_IMPORTED_MODULE_1__["default"],
+  save: _save__WEBPACK_IMPORTED_MODULE_2__["default"]
+});
+
+/***/ }),
+
+/***/ "./src/video-slider/save.js":
+/*!**********************************!*\
+  !*** ./src/video-slider/save.js ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
+
+
+const Save = ({
+  attributes
+}) => {
+  const {
+    title,
+    slides
+  } = attributes;
+  const slide = slides[0];
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+    className: "block-container container",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h2", {
+      children: title
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      className: "",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        className: "row",
+        children: slide && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+            className: "col-6",
+            children: slide.videoUrl ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("video", {
+              style: {
+                maxWidth: '200px',
+                maxHeight: '200px'
+              },
+              src: slide.videoUrl,
+              controls: true
+            }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("img", {
+              src: slide.heroImage,
+              alt: "Slide"
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+            className: "col-6 align-self-center",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.RichText.Content, {
+              tagName: "h3",
+              value: slide.title
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.RichText.Content, {
+              tagName: "p",
+              value: slide.subtitle
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+              className: "buttons",
+              children: slide.buttons.map((button, i) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
+                href: button.link,
+                className: "btn me-2 text-white",
+                style: {
+                  backgroundColor: button.color
+                },
+                children: button.text
+              }, i))
+            })]
+          })]
+        })
+      })
+    })]
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Save);
+
+/***/ }),
+
+/***/ "./src/video-slider/style.scss":
+/*!*************************************!*\
+  !*** ./src/video-slider/style.scss ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "@wordpress/block-editor":
+/*!*************************************!*\
+  !*** external ["wp","blockEditor"] ***!
+  \*************************************/
+/***/ ((module) => {
+
+module.exports = window["wp"]["blockEditor"];
+
+/***/ }),
+
+/***/ "@wordpress/blocks":
+/*!********************************!*\
+  !*** external ["wp","blocks"] ***!
+  \********************************/
+/***/ ((module) => {
+
+module.exports = window["wp"]["blocks"];
+
+/***/ }),
+
+/***/ "@wordpress/components":
+/*!************************************!*\
+  !*** external ["wp","components"] ***!
+  \************************************/
+/***/ ((module) => {
+
+module.exports = window["wp"]["components"];
+
+/***/ }),
+
+/***/ "@wordpress/element":
+/*!*********************************!*\
+  !*** external ["wp","element"] ***!
+  \*********************************/
+/***/ ((module) => {
+
+module.exports = window["wp"]["element"];
+
+/***/ }),
+
+/***/ "react/jsx-runtime":
+/*!**********************************!*\
+  !*** external "ReactJSXRuntime" ***!
+  \**********************************/
+/***/ ((module) => {
+
+module.exports = window["ReactJSXRuntime"];
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = __webpack_modules__;
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/chunk loaded */
+/******/ 	(() => {
+/******/ 		var deferred = [];
+/******/ 		__webpack_require__.O = (result, chunkIds, fn, priority) => {
+/******/ 			if(chunkIds) {
+/******/ 				priority = priority || 0;
+/******/ 				for(var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
+/******/ 				deferred[i] = [chunkIds, fn, priority];
+/******/ 				return;
+/******/ 			}
+/******/ 			var notFulfilled = Infinity;
+/******/ 			for (var i = 0; i < deferred.length; i++) {
+/******/ 				var [chunkIds, fn, priority] = deferred[i];
+/******/ 				var fulfilled = true;
+/******/ 				for (var j = 0; j < chunkIds.length; j++) {
+/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((key) => (__webpack_require__.O[key](chunkIds[j])))) {
+/******/ 						chunkIds.splice(j--, 1);
+/******/ 					} else {
+/******/ 						fulfilled = false;
+/******/ 						if(priority < notFulfilled) notFulfilled = priority;
+/******/ 					}
+/******/ 				}
+/******/ 				if(fulfilled) {
+/******/ 					deferred.splice(i--, 1)
+/******/ 					var r = fn();
+/******/ 					if (r !== undefined) result = r;
+/******/ 				}
+/******/ 			}
+/******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/jsonp chunk loading */
+/******/ 	(() => {
+/******/ 		// no baseURI
+/******/ 		
+/******/ 		// object to store loaded and loading chunks
+/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+/******/ 		var installedChunks = {
+/******/ 			"video-slider/index": 0,
+/******/ 			"video-slider/style-index": 0
+/******/ 		};
+/******/ 		
+/******/ 		// no chunk on demand loading
+/******/ 		
+/******/ 		// no prefetching
+/******/ 		
+/******/ 		// no preloaded
+/******/ 		
+/******/ 		// no HMR
+/******/ 		
+/******/ 		// no HMR manifest
+/******/ 		
+/******/ 		__webpack_require__.O.j = (chunkId) => (installedChunks[chunkId] === 0);
+/******/ 		
+/******/ 		// install a JSONP callback for chunk loading
+/******/ 		var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
+/******/ 			var [chunkIds, moreModules, runtime] = data;
+/******/ 			// add "moreModules" to the modules object,
+/******/ 			// then flag all "chunkIds" as loaded and fire callback
+/******/ 			var moduleId, chunkId, i = 0;
+/******/ 			if(chunkIds.some((id) => (installedChunks[id] !== 0))) {
+/******/ 				for(moduleId in moreModules) {
+/******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
+/******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
+/******/ 					}
+/******/ 				}
+/******/ 				if(runtime) var result = runtime(__webpack_require__);
+/******/ 			}
+/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
+/******/ 			for(;i < chunkIds.length; i++) {
+/******/ 				chunkId = chunkIds[i];
+/******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 					installedChunks[chunkId][0]();
+/******/ 				}
+/******/ 				installedChunks[chunkId] = 0;
+/******/ 			}
+/******/ 			return __webpack_require__.O(result);
+/******/ 		}
+/******/ 		
+/******/ 		var chunkLoadingGlobal = globalThis["webpackChunkpioneerblocks"] = globalThis["webpackChunkpioneerblocks"] || [];
+/******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
+/******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["video-slider/style-index"], () => (__webpack_require__("./src/video-slider/index.js")))
+/******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
+/******/ 	
+/******/ })()
+;
+//# sourceMappingURL=index.js.map
