@@ -1,1 +1,18 @@
-.custom-block-content{align-items:center;display:flex;gap:20px}.image-button img{height:auto;max-height:200px!important;max-width:100px}.image-right .custom-block-content{flex-direction:row-reverse}
+/*!*************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./src/simple-content-block/editor.scss ***!
+  \*************************************************************************************************************************************************************************************************************************************************************/
+.custom-block-content {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.image-button img {
+  max-width: 100px;
+  height: auto;
+  max-height: 200px !important;
+}
+
+.image-right .custom-block-content {
+  flex-direction: row-reverse;
+}
