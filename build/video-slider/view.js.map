@@ -1,0 +1,1 @@
+{"version":3,"file":"video-slider/view.js","mappings":";;;;AAAAA,OAAO,CAACC,GAAG,CAAC,cAAc,CAAC,C","sources":["webpack://pioneerblocks/./src/video-slider/view.js"],"sourcesContent":["console.log('scripts here')\r\n"],"names":["console","log"],"sourceRoot":""}
