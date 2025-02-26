@@ -1,5 +1,5 @@
-const Save = ({ attributes }) => {
-	const { slides } = attributes;
+const Save = ({attributes}) => {
+	const {slides} = attributes;
 
 	if (!slides || slides.length === 0) return null;
 
@@ -8,7 +8,7 @@ const Save = ({ attributes }) => {
 	return (
 		<div className="slider-wrapper"
 			 style={{
-					 maxWidth: '100%',
+				 maxWidth: '100%',
 			 }}>
 			<div
 				className="slide "
