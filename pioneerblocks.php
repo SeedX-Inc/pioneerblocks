@@ -33,52 +33,6 @@ function enqueue_custom_block_assets() {
 }
 add_action('enqueue_block_assets', 'enqueue_custom_block_assets');
 
-// Add the GitHub update check function
-/* add_filter('site_transient_update_plugins', 'check_for_plugin_update');
-
-function check_for_plugin_update($transient) {
-    // Set GitHub API URL for the plugin repository
-    $repo_url = 'https://api.github.com/repos/SeedX-Inc/pioneerblocks/releases/latest';
-
-    // GitHub Personal Access Token
-    $token = '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'; // Replace this with your actual token
-
-    // Set headers for authentication
-    $headers = array(
-        'Authorization' => 'Bearer ' . $token
-    );
-
-    // Get the latest release data from GitHub
-    $response = wp_remote_get($repo_url, array('headers' => $headers));
-
-    if (is_wp_error($response)) {
-        return $transient;
-    }
-
-    $data = json_decode(wp_remote_retrieve_body($response));
-
-	// Log the response data for debugging purposes
-    error_log('GitHub API Response: ' . print_r($data, true));
-
-	// Make sure zipball_url is formatted correctly
-    $zip_url = str_replace('api.github.com/repos', 'github.com', $data->zipball_url);
-    $zip_url = str_replace('zipball', 'archive/refs/tags', $zip_url) . '.zip';
-
-    // Get the plugin's current version
-    $current_version = get_plugin_data(WP_PLUGIN_DIR . '/pioneerblocks/pioneerblocks.php')['Version'];
-
-    // If the new version is newer, mark the plugin for update
-    if (version_compare($data->tag_name, $current_version, '>')) {
-        $transient->response['pioneerblocks/pioneerblocks.php'] = array(
-            'slug' => 'pioneerblocks',
-            'new_version' => $data->tag_name,
-            'url' => $data->html_url,
-            'package' => $zip_url
-        );
-    }
-
-    return $transient;
-} */
 
 class PioneerBlocks_Updater {
     private $plugin_slug;
@@ -118,6 +72,39 @@ class PioneerBlocks_Updater {
         add_filter('plugins_api', array($this, 'plugin_popup'), 10, 3);
         add_filter('upgrader_post_install', array($this, 'after_install'), 10, 3);
     }
+
+	public function plugin_popup($result, $action, $args) {
+		// Only process the plugin you're working with
+		if ($action !== 'plugin_information' || !isset($args->slug) || $args->slug !== dirname($this->plugin_slug)) {
+			return $result;
+		}
+
+		// Fetch the repository info
+		$this->get_repository_info();
+
+		if (is_wp_error($this->github_api_result)) {
+			return $result;
+		}
+
+		$plugin_info = new stdClass();
+		$plugin_info->name = $this->plugin_data['Name'];
+		$plugin_info->slug = dirname($this->plugin_slug);
+		$plugin_info->version = $this->github_api_result->tag_name;
+		$plugin_info->author = $this->plugin_data['Author'];
+		$plugin_info->homepage = $this->plugin_data['PluginURI'];
+		$plugin_info->requires = '5.0';
+		$plugin_info->tested = '6.7';
+		$plugin_info->downloaded = 0;
+		$plugin_info->last_updated = $this->github_api_result->published_at;
+		$plugin_info->sections = array(
+			'description' => $this->plugin_data['Description'],
+			'changelog' => isset($this->github_api_result->body) ? $this->github_api_result->body : 'No changelog provided.'
+		);
+		$plugin_info->download_link = $this->github_api_result->zipball_url;
+
+		return $plugin_info;
+	}
+
 
     /**
      * Log messages to file
