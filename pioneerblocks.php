@@ -26,6 +26,11 @@ function create_block_pioneerblocks_block_init() {
 	register_block_type( __DIR__ . '/build/video-slider' );
 	register_block_type( __DIR__ . '/build/directors-list' );
 	register_block_type( __DIR__ . '/build/menu-slider' );
+	register_block_type( __DIR__ . '/build/latest-news' );
+	register_block_type( __DIR__ . '/build/home-events' );
+	register_block_type( __DIR__ . '/build/related-podcasts' );
+	register_block_type( __DIR__ . '/build/be-pioneer-banner' );
+	register_block_type( __DIR__ . '/build/policy-priorities' );
 }
 add_action( 'init', 'create_block_pioneerblocks_block_init' );
 function enqueue_custom_block_assets() {
