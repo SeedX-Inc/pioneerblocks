@@ -4,8 +4,8 @@
 	"name": "create-block/values-block",
 	"version": "0.1.0",
 	"title": "values block",
-	"category": "widgets",
-	"icon": "smiley",
+	"category": "seedx_blocks",
+	"icon": "grid-view",
 	"description": "Example block scaffolded with Create Block tool.",
 	"example": {},
 	"attributes": {

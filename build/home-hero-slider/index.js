@@ -20,7 +20,7 @@ __webpack_require__.r(__webpack_exports__);
   \*****************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"create-block/home-hero-slider","version":"0.1.0","title":"Home Hero Slider","category":"widgets","icon":"smiley","description":"Example block scaffolded with Create Block tool.","example":{},"supports":{"html":false},"textdomain":"home-hero-slider","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"create-block/home-hero-slider","version":"0.1.0","title":"Home Hero Slider","category":"seedx_blocks","icon":"slides","description":"Example block scaffolded with Create Block tool.","example":{},"supports":{"html":false},"textdomain":"home-hero-slider","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ }),
 

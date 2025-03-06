@@ -4,8 +4,8 @@
   "name": "create-block/latest-news",
   "version": "0.1.0",
   "title": "Latest News",
-  "category": "widgets",
-  "icon": "smiley",
+  "category": "seedx_blocks",
+  "icon": "layout",
   "description": "Example block scaffolded with Create Block tool.",
   "example": {},
   "supports": {

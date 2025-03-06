@@ -4,8 +4,8 @@
   "name": "create-block/be-pioneer-banner",
   "version": "0.1.0",
   "title": "be a pioneer banner",
-  "category": "widgets",
-  "icon": "smiley",
+  "category": "seedx_blocks",
+  "icon": "money",
   "description": "Example block scaffolded with Create Block tool.",
   "example": {},
   "supports": {

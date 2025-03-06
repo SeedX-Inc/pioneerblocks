@@ -4,7 +4,7 @@
 	"name": "create-block/simple-content-block",
 	"version": "0.1.0",
 	"title": "Simple Content Block",
-	"category": "widgets",
+	"category": "seedx_blocks",
 	"icon": "smiley",
 	"description": "Example block scaffolded with Create Block tool.",
 	"example": {},

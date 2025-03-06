@@ -155,7 +155,8 @@ __webpack_require__.r(__webpack_exports__);
 
 (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.registerBlockType)('create-block/simple-content-block', {
   title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Custom Content Block', 'my-plugin'),
-  category: 'common',
+  category: 'seedx_blocks',
+  icon: 'text',
   attributes: {
     title: {
       type: 'string',

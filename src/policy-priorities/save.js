@@ -1,24 +1,40 @@
-/**
- * React hook that is used to mark the block wrapper element.
- * It provides all the necessary props like the class name.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
- */
-import { useBlockProps } from '@wordpress/block-editor';
+import { RichText } from '@wordpress/block-editor';
 
-/**
- * The save function defines the way in which the different attributes should
- * be combined into the final markup, which is then serialized by the block
- * editor into `post_content`.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#save
- *
- * @return {Element} Element to render.
- */
-export default function save() {
+export default function Save({ attributes }) {
+	const { title, slides } = attributes;
+
 	return (
-		<p { ...useBlockProps.save() }>
-			{ 'Latest News – hello from the saved content!' }
-		</p>
+		<div className="policy-priorities-block">
+			<h2>{title}</h2>
+			<div className="row">
+				<div className="col-4">
+					<ul className="policy-list">
+						{slides.map((slide, index) => (
+							<li key={index} className={index === 0 ? 'active' : ''}>
+								{slide.title}
+							</li>
+						))}
+					</ul>
+				</div>
+				<div className="col-8">
+					{slides.length > 0 && (
+						<div className="policy-content">
+							<RichText.Content tagName="p" value={slides[0].description} />
+							<div className="tags">
+								{slides[0].tags.map((tag, index) => (
+									<span
+										key={index}
+										className="tag"
+										style={{ backgroundColor: tag.backgroundColor }}
+									>
+										{tag.text}
+									</span>
+								))}
+							</div>
+						</div>
+					)}
+				</div>
+			</div>
+		</div>
 	);
 }
