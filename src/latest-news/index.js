@@ -6,7 +6,7 @@ import { Fragment } from '@wordpress/element';
 
 registerBlockType("create-block/latest-news", {
 	title: "Latest News Block",
-	category: "widgets",
+	category: "seedx_blocks",
 	icon: "list-view",
 	attributes: {
 		titleColor: { type: "string", default: "#000000" },

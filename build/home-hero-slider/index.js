@@ -52,7 +52,7 @@ const Edit = ({
 }) => {
   const {
     slides = []
-  } = attributes; // Ensure slides is always an array
+  } = attributes;
   const [activeIndex, setActiveIndex] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)(0);
   const updateSlide = (index, key, value) => {
     const updatedSlides = slides.map((slide, i) => i === index ? {
@@ -63,14 +63,13 @@ const Edit = ({
       slides: updatedSlides
     });
   };
-  const updateButton = (slideIndex, btnIndex, key, value) => {
+  const updateButton = (slideIndex, buttonIndex, key, value) => {
     const updatedSlides = slides.map((slide, i) => {
       if (i === slideIndex) {
-        const updatedButtons = [...(slide.buttons || [])];
-        updatedButtons[btnIndex] = {
-          ...updatedButtons[btnIndex],
+        const updatedButtons = slide.buttons.map((btn, j) => j === buttonIndex ? {
+          ...btn,
           [key]: value
-        };
+        } : btn);
         return {
           ...slide,
           buttons: updatedButtons
@@ -78,6 +77,27 @@ const Edit = ({
       }
       return slide;
     });
+    setAttributes({
+      slides: updatedSlides
+    });
+  };
+  const addButton = slideIndex => {
+    const updatedSlides = slides.map((slide, i) => i === slideIndex ? {
+      ...slide,
+      buttons: [...slide.buttons, {
+        text: 'Button',
+        link: '#'
+      }]
+    } : slide);
+    setAttributes({
+      slides: updatedSlides
+    });
+  };
+  const removeButton = (slideIndex, buttonIndex) => {
+    const updatedSlides = slides.map((slide, i) => i === slideIndex ? {
+      ...slide,
+      buttons: slide.buttons.filter((_, j) => j !== buttonIndex)
+    } : slide);
     setAttributes({
       slides: updatedSlides
     });
@@ -85,48 +105,18 @@ const Edit = ({
   const addSlide = () => {
     setAttributes({
       slides: [...slides, {
+        useImage: false,
+        // Default: use title
         title: '',
+        image: '',
         subtitle: '',
         gradient: '',
-        heroImage: '',
         buttons: []
       }]
     });
   };
   const removeSlide = index => {
     const updatedSlides = slides.filter((_, i) => i !== index);
-    setAttributes({
-      slides: updatedSlides
-    });
-  };
-  const addButton = index => {
-    const updatedSlides = slides.map((slide, i) => {
-      if (i === index) {
-        return {
-          ...slide,
-          buttons: [...(slide.buttons || []), {
-            text: '',
-            link: ''
-          }]
-        };
-      }
-      return slide;
-    });
-    setAttributes({
-      slides: updatedSlides
-    });
-  };
-  const removeButton = (slideIndex, btnIndex) => {
-    const updatedSlides = slides.map((slide, i) => {
-      if (i === slideIndex) {
-        const updatedButtons = slide.buttons.filter((_, j) => j !== btnIndex);
-        return {
-          ...slide,
-          buttons: updatedButtons
-        };
-      }
-      return slide;
-    });
     setAttributes({
       slides: updatedSlides
     });
@@ -143,7 +133,21 @@ const Edit = ({
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.PanelBody, {
             title: `Slide ${index + 1}`,
             initialOpen: false,
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.ToggleControl, {
+              label: "Use Image Instead of Title",
+              checked: slide.useImage,
+              onChange: value => updateSlide(index, 'useImage', value)
+            }), slide.useImage ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.MediaUpload, {
+              onSelect: media => updateSlide(index, 'image', media.url),
+              allowedTypes: ['image'],
+              render: ({
+                open
+              }) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
+                onClick: open,
+                variant: "secondary",
+                children: slide.image ? "Change Image" : "Choose Image"
+              })
+            }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
               label: "Title",
               value: slide.title,
               onChange: value => updateSlide(index, 'title', value)
@@ -158,29 +162,21 @@ const Edit = ({
                 onChange: value => updateSlide(index, 'gradient', value),
                 label: 'Gradient Color'
               }]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.MediaUpload, {
-              onSelect: media => updateSlide(index, 'heroImage', media.url),
-              allowedTypes: ['image'],
-              render: ({
-                open
-              }) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
-                onClick: open,
-                variant: "secondary",
-                children: "Choose Image"
-              })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-              style: {
-                marginTop: '10px'
-              },
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("strong", {
-                children: "Buttons:"
-              }), slide.buttons && slide.buttons.map((button, btnIndex) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.PanelBody, {
+              title: "Buttons",
+              initialOpen: false,
+              children: [slide.buttons.map((button, btnIndex) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+                style: {
+                  marginBottom: '10px',
+                  borderBottom: '1px solid #ddd',
+                  paddingBottom: '10px'
+                },
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
-                  label: `Button ${btnIndex + 1} Text`,
+                  label: "Button Text",
                   value: button.text,
                   onChange: value => updateButton(index, btnIndex, 'text', value)
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
-                  label: `Button ${btnIndex + 1} Link`,
+                  label: "Button Link",
                   value: button.link,
                   onChange: value => updateButton(index, btnIndex, 'link', value)
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
@@ -191,9 +187,6 @@ const Edit = ({
               }, btnIndex)), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
                 variant: "secondary",
                 onClick: () => addButton(index),
-                style: {
-                  marginTop: '10px'
-                },
                 children: "Add Button"
               })]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
@@ -229,11 +222,15 @@ const Edit = ({
           style: {
             background: `linear-gradient(to right, white, ${slide.gradient})`
           },
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
             className: "row",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
               className: "col-md-6 d-flex flex-column justify-content-center text-start align-items-start",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.RichText, {
+              children: [slide.useImage ? slide.image && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
+                src: slide.image,
+                alt: "Slide",
+                className: "slide-image"
+              }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.RichText, {
                 tagName: "h2",
                 value: slide.title,
                 onChange: value => updateSlide(index, 'title', value),
@@ -244,25 +241,14 @@ const Edit = ({
                 onChange: value => updateSlide(index, 'subtitle', value),
                 placeholder: "Enter subtitle..."
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                className: "buttons-wrapper",
+                className: "slide-buttons",
                 children: slide.buttons.map((button, btnIndex) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
                   href: button.link,
-                  target: "_blank",
-                  rel: "noopener noreferrer",
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
-                    className: "button-slider",
-                    children: button.text
-                  })
+                  className: "slide-button",
+                  children: button.text
                 }, btnIndex))
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-              className: "col-md-6 align-items-center",
-              children: slide.heroImage && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
-                src: slide.heroImage,
-                alt: "Hero",
-                className: "hero-image"
-              })
-            })]
+            })
           })
         }, index))
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
