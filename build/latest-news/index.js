@@ -157,7 +157,7 @@ __webpack_require__.r(__webpack_exports__);
 
 (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.registerBlockType)("create-block/latest-news", {
   title: "Latest News Block",
-  category: "widgets",
+  category: "seedx_blocks",
   icon: "list-view",
   attributes: {
     titleColor: {
