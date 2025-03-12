@@ -129,6 +129,16 @@ const Edit = ( { attributes, setAttributes } ) => {
 										},
 									] }
 								/>
+								<MediaUpload
+									onSelect={ ( media ) => updateSlide( index, 'heroImage', media.url ) }
+									allowedTypes={ [ 'image' ] }
+									render={ ( { open } ) => (
+										<Button onClick={ open } variant="secondary">
+											{ slide.heroImage ? "Change Right-Side Image" : "Choose Right-Side Image" }
+										</Button>
+									) }
+								/>
+								{ slide.heroImage && <img src={ slide.heroImage } alt="Preview" style={{ maxWidth: '100%', marginTop: '10px' }} /> }
 
 								{/* Buttons Section */}
 								<PanelBody title="Buttons" initialOpen={ false }>

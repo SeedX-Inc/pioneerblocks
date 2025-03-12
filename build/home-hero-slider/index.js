@@ -162,6 +162,23 @@ const Edit = ({
                 onChange: value => updateSlide(index, 'gradient', value),
                 label: 'Gradient Color'
               }]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.MediaUpload, {
+              onSelect: media => updateSlide(index, 'heroImage', media.url),
+              allowedTypes: ['image'],
+              render: ({
+                open
+              }) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
+                onClick: open,
+                variant: "secondary",
+                children: slide.heroImage ? "Change Right-Side Image" : "Choose Right-Side Image"
+              })
+            }), slide.heroImage && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
+              src: slide.heroImage,
+              alt: "Preview",
+              style: {
+                maxWidth: '100%',
+                marginTop: '10px'
+              }
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.PanelBody, {
               title: "Buttons",
               initialOpen: false,
