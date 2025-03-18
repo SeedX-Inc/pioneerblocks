@@ -1,1 +1,124 @@
-.wp-block-create-block-latest-news{background-color:#21759b;color:#fff;padding:2px}
+/*!****************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./src/email-banner/style.scss ***!
+  \****************************************************************************************************************************************************************************************************************************************************/
+.subscriptionFormBlock {
+  background: linear-gradient(to right, #293C5C, #859DC1);
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+}
+
+.formContainer {
+  width: 50%;
+  margin: 0 auto;
+  padding: 16px 0;
+}
+
+.heading {
+  font-size: 2em;
+  color: #fff;
+  font-family: "Libre Bodoni";
+}
+
+.inputGroup {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.inputField {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  width: 50%;
+}
+
+.emailInput {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.submitButton {
+  background-color: rgba(204, 178, 110, 0.9882352941);
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+}
+
+.subscriptionFormBlock {
+  background: linear-gradient(to right, #293C5C, #859DC1);
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+}
+
+.formContainer {
+  width: 50%;
+  margin: 0 auto;
+  padding: 16px 0;
+}
+
+.heading {
+  font-size: 2em;
+  color: #fff;
+}
+
+.inputGroup {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.inputField {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  width: 50%;
+}
+
+.emailInput {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.submitButton {
+  background-color: rgba(204, 178, 110, 0.9882352941);
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+}
+
+.socialIcons {
+  box-sizing: border-box;
+  max-height: -moz-min-content;
+  max-height: min-content;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+@media (max-width: 992px) {
+  .formContainer {
+    width: 100%;
+    padding: 16px 0;
+    text-align: start;
+  }
+  .socialIcons {
+    justify-content: start;
+  }
+  .socialIcons {
+    margin-top: 20px;
+    gap: 20px;
+  }
+}
+
+/*# sourceMappingURL=style-index.css.map*/

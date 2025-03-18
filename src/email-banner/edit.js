@@ -85,46 +85,43 @@ export default function Edit({ attributes, setAttributes }) {
         </PanelBody>
       </InspectorControls>
       <p>{description}</p>
-      <h2 style={{ fontSize: '2em', color: '#fff' }}>Get Updates</h2>
-      <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginBottom: '20px' }}>
+      <h2 className='text-light fs-5'>Get Updates</h2>
+      <div className="d-flex justify-content-center gap-2 mb-2">
         <input
           type="text"
           placeholder={firstNamePlaceholder}
-          style={{ padding: '10px', border: 'none', borderRadius: '5px' }}
+		      className='p-2'
           disabled
         />
         <input
           type="text"
           placeholder={lastNamePlaceholder}
-          style={{ padding: '10px', border: 'none', borderRadius: '5px' }}
+		      className='p-2'
           disabled
         />
       </div>
       <input
         type="email"
         placeholder={emailPlaceholder}
-        style={{ padding: '10px', border: 'none', borderRadius: '5px', width: '200px', marginBottom: '20px' }}
+		    className='p-2 mb-2 w-75'
         disabled
       />
       <button
+		    className='p-2 mb-2 w-75'
         style={{
           backgroundColor: '#f1c40f',
-          color: '#333',
-          padding: '10px 20px',
-          border: 'none',
-          borderRadius: '5px',
           cursor: 'pointer',
         }}
         disabled
       >
         {buttonText}
       </button>
-      <div style={{ marginTop: '20px' }}>
-        <a href={facebookUrl} style={{ margin: '0 5px', color: '#fff' }}><span className="dashicons dashicons-facebook-alt"></span></a>
-        <a href={youtubeUrl} style={{ margin: '0 5px', color: '#fff' }}><span className="dashicons dashicons-youtube"></span></a>
-        <a href={twitterUrl} style={{ margin: '0 5px', color: '#fff' }}><span className="dashicons dashicons-twitter"></span></a>
-        <a href={instagramUrl} style={{ margin: '0 5px', color: '#fff' }}><span className="dashicons dashicons-instagram"></span></a>
-        <a href={linkedinUrl} style={{ margin: '0 5px', color: '#fff' }}><span className="dashicons dashicons-linkedin"></span></a>
+      <div >
+        <a href={facebookUrl} className='text-decoration-none my-0 mx-1 text-light'><span className="dashicons dashicons-facebook-alt"></span></a>
+        <a href={youtubeUrl} className='text-decoration-none my-0 mx-1 text-light'><span className="dashicons dashicons-youtube"></span></a>
+        <a href={twitterUrl} className='text-decoration-none my-0 mx-1 text-light'><span className="dashicons dashicons-twitter"></span></a>
+        <a href={instagramUrl} className='text-decoration-none my-0 mx-1 text-light'><span className="dashicons dashicons-instagram"></span></a>
+        <a href={linkedinUrl} className='text-decoration-none my-0 mx-1 text-light'><span className="dashicons dashicons-linkedin"></span></a>
       </div>
     </div>
   );
