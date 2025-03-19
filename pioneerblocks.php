@@ -54,6 +54,7 @@ function create_block_pioneerblocks_block_init() {
 		__DIR__ . '/build/newsroom-section',
 		__DIR__ . '/build/copy-section',
 		__DIR__ . '/build/email-banner',
+		__DIR__ . '/build/single-staff',
 	];
 
 	foreach ($block_paths as $path) {

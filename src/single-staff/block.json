@@ -1,0 +1,32 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "create-block/single-staff",
+	"version": "0.1.0",
+	"title": "single staff",
+	"category": "seedx_blocks",
+	"icon": "layout",
+	"description": "Example block scaffolded with Create Block tool.",
+	"example": {},
+	"supports": {
+		"html": false
+	},
+	"attributes": {
+    "director": {
+      "type": "object",
+      "default": {
+        "name": "John Doe",
+        "phone": "123-456-7890",
+        "mail": "johndoe@example.com",
+        "twitter": "@johndoe",
+        "descriptionFull": "Full biography of John Doe...",
+        "image": ""
+      }
+    }
+  },
+	"textdomain": "single-staff",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"viewScript": "file:./view.js"
+}

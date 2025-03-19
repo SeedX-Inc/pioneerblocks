@@ -26,11 +26,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./editor.scss */ "./src/directors-list/editor.scss");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./editor.scss */ "./src/directors-list/editor.scss");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__);
+
 
 
 
@@ -42,131 +45,76 @@ function Edit({
 }) {
   const {
     title,
-    directors
+    selectedStaff
   } = attributes;
-  const updateDirector = (index, key, value) => {
-    const newDirectors = [...directors];
-    newDirectors[index][key] = value;
+
+  // Function to encode WordPress numeric ID to GraphQL format
+  const encodeId = id => btoa(`post:${id}`);
+
+  // Function to decode GraphQL ID back to WordPress numeric ID
+  const decodeId = graphqlId => {
+    try {
+      const decoded = atob(graphqlId); // Convert from base64
+      return parseInt(decoded.replace('post:', ''), 10); // Extract numeric ID
+    } catch (e) {
+      return null;
+    }
+  };
+
+  // Fetch published staff posts
+  const staffOptions = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(select => {
+    const posts = select('core').getEntityRecords('postType', 'staff', {
+      per_page: -1
+    }) || [];
+    return posts.map(post => ({
+      label: post.title.rendered,
+      value: encodeId(post.id)
+    })); // Encode IDs
+  }, []);
+
+  // Handle staff selection
+  const addStaff = staffId => {
+    if (!selectedStaff.includes(staffId)) {
+      setAttributes({
+        selectedStaff: [...selectedStaff, staffId]
+      });
+    }
+  };
+  const removeStaff = staffId => {
     setAttributes({
-      directors: newDirectors
+      selectedStaff: selectedStaff.filter(id => id !== staffId)
     });
   };
-  const addDirector = () => {
-    setAttributes({
-      directors: [...directors, {
-        name: '',
-        slug: '',
-        image: null,
-        description: '',
-        descriptionFull: '',
-        showImage: true,
-        mail: '',
-        phone: '',
-        twitter: ''
-      }]
-    });
-  };
-  const removeDirector = index => {
-    const newDirectors = directors.filter((_, i) => i !== index);
-    setAttributes({
-      directors: newDirectors
-    });
-  };
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
     ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.useBlockProps)({
       className: 'directors-list'
     }),
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.RichText, {
-      tagName: "h2",
-      value: title,
-      onChange: value => setAttributes({
-        title: value
-      }),
-      placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Enter list title...', 'directors-list'),
-      className: "directors-header"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.InspectorControls, {
-      children: directors.map((director, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-        className: "director-inspector",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.PanelBody, {
-          title: director.name || (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Director Settings', 'directors-list'),
-          initialOpen: false,
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
-            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Director Slug', 'directors-list'),
-            value: director.slug,
-            onChange: value => updateDirector(index, 'slug', value),
-            placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Enter slug for the director', 'directors-list')
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
-            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Description', 'directors-list'),
-            value: director.descriptionFull,
-            onChange: value => updateDirector(index, 'descriptionFull', value),
-            placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Enter description for the director', 'directors-list')
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.ToggleControl, {
-            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Show Image in list', 'directors-list'),
-            checked: director.showImage,
-            onChange: value => updateDirector(index, 'showImage', value)
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.MediaUpload, {
-            onSelect: media => updateDirector(index, 'image', media.url),
-            allowedTypes: ['image'],
-            render: ({
-              open
-            }) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
-              onClick: open,
-              variant: "secondary",
-              children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Choose Image', 'directors-list')
-            })
-          }), director.image && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
-            src: director.image,
-            alt: director.name,
-            className: "director-image-preview"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
-            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Mail', 'directors-list'),
-            value: director.mail,
-            onChange: value => updateDirector(index, 'mail', value),
-            placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Enter email', 'directors-list')
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
-            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Phone', 'directors-list'),
-            value: director.phone,
-            onChange: value => updateDirector(index, 'phone', value),
-            placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Enter phone number', 'directors-list')
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
-            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('X (Twitter)', 'directors-list'),
-            value: director.twitter,
-            onChange: value => updateDirector(index, 'twitter', value),
-            placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Enter X/Twitter handle', 'directors-list')
-          })]
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.InspectorControls, {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.PanelBody, {
+        title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Select Staff Members', 'directors-list'),
+        initialOpen: true,
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.SelectControl, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Add Staff Member', 'directors-list'),
+          options: [{
+            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Select a staff member', 'directors-list'),
+            value: ''
+          }, ...staffOptions],
+          onChange: value => value && addStaff(value)
         })
-      }, index))
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-      className: "directors-container",
-      children: directors.map((director, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-        className: "director-item",
-        children: [director.image && director.showImage && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
-          src: director.image,
-          alt: director.name,
-          className: "director-image-preview"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
-          value: director.name,
-          onChange: value => updateDirector(index, 'name', value),
-          placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Director Name', 'directors-list'),
-          className: "director-name"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.RichText, {
-          tagName: "p",
-          value: director.description,
-          onChange: value => updateDirector(index, 'description', value),
-          placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Short description (optional)', 'directors-list'),
-          className: "director-description"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
-          isDestructive: true,
-          onClick: () => removeDirector(index),
-          className: "remove-director-btn",
-          children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Remove', 'directors-list')
-        })]
-      }, index))
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
-      isPrimary: true,
-      onClick: addDirector,
-      className: "add-director-btn",
-      children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Add Director', 'directors-list')
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("h2", {
+      children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Selected Staff Members', 'directors-list')
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("ul", {
+      children: selectedStaff.map(staffId => {
+        const staff = staffOptions.find(staff => staff.value === staffId);
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("li", {
+          children: [staff?.label || (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Unknown Staff', 'directors-list'), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
+            isDestructive: true,
+            onClick: () => removeStaff(staffId),
+            children: "Remove"
+          })]
+        }, staffId);
+      })
     })]
   });
 }
@@ -209,7 +157,7 @@ __webpack_require__.r(__webpack_exports__);
       type: 'string',
       default: ''
     },
-    directors: {
+    selectedStaff: {
       type: 'array',
       default: []
     }
@@ -217,11 +165,12 @@ __webpack_require__.r(__webpack_exports__);
   /**
    * @see ./edit.js
    */
-  edit: _edit__WEBPACK_IMPORTED_MODULE_2__["default"],
+  edit: _edit__WEBPACK_IMPORTED_MODULE_2__["default"]
+
   /**
    * @see ./save.js
    */
-  save: _save__WEBPACK_IMPORTED_MODULE_3__["default"]
+  // save,
 });
 
 /***/ }),
@@ -355,6 +304,16 @@ module.exports = window["wp"]["blocks"];
 /***/ ((module) => {
 
 module.exports = window["wp"]["components"];
+
+/***/ }),
+
+/***/ "@wordpress/data":
+/*!******************************!*\
+  !*** external ["wp","data"] ***!
+  \******************************/
+/***/ ((module) => {
+
+module.exports = window["wp"]["data"];
 
 /***/ }),
 
