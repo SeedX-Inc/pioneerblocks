@@ -8,7 +8,7 @@
   \******************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"create-block/be-pioneer-banner","version":"0.1.0","title":"be a pioneer banner","category":"seedx_blocks","icon":"money","description":"Example block scaffolded with Create Block tool.","example":{},"supports":{"html":false},"attributes":{"backgroundImage":{"type":"string","default":""},"title":{"type":"string","default":"Latest News"},"description":{"type":"string","default":"Stay updated with the latest news and insights."},"buttons":{"type":"array","default":[],"items":{"type":"object","properties":{"text":{"type":"string","default":""},"textColor":{"type":"string","default":"#000000"},"backgroundColor":{"type":"string","default":"#ffffff"}}}}},"textdomain":"be-pioneer-banner","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"create-block/be-pioneer-banner","version":"0.1.0","title":"be a pioneer banner","category":"seedx_blocks","icon":"money","description":"Example block scaffolded with Create Block tool.","example":{},"supports":{"html":false},"attributes":{"backgroundImage":{"type":"string","default":""},"mobileBackgroundImage":{"type":"string","default":""},"title":{"type":"string","default":"Latest News"},"description":{"type":"string","default":"Stay updated with the latest news and insights."},"buttons":{"type":"array","default":[],"items":{"type":"object","properties":{"text":{"type":"string","default":""},"textColor":{"type":"string","default":"#000000"},"backgroundColor":{"type":"string","default":"#ffffff"}}}}},"textdomain":"be-pioneer-banner","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ }),
 
@@ -45,6 +45,7 @@ function Edit({
 }) {
   const {
     backgroundImage,
+    mobileBackgroundImage,
     title,
     description,
     buttons
@@ -108,6 +109,19 @@ function Edit({
             onClick: open,
             variant: "secondary",
             children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select Background Image', 'latest-news')
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.MediaUpload, {
+          onSelect: media => updateAttribute('mobileBackgroundImage', media.url),
+          type: "image",
+          value: mobileBackgroundImage ? {
+            url: mobileBackgroundImage
+          } : null,
+          render: ({
+            open
+          }) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
+            onClick: open,
+            variant: "secondary",
+            children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select Background Image for mobile', 'latest-news')
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
           label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Title', 'latest-news'),

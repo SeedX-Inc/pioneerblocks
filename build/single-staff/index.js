@@ -52,7 +52,7 @@ const Edit = ({
     setAttributes({
       director: {
         ...director,
-        image: image.url // Store the image URL
+        image: image.url
       }
     });
   };

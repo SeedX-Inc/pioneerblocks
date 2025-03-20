@@ -5,7 +5,7 @@ import { useState } from '@wordpress/element';
 import './editor.scss';
 
 export default function Edit({ attributes, setAttributes }) {
-	const { backgroundImage, title, description, buttons } = attributes;
+	const { backgroundImage, mobileBackgroundImage, title, description, buttons } = attributes;
 	const [activeButtonIndex, setActiveButtonIndex] = useState(0);
 
 	// Update block attributes
@@ -46,6 +46,16 @@ export default function Edit({ attributes, setAttributes }) {
 						render={({ open }) => (
 							<Button onClick={open} variant="secondary">
 								{__('Select Background Image', 'latest-news')}
+							</Button>
+						)}
+					/>
+					<MediaUpload
+						onSelect={(media) => updateAttribute('mobileBackgroundImage', media.url)}
+						type="image"
+						value={mobileBackgroundImage ? { url: mobileBackgroundImage } : null}
+						render={({ open }) => (
+							<Button onClick={open} variant="secondary">
+								{__('Select Background Image for mobile', 'latest-news')}
 							</Button>
 						)}
 					/>

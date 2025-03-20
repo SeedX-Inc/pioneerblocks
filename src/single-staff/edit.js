@@ -18,15 +18,14 @@ const Edit = ({ attributes, setAttributes }) => {
     setAttributes({
       director: {
         ...director,
-        image: image.url, // Store the image URL
+        image: image.url
       },
     });
   };
 
   return (
     <div {...useBlockProps()}>
-      <h3>Edit Staff Member</h3>
-      
+      <h3>Edit Staff Member</h3>      
       <div className="staff-member-edit">
         <TextControl
           label="Name"

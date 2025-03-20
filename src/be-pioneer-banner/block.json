@@ -16,6 +16,10 @@
 			"type": "string",
 			"default": ""
 		},
+		"mobileBackgroundImage": {
+			"type": "string",
+			"default": ""
+		},
 		"title": {
 			"type": "string",
 			"default": "Latest News"
