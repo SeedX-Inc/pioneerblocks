@@ -1,38 +1,65 @@
-/**
- * Retrieves the translation of text.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
- */
+import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
+import { PanelBody, SelectControl, Button } from '@wordpress/components';
+import { useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
-
-/**
- * React hook that is used to mark the block wrapper element.
- * It provides all the necessary props like the class name.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
- */
-import { useBlockProps } from '@wordpress/block-editor';
-
-/**
- * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
- * Those files can contain any CSS code that gets applied to the editor.
- *
- * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
- */
 import './editor.scss';
 
-/**
- * The edit function describes the structure of your block in the context of the
- * editor. This represents what the editor will render when the block is used.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
- *
- * @return {Element} Element to render.
- */
-export default function Edit() {
+export default function Edit({ attributes, setAttributes }) {
+	const { title, selectedNews } = attributes;
+
+	// Function to encode WordPress numeric ID to GraphQL format
+	const encodeId = (id) => btoa(`post:${id}`);
+
+	// Function to decode GraphQL ID back to WordPress numeric ID
+	const decodeId = (graphqlId) => {
+		try {
+			const decoded = atob(graphqlId); // Convert from base64
+			return parseInt(decoded.replace('post:', ''), 10); // Extract numeric ID
+		} catch (e) {
+			return null;
+		}
+	};
+
+	// Fetch published news posts
+	const newsOptions = useSelect(select => {
+		const posts = select('core').getEntityRecords('postType', 'post', { per_page: -1 }) || [];
+		return posts.map(post => ({ label: post.title.rendered, value: encodeId(post.id) })); // Encode IDs
+	}, []);
+
+	const addNews = (newsId) => {
+		if (!selectedNews.includes(newsId)) {
+			setAttributes({ selectedNews: [...selectedNews, newsId] });
+		}
+	};
+
+	const removeNews = (newsId) => {
+		setAttributes({ selectedNews: selectedNews.filter(id => id !== newsId) });
+	};
+
 	return (
-		<p { ...useBlockProps() }>
-			{ __( 'home events – hello from the editor!', 'latest-news' ) }
-		</p>
+		<div {...useBlockProps({ className: 'news-list' })}>
+			<InspectorControls>
+				<PanelBody title={__('Select News', 'news-list')} initialOpen={true}>
+					<SelectControl
+						label={__('Add News', 'news-list')}
+						options={[{ label: __('Select a News', 'news-list'), value: '' }, ...newsOptions]}
+						onChange={(value) => value && addNews(value)}
+					/>
+				</PanelBody>
+			</InspectorControls>
+
+			<h2>{__('Selected News', 'news-list')}</h2>
+			<ul>
+				{selectedNews.map((newsId) => {
+					const news = newsOptions.find(news => news.value === newsId);
+					return (
+						<li key={newsId}>
+							{news?.label || __('Unknown News', 'news-list')}
+							<Button isDestructive onClick={() => removeNews(newsId)}>Remove</Button>
+						</li>
+					);
+				})}
+			</ul>
+		</div>
 	);
 }

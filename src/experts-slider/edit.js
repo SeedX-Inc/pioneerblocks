@@ -1,38 +1,70 @@
-/**
- * Retrieves the translation of text.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
- */
+import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
+import { PanelBody, SelectControl, Button,TextControl  } from '@wordpress/components';
+import { useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
-
-/**
- * React hook that is used to mark the block wrapper element.
- * It provides all the necessary props like the class name.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
- */
-import { useBlockProps } from '@wordpress/block-editor';
-
-/**
- * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
- * Those files can contain any CSS code that gets applied to the editor.
- *
- * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
- */
 import './editor.scss';
 
-/**
- * The edit function describes the structure of your block in the context of the
- * editor. This represents what the editor will render when the block is used.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
- *
- * @return {Element} Element to render.
- */
-export default function Edit() {
+export default function Edit({ attributes, setAttributes }) {
+	const { title, selectedStaff } = attributes;
+
+	// Function to encode WordPress numeric ID to GraphQL format
+	const encodeId = (id) => btoa(`post:${id}`);
+
+	// Function to decode GraphQL ID back to WordPress numeric ID
+	const decodeId = (graphqlId) => {
+		try {
+			const decoded = atob(graphqlId); // Convert from base64
+			return parseInt(decoded.replace('post:', ''), 10); // Extract numeric ID
+		} catch (e) {
+			return null;
+		}
+	};
+
+	// Fetch published staff posts
+	const staffOptions = useSelect(select => {
+		const posts = select('core').getEntityRecords('postType', 'staff', { per_page: -1 }) || [];
+		return posts.map(post => ({ label: post.title.rendered, value: encodeId(post.id) })); // Encode IDs
+	}, []);
+
+	// Handle staff selection
+	const addStaff = (staffId) => {
+		if (!selectedStaff.includes(staffId)) {
+			setAttributes({ selectedStaff: [...selectedStaff, staffId] });
+		}
+	};
+
+	const removeStaff = (staffId) => {
+		setAttributes({ selectedStaff: selectedStaff.filter(id => id !== staffId) });
+	};
 	return (
-		<p { ...useBlockProps() }>
-			{ __( 'Latest News – hello from the editor!', 'latest-news' ) }
-		</p>
+		<div {...useBlockProps({ className: 'directors-list' })}>
+			<InspectorControls>	
+				<PanelBody title={__('Select Experts', 'directors-list')} initialOpen={true}>
+					<TextControl
+						label={__('Title', 'directors-list')}
+						value={title || ''}
+						onChange={newTitle => setAttributes({ title: newTitle })}
+					/>
+					<SelectControl
+						label={__('Add Expert', 'directors-list')}
+						options={[{ label: __('Select an Expert', 'directors-list'), value: '' }, ...staffOptions]}
+						onChange={(value) => value && addStaff(value)}
+					/>
+				</PanelBody>
+			</InspectorControls>
+
+			<h2>{__('Selected Experts', 'directors-list')}</h2>
+			<ul>
+				{selectedStaff.map((staffId) => {
+					const staff = staffOptions.find(staff => staff.value === staffId);
+					return (
+						<li key={staffId}>
+							{staff?.label || __('Unknown Staff', 'directors-list')}
+							<Button isDestructive onClick={() => removeStaff(staffId)}>Remove</Button>
+						</li>
+					);
+				})}
+			</ul>
+		</div>
 	);
 }
