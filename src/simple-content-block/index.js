@@ -8,7 +8,8 @@ import './style.css';
 
 registerBlockType( 'create-block/simple-content-block', {
 	title: __( 'Custom Content Block', 'my-plugin' ),
-	category: 'common',
+	category: 'seedx_blocks',
+	icon: 'text',
 	attributes: {
 		title: { type: 'string', default: '' },
 		description: { type: 'string', default: '' },

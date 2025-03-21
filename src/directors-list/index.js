@@ -10,7 +10,7 @@ registerBlockType(metadata.name, {
 			type: 'string',
 			default: '',
 		},
-		directors: {
+		selectedStaff: {
 			type: 'array',
 			default: [],
 		},
@@ -23,5 +23,5 @@ registerBlockType(metadata.name, {
 	/**
 	 * @see ./save.js
 	 */
-	save,
+	// save,
 });

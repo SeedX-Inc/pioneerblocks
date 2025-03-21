@@ -1,0 +1,94 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "create-block/policy-priorities",
+  "version": "0.1.0",
+  "title": "Policy Priorities",
+  "category": "seedx_blocks",
+  "icon": "layout",
+  "description": "A block to display policy priorities with descriptions and tags.",
+  "supports": {
+    "html": false
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": "Policy Priorities"
+    },
+    "slides": {
+      "type": "array",
+      "default": [
+        {
+          "title": "Education",
+          "description": "PioneerEducation supports excellent school options for all children, world-class liberal arts-based academic standards, and accountability for results in public education.",
+          "tags": [
+            {
+              "text": "Academic Excellence",
+              "backgroundColor": "#e0e0e0"
+            },
+            {
+              "text": "School Reform",
+              "backgroundColor": "#e0e0e0"
+            },
+            {
+              "text": "Public School",
+              "backgroundColor": "#e0e0e0"
+            },
+            {
+              "text": "Homeschooling",
+              "backgroundColor": "#e0e0e0"
+            }
+          ]
+        },
+        {
+          "title": "Health",
+          "description": "Description for Health policy priority.",
+          "tags": []
+        },
+        {
+          "title": "Opportunity",
+          "description": "Description for Opportunity policy priority.",
+          "tags": []
+        },
+        {
+          "title": "Citizenship",
+          "description": "Description for Citizenship policy priority.",
+          "tags": []
+        }
+      ],
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "default": ""
+          },
+          "description": {
+            "type": "string",
+            "default": ""
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "type": "string",
+                  "default": ""
+                },
+                "backgroundColor": {
+                  "type": "string",
+                  "default": "#e0e0e0"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "textdomain": "policy-priorities",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css"
+}

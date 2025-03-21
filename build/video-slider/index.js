@@ -8,7 +8,7 @@
   \*************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"create-block/video-slider","version":"0.1.0","title":"Video Slider","category":"widgets","icon":"smiley","description":"Example block scaffolded with Create Block tool.","example":{},"supports":{"html":false},"textdomain":"video slider","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"create-block/video-slider","version":"0.1.0","title":"Video Slider","category":"seedx_blocks","icon":"slides","description":"Example block scaffolded with Create Block tool.","example":{},"supports":{"html":false},"textdomain":"video slider","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ }),
 
@@ -44,61 +44,32 @@ const Edit = ({
   } = attributes;
   const [activeIndex, setActiveIndex] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)(0);
 
-  // Add a new slide
-  const addSlide = () => {
-    setAttributes({
-      slides: [...slides, {
-        title: '',
-        subtitle: '',
-        videoUrl: '',
-        heroImage: '',
-        buttons: []
-      }]
-    });
-  };
+  // Add a new slide with default position (e.g., 'left')
+  const addSlide = () => setAttributes({
+    slides: [...slides, {
+      title: '',
+      subtitle: '',
+      videoUrl: '',
+      heroImage: '',
+      buttons: [],
+      position: 'left'
+    }]
+  });
 
   // Remove a slide
-  const removeSlide = index => {
-    const updatedSlides = slides.filter((_, i) => i !== index);
-    setAttributes({
-      slides: updatedSlides
-    });
-  };
+  const removeSlide = index => setAttributes({
+    slides: slides.filter((_, i) => i !== index)
+  });
 
-  // Update slide details
-  const updateSlide = (index, key, value) => {
-    const updatedSlides = slides.map((slide, i) => i === index ? {
+  // Update slide details, including position
+  const updateSlide = (index, key, value) => setAttributes({
+    slides: slides.map((slide, i) => i === index ? {
       ...slide,
       [key]: value
-    } : slide);
-    setAttributes({
-      slides: updatedSlides
-    });
-  };
+    } : slide)
+  });
 
-  // Add a new button for a slide
-  const addButton = index => {
-    const updatedSlides = [...slides];
-    updatedSlides[index].buttons.push({
-      text: '',
-      link: '',
-      color: '#000000'
-    }); // Default color
-    setAttributes({
-      slides: updatedSlides
-    });
-  };
-
-  // Remove a button from a slide
-  const removeButton = (slideIndex, buttonIndex) => {
-    const updatedSlides = [...slides];
-    updatedSlides[slideIndex].buttons = updatedSlides[slideIndex].buttons.filter((_, i) => i !== buttonIndex);
-    setAttributes({
-      slides: updatedSlides
-    });
-  };
-
-  // Update button text, link, or color
+  // Add/remove/update buttons (simplified)
   const updateButton = (slideIndex, buttonIndex, key, value) => {
     const updatedSlides = [...slides];
     updatedSlides[slideIndex].buttons[buttonIndex] = {
@@ -109,6 +80,12 @@ const Edit = ({
       slides: updatedSlides
     });
   };
+  const addButton = index => updateSlide(index, 'buttons', [...slides[index].buttons, {
+    text: '',
+    link: '',
+    color: '#000000'
+  }]);
+  const removeButton = (slideIndex, buttonIndex) => updateSlide(slideIndex, 'buttons', slides[slideIndex].buttons.filter((_, i) => i !== buttonIndex));
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
     ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.useBlockProps)(),
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.InspectorControls, {
@@ -126,7 +103,7 @@ const Edit = ({
         title: `Slide ${index + 1}`,
         initialOpen: false,
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
-          label: "Slide Title",
+          label: "Title",
           value: slide.title,
           onChange: value => updateSlide(index, 'title', value)
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
@@ -153,27 +130,37 @@ const Edit = ({
             variant: "secondary",
             children: "Select Video"
           })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.SelectControl, {
+          label: "Media Position",
+          value: slide.position,
+          options: [{
+            label: 'Left',
+            value: 'left'
+          }, {
+            label: 'Right',
+            value: 'right'
+          }],
+          onChange: value => updateSlide(index, 'position', value)
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h4", {
           children: "Buttons"
         }), slide.buttons.map((button, buttonIndex) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-          className: "button-editor",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
-            label: "Button Text",
+            label: "Text",
             value: button.text,
             onChange: value => updateButton(index, buttonIndex, 'text', value)
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
-            label: "Button Link",
+            label: "Link",
             value: button.link,
             onChange: value => updateButton(index, buttonIndex, 'link', value)
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.ColorPicker, {
-            label: "Button Color",
+            label: "Color",
             color: button.color,
             onChangeComplete: value => updateButton(index, buttonIndex, 'color', value.hex)
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
             onClick: () => removeButton(index, buttonIndex),
             variant: "secondary",
             isDestructive: true,
-            children: "Remove Button"
+            children: "Remove"
           })]
         }, buttonIndex)), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
           onClick: () => addButton(index),
@@ -194,47 +181,45 @@ const Edit = ({
       children: title
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
       className: "container",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-        className: "row",
-        children: slides.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-            className: "col-6",
-            children: slides[activeIndex].videoUrl ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("video", {
-              src: slides[activeIndex].videoUrl,
-              controls: true
-            }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
-              src: slides[activeIndex].heroImage,
-              alt: "Slide"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-            className: "col-6",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.RichText, {
-              tagName: "h3",
-              value: slides[activeIndex].title,
-              onChange: value => updateSlide(activeIndex, 'title', value),
-              placeholder: "Slide Title"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.RichText, {
-              tagName: "p",
-              value: slides[activeIndex].subtitle,
-              onChange: value => updateSlide(activeIndex, 'subtitle', value),
-              placeholder: "Slide Subtitle"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-              className: "buttons",
-              children: slides[activeIndex].buttons.map((button, i) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
-                href: button.link,
-                className: "btn me-2",
-                style: {
-                  backgroundColor: button.color
-                },
-                children: button.text
-              }, i))
-            }), slides.length > 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
-              onClick: () => setActiveIndex((activeIndex + 1) % slides.length),
-              variant: "secondary",
-              children: "Next Slide"
-            })]
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+        className: `row ${slides[activeIndex].position === 'right' ? 'flex-row-reverse' : ''}`,
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          className: "col-6",
+          children: slides[activeIndex].videoUrl ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("video", {
+            src: slides[activeIndex].videoUrl,
+            controls: true
+          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
+            src: slides[activeIndex].heroImage,
+            alt: "Slide"
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+          className: "col-6",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.RichText, {
+            tagName: "h3",
+            value: slides[activeIndex].title,
+            onChange: value => updateSlide(activeIndex, 'title', value),
+            placeholder: "Slide Title"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.RichText, {
+            tagName: "p",
+            value: slides[activeIndex].subtitle,
+            onChange: value => updateSlide(activeIndex, 'subtitle', value),
+            placeholder: "Slide Subtitle"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+            className: "buttons",
+            children: slides[activeIndex].buttons.map((button, i) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+              href: button.link,
+              className: "btn me-2",
+              style: {
+                backgroundColor: button.color
+              },
+              children: button.text
+            }, i))
+          }), slides.length > 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
+            onClick: () => setActiveIndex((activeIndex + 1) % slides.length),
+            variant: "secondary",
+            children: "Next Slide"
           })]
-        })
+        })]
       })
     })]
   });

@@ -1,0 +1,61 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "create-block/email-banner",
+  "version": "0.1.0",
+  "title": "email banner",
+  "category": "seedx_blocks",
+  "icon": "layout",
+  "attributes": {
+    "firstNamePlaceholder": {
+      "type": "string",
+      "default": ""
+    },
+    "lastNamePlaceholder": {
+      "type": "string",
+      "default": ""
+    },
+    "emailPlaceholder": {
+      "type": "string",
+      "default": ""
+    },
+    "buttonText": {
+      "type": "string",
+      "default": ""
+    },
+    "description": {
+      "type": "string",
+      "default": ""
+    },
+    "facebookUrl": {
+      "type": "string",
+      "default": "#"
+    },
+    "youtubeUrl": {
+      "type": "string",
+      "default": "#"
+    },
+    "twitterUrl": {
+      "type": "string",
+      "default": "#"
+    },
+    "instagramUrl": {
+      "type": "string",
+      "default": "#"
+    },
+    "linkedinUrl": {
+      "type": "string",
+      "default": "#"
+    }
+  },
+  "description": "Example block scaffolded with Create Block tool.",
+  "example": {},
+  "supports": {
+    "html": false
+  },
+  "textdomain": "email-banner",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "viewScript": "file:./view.js"
+}

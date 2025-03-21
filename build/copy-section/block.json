@@ -1,0 +1,57 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "create-block/copy-section",
+  "version": "0.1.0",
+  "title": "Copy Section",
+  "category": "seedx_blocks",
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "columnText": {
+      "type": "string",
+      "default": ""
+    },
+    "backgroundColor": {
+      "type": "string",
+      "default": "transparent"
+    },
+    "buttons": {
+      "type": "array",
+      "default": [
+        {
+          "text": "Learn More",
+          "link": "#",
+          "color": "#7b7b7b"
+        }
+      ],
+      "items": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string"
+          },
+          "link": {
+            "type": "string"
+          },
+          "color": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "icon": "layout",
+  "description": "Example block scaffolded with Create Block tool.",
+  "example": {},
+  "supports": {
+    "html": false
+  },
+  "textdomain": "copy-section",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "viewScript": "file:./view.js"
+}

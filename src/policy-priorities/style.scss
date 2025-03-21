@@ -1,0 +1,62 @@
+.policy-priorities-block {
+	padding: 20px;
+
+	h2 {
+		font-size: 24px;
+		margin-bottom: 20px;
+	}
+
+	.row {
+		display: flex;
+	}
+
+	.col-4 {
+		width: 33.33%;
+		padding-right: 20px;
+	}
+
+	.col-8 {
+		width: 66.67%;
+	}
+
+	.policy-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+
+		li {
+			padding: 10px 0;
+			cursor: pointer;
+			border-bottom: 1px solid #ddd;
+
+			&.active {
+				background-color: #007bff;
+				color: #fff;
+				font-weight: bold;
+			}
+
+			&:hover {
+				background-color: #f0f0f0;
+			}
+		}
+	}
+
+	.policy-content {
+		p {
+			font-size: 18px;
+			margin-bottom: 20px;
+		}
+
+		.tags {
+			display: flex;
+			gap: 10px;
+
+			.tag {
+				padding: 5px 10px;
+				border-radius: 5px;
+				font-size: 14px;
+				color: #333;
+			}
+		}
+	}
+}
