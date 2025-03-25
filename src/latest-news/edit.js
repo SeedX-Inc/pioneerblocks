@@ -1,38 +1,92 @@
-/**
- * Retrieves the translation of text.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
- */
+import { useState } from '@wordpress/element';
+import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
+import { PanelBody, SelectControl, Button, TextControl } from '@wordpress/components';
+import { useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
-
-/**
- * React hook that is used to mark the block wrapper element.
- * It provides all the necessary props like the class name.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
- */
-import { useBlockProps } from '@wordpress/block-editor';
-
-/**
- * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
- * Those files can contain any CSS code that gets applied to the editor.
- *
- * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
- */
 import './editor.scss';
 
-/**
- * The edit function describes the structure of your block in the context of the
- * editor. This represents what the editor will render when the block is used.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
- *
- * @return {Element} Element to render.
- */
-export default function Edit() {
-	return (
-		<p { ...useBlockProps() }>
-			{ __( 'Latest News – hello from the editor!', 'latest-news' ) }
-		</p>
-	);
+export default function Edit({ attributes, setAttributes }) {
+    const { title, featuredPost, rightSideNews = [], bottomNews = [] } = attributes;
+    const [searchTerm, setSearchTerm] = useState('');
+
+    // Encode WordPress numeric ID to GraphQL format
+    const encodeId = (id) => btoa(`post:${id}`);
+    const newsOptions = useSelect(select => {
+        const query = { per_page: 20, search: searchTerm };
+        const posts = select('core').getEntityRecords('postType', 'post', query) || [];
+        return posts.map(post => ({ label: post.title.rendered, value: encodeId(post.id) }));
+    }, [searchTerm]);
+
+    const addNews = (list, value) => {
+        if (value && !list.includes(value)) {
+            setAttributes({ [list]: [...attributes[list], value] });
+        }
+    };
+
+    // Remove news item from selected list
+    const removeNews = (list, value) => {
+        setAttributes({ [list]: attributes[list].filter(id => id !== value) });
+    };
+
+    return (
+        <div {...useBlockProps({ className: 'news-list' })}>
+            <InspectorControls>
+                <PanelBody title={__('News Block Settings', 'news-list')} initialOpen={true}>
+					<TextControl
+						label={__('Title', 'directors-list')}
+						value={title || ''}
+						onChange={newTitle => setAttributes({ title: newTitle })}
+					/>
+                    <TextControl
+                        label={__('Search News', 'news-list')}
+                        value={searchTerm}
+                        onChange={setSearchTerm}
+                        placeholder={__('Type to search...', 'news-list')}
+                    />
+
+                    <SelectControl
+                        label={__('Featured Post', 'news-list')}
+                        options={[{ label: __('Select a Post', 'news-list'), value: '' }, ...newsOptions]}
+                        value={featuredPost}
+                        onChange={(value) => setAttributes({ featuredPost: value })}
+                    />
+
+                    <SelectControl
+                        label={__('Add to Right-Side News', 'news-list')}
+                        options={[{ label: __('Select a Post', 'news-list'), value: '' }, ...newsOptions]}
+                        onChange={(value) => addNews('rightSideNews', value)}
+                    />
+                    <ul>
+                        {rightSideNews.map(id => (
+                            <li key={id}>
+                                {newsOptions.find(n => n.value === id)?.label || __('Unknown', 'news-list')}
+                                <Button isDestructive onClick={() => removeNews('rightSideNews', id)}>Remove</Button>
+                            </li>
+                        ))}
+                    </ul>
+
+                    <SelectControl
+                        label={__('Add to Bottom News', 'news-list')}
+                        options={[{ label: __('Select a Post', 'news-list'), value: '' }, ...newsOptions]}
+                        onChange={(value) => addNews('bottomNews', value)}
+                    />
+                    <ul>
+                        {bottomNews.map(id => (
+                            <li key={id}>
+                                {newsOptions.find(n => n.value === id)?.label || __('Unknown', 'news-list')}
+                                <Button isDestructive onClick={() => removeNews('bottomNews', id)}>Remove</Button>
+                            </li>
+                        ))}
+                    </ul>
+                </PanelBody>
+            </InspectorControls>
+
+            <h2>{title || __('News Block', 'news-list')}</h2>
+            <ul>
+                <li><strong>{__('Featured Post:', 'news-list')}</strong> {newsOptions.find(n => n.value === featuredPost)?.label || __('None', 'news-list')}</li>
+                <li><strong>{__('Right-Side News:', 'news-list')}</strong> {rightSideNews.map(id => newsOptions.find(n => n.value === id)?.label || __('Unknown', 'news-list')).join(', ')}</li>
+                <li><strong>{__('Bottom News:', 'news-list')}</strong> {bottomNews.map(id => newsOptions.find(n => n.value === id)?.label || __('Unknown', 'news-list')).join(', ')}</li>
+            </ul>
+        </div>
+    );
 }

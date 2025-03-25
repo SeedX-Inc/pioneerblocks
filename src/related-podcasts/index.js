@@ -27,6 +27,16 @@ import metadata from './block.json';
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
  */
 registerBlockType( metadata.name, {
+	attributes: {
+		title: {
+			type: 'string',
+			default: '',
+		},
+		selectedEpisodes: {	
+			type: 'array',
+			default: [],
+		},
+	},
 	/**
 	 * @see ./edit.js
 	 */

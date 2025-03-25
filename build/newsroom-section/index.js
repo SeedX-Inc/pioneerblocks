@@ -51,16 +51,6 @@ function Edit({
   // Function to encode WordPress numeric ID to GraphQL format
   const encodeId = id => btoa(`post:${id}`);
 
-  // Function to decode GraphQL ID back to WordPress numeric ID
-  const decodeId = graphqlId => {
-    try {
-      const decoded = atob(graphqlId); // Convert from base64
-      return parseInt(decoded.replace('post:', ''), 10); // Extract numeric ID
-    } catch (e) {
-      return null;
-    }
-  };
-
   // Fetch published news posts
   const newsOptions = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(select => {
     const posts = select('core').getEntityRecords('postType', 'post', {
@@ -88,17 +78,23 @@ function Edit({
       className: 'news-list'
     }),
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.InspectorControls, {
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.PanelBody, {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.PanelBody, {
         title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Select News', 'news-list'),
         initialOpen: true,
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.SelectControl, {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(TextControl, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Title', 'directors-list'),
+          value: title || '',
+          onChange: newTitle => setAttributes({
+            title: newTitle
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.SelectControl, {
           label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Add News', 'news-list'),
           options: [{
             label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Select a News', 'news-list'),
             value: ''
           }, ...newsOptions],
           onChange: value => value && addNews(value)
-        })
+        })]
       })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("h2", {
       children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Selected News', 'news-list')

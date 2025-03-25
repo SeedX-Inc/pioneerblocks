@@ -1,38 +1,52 @@
-/**
- * Retrieves the translation of text.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
- */
+import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
+import { PanelBody, SelectControl, TextControl } from '@wordpress/components';
+import { useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
-
-/**
- * React hook that is used to mark the block wrapper element.
- * It provides all the necessary props like the class name.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
- */
-import { useBlockProps } from '@wordpress/block-editor';
-
-/**
- * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
- * Those files can contain any CSS code that gets applied to the editor.
- *
- * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
- */
 import './editor.scss';
 
-/**
- * The edit function describes the structure of your block in the context of the
- * editor. This represents what the editor will render when the block is used.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
- *
- * @return {Element} Element to render.
- */
-export default function Edit() {
+export default function Edit({ attributes, setAttributes }) {
+	const { title, fact, rightTitle, rightDescription } = attributes;
+
+	// Function to encode WordPress numeric ID to GraphQL format
+	const encodeId = (id) => btoa(`post:${id}`);
+
+	// Fetch published facts
+	const factOptions = useSelect(select => {
+		const posts = select('core').getEntityRecords('postType', 'fact', { per_page: -1 }) || [];
+		return posts.map(post => ({ label: post.title.rendered, value: encodeId(post.id) })); // Encode IDs
+	}, []);
+
 	return (
-		<p { ...useBlockProps() }>
-			{ __( 'Latest News – hello from the editor!', 'latest-news' ) }
-		</p>
+		<div {...useBlockProps({ className: 'data-lab-block' })}>
+			<InspectorControls>
+				<PanelBody title={__('Data Lab Settings', 'data-lab')} initialOpen={true}>
+					<TextControl
+						label={__('Block Title', 'data-lab')}
+						value={title || ''}
+						onChange={(newTitle) => setAttributes({ title: newTitle })}
+					/>
+					<SelectControl
+						label={__('Select a Fact', 'data-lab')}
+						options={[{ label: __('Select a Fact', 'data-lab'), value: '' }, ...factOptions]}
+						value={fact}
+						onChange={(value) => setAttributes({ fact: value })}
+					/>
+					<TextControl
+						label={__('Right Title', 'data-lab')}
+						value={rightTitle || ''}
+						onChange={(newRightTitle) => setAttributes({ rightTitle: newRightTitle })}
+					/>
+					<TextControl
+						label={__('Right Description', 'data-lab')}
+						value={rightDescription || ''}
+						onChange={(newRightDescription) => setAttributes({ rightDescription: newRightDescription })}
+					/>
+				</PanelBody>
+			</InspectorControls>
+			<h2>{__('Selected Fact', 'data-lab')}</h2>
+			<p>{factOptions.find(factOption => factOption.value === fact)?.label || __('No Fact Selected', 'data-lab')}</p>
+			<h2>{rightTitle || __('Fact Title', 'data-lab')}</h2>
+			<p>{rightDescription || __('Fact description will be displayed here.', 'data-lab')}</p>
+		</div>
 	);
 }

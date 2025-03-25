@@ -83,7 +83,8 @@ const Edit = ({
   const addButton = index => updateSlide(index, 'buttons', [...slides[index].buttons, {
     text: '',
     link: '',
-    color: '#000000'
+    color: '#000000',
+    textColor: '#FFFFFF'
   }]);
   const removeButton = (slideIndex, buttonIndex) => updateSlide(slideIndex, 'buttons', slides[slideIndex].buttons.filter((_, i) => i !== buttonIndex));
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
@@ -153,9 +154,13 @@ const Edit = ({
             value: button.link,
             onChange: value => updateButton(index, buttonIndex, 'link', value)
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.ColorPicker, {
-            label: "Color",
+            label: "Background Color",
             color: button.color,
             onChangeComplete: value => updateButton(index, buttonIndex, 'color', value.hex)
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.ColorPicker, {
+            label: "Text Color",
+            color: button.textColor,
+            onChangeComplete: value => updateButton(index, buttonIndex, 'textColor', value.hex)
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
             onClick: () => removeButton(index, buttonIndex),
             variant: "secondary",
@@ -210,7 +215,8 @@ const Edit = ({
               href: button.link,
               className: "btn me-2",
               style: {
-                backgroundColor: button.color
+                backgroundColor: button.color,
+                color: button.textColor
               },
               children: button.text
             }, i))
@@ -262,7 +268,8 @@ __webpack_require__.r(__webpack_exports__);
         buttons: [{
           text: 'Learn More',
           link: '#',
-          color: '#7b7b7b'
+          color: '#7b7b7b',
+          textColor: '#fff'
         }]
       }]
     }

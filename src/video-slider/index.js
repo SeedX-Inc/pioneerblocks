@@ -22,7 +22,8 @@ registerBlockType(metadata.name, {
                         {
                             text: 'Learn More',
                             link: '#',
-							color: '#7b7b7b'
+							color: '#7b7b7b',
+                            textColor: '#fff'
                         },
                     ],
                 },
