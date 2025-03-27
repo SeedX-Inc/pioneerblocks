@@ -2,20 +2,20 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/related-podcasts/block.json":
-/*!*****************************************!*\
-  !*** ./src/related-podcasts/block.json ***!
-  \*****************************************/
+/***/ "./src/favourite-episodes/block.json":
+/*!*******************************************!*\
+  !*** ./src/favourite-episodes/block.json ***!
+  \*******************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"create-block/related-podcasts","version":"0.1.0","title":"Related Podcasts","category":"seedx_blocks","icon":"layout","description":"Example block scaffolded with Create Block tool.","example":{},"supports":{"html":false},"textdomain":"related-podcasts","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"create-block/favourite-episodes","version":"0.1.0","title":"Favourite episodes","category":"seedx_blocks","icon":"layout","description":"Example block scaffolded with Create Block tool.","example":{},"supports":{"html":false},"textdomain":"favourite-episodes","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ }),
 
-/***/ "./src/related-podcasts/edit.js":
-/*!**************************************!*\
-  !*** ./src/related-podcasts/edit.js ***!
-  \**************************************/
+/***/ "./src/favourite-episodes/edit.js":
+/*!****************************************!*\
+  !*** ./src/favourite-episodes/edit.js ***!
+  \****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -30,7 +30,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./editor.scss */ "./src/related-podcasts/editor.scss");
+/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./editor.scss */ "./src/favourite-episodes/editor.scss");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__);
 
@@ -46,10 +46,11 @@ function Edit({
   const {
     title,
     description,
-    selectedEpisodes
+    selectedEpisodes,
+    links,
+    learnMore
   } = attributes;
   const encodeId = id => btoa(`post:${id}`);
-  // Fetch episodes that belong to any podcast taxonomy
   const episodeOptions = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(select => {
     const episodes = select('core').getEntityRecords('postType', 'episode', {
       per_page: -1
@@ -61,7 +62,6 @@ function Edit({
     }));
   }, []);
   const addEpisode = episodeId => {
-    console.log(episodeId);
     if (!selectedEpisodes.includes(episodeId)) {
       setAttributes({
         selectedEpisodes: [...selectedEpisodes, episodeId]
@@ -73,12 +73,34 @@ function Edit({
       selectedEpisodes: selectedEpisodes.filter(id => id !== episodeId)
     });
   };
+  const addLink = () => {
+    setAttributes({
+      links: [...links, {
+        text: '',
+        href: ''
+      }]
+    });
+  };
+  const updateLink = (index, key, value) => {
+    const newLinks = links.map((link, i) => i === index ? {
+      ...link,
+      [key]: value
+    } : link);
+    setAttributes({
+      links: newLinks
+    });
+  };
+  const removeLink = index => {
+    setAttributes({
+      links: links.filter((_, i) => i !== index)
+    });
+  };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
     ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.useBlockProps)({
       className: 'episodes-list'
     }),
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.InspectorControls, {
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.PanelBody, {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.InspectorControls, {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.PanelBody, {
         title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Select Episodes', 'episodes-list'),
         initialOpen: true,
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
@@ -86,12 +108,6 @@ function Edit({
           value: title || '',
           onChange: newTitle => setAttributes({
             title: newTitle
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
-          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('description', 'episodes-list'),
-          value: description || '',
-          onChange: newDescription => setAttributes({
-            description: newDescription
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.SelectControl, {
           label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Add Episode', 'episodes-list'),
@@ -101,7 +117,29 @@ function Edit({
           }, ...episodeOptions],
           onChange: value => value && addEpisode(value)
         })]
-      })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.PanelBody, {
+        title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Learn More Settings', 'episodes-list'),
+        initialOpen: true,
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Learn More Text', 'episodes-list'),
+          value: learnMore?.text || '',
+          onChange: value => setAttributes({
+            learnMore: {
+              ...learnMore,
+              text: value
+            }
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Learn More Link', 'episodes-list'),
+          value: learnMore?.href || '',
+          onChange: value => setAttributes({
+            learnMore: {
+              ...learnMore,
+              href: value
+            }
+          })
+        })]
+      })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("h2", {
       children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Selected Episodes', 'episodes-list')
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("ul", {
@@ -115,16 +153,38 @@ function Edit({
           })]
         }, episodeId);
       })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("h4", {
+        children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Links', 'text-domain')
+      }), links.map((link, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
+          value: link.text,
+          onChange: value => updateLink(index, 'text', value),
+          placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Link Text', 'text-domain')
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
+          value: link.href,
+          onChange: value => updateLink(index, 'href', value),
+          placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Link URL', 'text-domain')
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
+          onClick: () => removeLink(index),
+          isDestructive: true,
+          children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Remove', 'text-domain')
+        })]
+      }, index)), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
+        onClick: addLink,
+        isPrimary: true,
+        children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Add Link', 'text-domain')
+      })]
     })]
   });
 }
 
 /***/ }),
 
-/***/ "./src/related-podcasts/editor.scss":
-/*!******************************************!*\
-  !*** ./src/related-podcasts/editor.scss ***!
-  \******************************************/
+/***/ "./src/favourite-episodes/editor.scss":
+/*!********************************************!*\
+  !*** ./src/favourite-episodes/editor.scss ***!
+  \********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -133,19 +193,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/related-podcasts/index.js":
-/*!***************************************!*\
-  !*** ./src/related-podcasts/index.js ***!
-  \***************************************/
+/***/ "./src/favourite-episodes/index.js":
+/*!*****************************************!*\
+  !*** ./src/favourite-episodes/index.js ***!
+  \*****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./style.scss */ "./src/related-podcasts/style.scss");
-/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./edit */ "./src/related-podcasts/edit.js");
-/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./save */ "./src/related-podcasts/save.js");
-/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./block.json */ "./src/related-podcasts/block.json");
+/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./style.scss */ "./src/favourite-episodes/style.scss");
+/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./edit */ "./src/favourite-episodes/edit.js");
+/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./save */ "./src/favourite-episodes/save.js");
+/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./block.json */ "./src/favourite-episodes/block.json");
 /**
  * Registers a new block provided a unique name and an object defining its behavior.
  *
@@ -180,11 +240,15 @@ __webpack_require__.r(__webpack_exports__);
       type: 'string',
       default: ''
     },
-    description: {
-      type: 'string',
-      default: ''
-    },
     selectedEpisodes: {
+      type: 'array',
+      default: []
+    },
+    links: {
+      type: 'array',
+      default: []
+    },
+    learnMore: {
       type: 'array',
       default: []
     }
@@ -201,10 +265,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/related-podcasts/save.js":
-/*!**************************************!*\
-  !*** ./src/related-podcasts/save.js ***!
-  \**************************************/
+/***/ "./src/favourite-episodes/save.js":
+/*!****************************************!*\
+  !*** ./src/favourite-episodes/save.js ***!
+  \****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -242,10 +306,10 @@ function save() {
 
 /***/ }),
 
-/***/ "./src/related-podcasts/style.scss":
-/*!*****************************************!*\
-  !*** ./src/related-podcasts/style.scss ***!
-  \*****************************************/
+/***/ "./src/favourite-episodes/style.scss":
+/*!*******************************************!*\
+  !*** ./src/favourite-episodes/style.scss ***!
+  \*******************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -424,8 +488,8 @@ module.exports = window["ReactJSXRuntime"];
 /******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
 /******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
 /******/ 		var installedChunks = {
-/******/ 			"related-podcasts/index": 0,
-/******/ 			"related-podcasts/style-index": 0
+/******/ 			"favourite-episodes/index": 0,
+/******/ 			"favourite-episodes/style-index": 0
 /******/ 		};
 /******/ 		
 /******/ 		// no chunk on demand loading
@@ -475,7 +539,7 @@ module.exports = window["ReactJSXRuntime"];
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["related-podcasts/style-index"], () => (__webpack_require__("./src/related-podcasts/index.js")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["favourite-episodes/style-index"], () => (__webpack_require__("./src/favourite-episodes/index.js")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

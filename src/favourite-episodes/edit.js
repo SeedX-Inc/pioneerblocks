@@ -5,10 +5,9 @@ import { __ } from '@wordpress/i18n';
 import './editor.scss';
 
 export default function Edit({ attributes, setAttributes }) {
-    const { title, description, selectedEpisodes } = attributes;
+    const { title, description, selectedEpisodes, links, learnMore } = attributes;
 
 	const encodeId = (id) => btoa(`post:${id}`);
-    // Fetch episodes that belong to any podcast taxonomy
     const episodeOptions = useSelect(select => {
         const episodes = select('core').getEntityRecords('postType', 'episode', { per_page: -1 }) || [];
         return episodes
@@ -17,7 +16,6 @@ export default function Edit({ attributes, setAttributes }) {
     }, []);
 
     const addEpisode = (episodeId) => {
-		console.log(episodeId)
 		if (!selectedEpisodes.includes(episodeId)) {
 			setAttributes({ selectedEpisodes: [...selectedEpisodes, episodeId] });
 		}
@@ -28,6 +26,19 @@ export default function Edit({ attributes, setAttributes }) {
         setAttributes({ selectedEpisodes: selectedEpisodes.filter(id => id !== episodeId) });
     };
 
+
+	const addLink = () => {
+		setAttributes({ links: [...links, { text: '', href: '' }] });
+	};
+
+	const updateLink = (index, key, value) => {
+		const newLinks = links.map((link, i) => (i === index ? { ...link, [key]: value } : link));
+		setAttributes({ links: newLinks });
+	};
+
+	const removeLink = (index) => {
+		setAttributes({ links: links.filter((_, i) => i !== index) });
+	};
     return (
         <div {...useBlockProps({ className: 'episodes-list' })}>
             <InspectorControls>
@@ -37,15 +48,22 @@ export default function Edit({ attributes, setAttributes }) {
                         value={title || ''}
                         onChange={newTitle => setAttributes({ title: newTitle })}
                     />
-                    <TextControl
-                        label={__('description', 'episodes-list')}
-                        value={description || ''}
-                        onChange={newDescription => setAttributes({ description: newDescription })}
-                    />
                     <SelectControl
                         label={__('Add Episode', 'episodes-list')}
                         options={[{ label: __('Select an Episode', 'episodes-list'), value: '' }, ...episodeOptions]}
                         onChange={(value) => value && addEpisode(value)}
+                    />
+                </PanelBody>
+                <PanelBody title={__('Learn More Settings', 'episodes-list')} initialOpen={true}>
+                    <TextControl
+                        label={__('Learn More Text', 'episodes-list')}
+                        value={learnMore?.text || ''}
+                        onChange={(value) => setAttributes({ learnMore: { ...learnMore, text: value } })}
+                    />
+                    <TextControl
+                        label={__('Learn More Link', 'episodes-list')}
+                        value={learnMore?.href || ''}
+                        onChange={(value) => setAttributes({ learnMore: { ...learnMore, href: value } })}
                     />
                 </PanelBody>
             </InspectorControls>
@@ -62,6 +80,29 @@ export default function Edit({ attributes, setAttributes }) {
                     );
                 })}
             </ul>
+			<div>
+				<h4>{__('Links', 'text-domain')}</h4>
+				{links.map((link, index) => (
+					<div key={index}>
+						<TextControl
+							value={link.text}
+							onChange={(value) => updateLink(index, 'text', value)}
+							placeholder={__('Link Text', 'text-domain')}
+						/>
+						<TextControl
+							value={link.href}
+							onChange={(value) => updateLink(index, 'href', value)}
+							placeholder={__('Link URL', 'text-domain')}
+						/>
+						<Button onClick={() => removeLink(index)} isDestructive>
+							{__('Remove', 'text-domain')}
+						</Button>
+					</div>
+				))}
+				<Button onClick={addLink} isPrimary>
+					{__('Add Link', 'text-domain')}
+				</Button>
+			</div>
         </div>
     );
 }

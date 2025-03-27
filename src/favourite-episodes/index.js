@@ -32,11 +32,15 @@ registerBlockType( metadata.name, {
 			type: 'string',
 			default: '',
 		},
-		description: {
-			type: 'string',
-			default: '',
-		},
 		selectedEpisodes: {	
+			type: 'array',
+			default: [],
+		},
+		links: {	
+			type: 'array',
+			default: [],
+		},
+		learnMore: {	
 			type: 'array',
 			default: [],
 		},
