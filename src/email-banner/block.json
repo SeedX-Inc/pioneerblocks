@@ -8,44 +8,44 @@
 	"icon": "layout",
 	"attributes": {
 		"firstNamePlaceholder": {
-		"type": "string",
-		"default": ""
+			"type": "string",
+			"default": ""
 		},
 		"lastNamePlaceholder": {
-		"type": "string",
-		"default": ""
+			"type": "string",
+			"default": ""
 		},
 		"emailPlaceholder": {
-		"type": "string",
-		"default": ""
+			"type": "string",
+			"default": ""
 		},
 		"buttonText": {
-		"type": "string",
-		"default": ""
+			"type": "string",
+			"default": ""
 		},
 		"description": {
-		"type": "string",
-		"default": ""
+			"type": "string",
+			"default": ""
 		},
 		"facebookUrl": {
-		"type": "string",
-		"default": "#"
+			"type": "string",
+			"default": "#"
 		},
 		"youtubeUrl": {
-		"type": "string",
-		"default": "#"
+			"type": "string",
+			"default": "#"
 		},
 		"twitterUrl": {
-		"type": "string",
-		"default": "#"
+			"type": "string",
+			"default": "#"
 		},
 		"instagramUrl": {
-		"type": "string",
-		"default": "#"
+			"type": "string",
+			"default": "#"
 		},
 		"linkedinUrl": {
-		"type": "string",
-		"default": "#"
+			"type": "string",
+			"default": "#"
 		}
 	},
 	"description": "Example block scaffolded with Create Block tool.",

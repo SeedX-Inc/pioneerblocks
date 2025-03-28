@@ -1,0 +1,77 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "create-block/content-social-podcast",
+  "version": "0.1.0",
+  "title": "content social(podcast page)",
+  "category": "seedx_blocks",
+  "icon": "layout",
+  "description": "Example block scaffolded with Create Block tool.",
+  "example": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "description": {
+      "type": "string",
+      "default": ""
+    },
+    "facebookUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "youtubeUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "twitterUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "instagramUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "linkedinUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "tiktokUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "githubUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "printUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "mailUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "shareUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "linksTitle": {
+      "type": "string",
+      "default": ""
+    },
+    "links": {
+      "type": "array",
+      "default": []
+    }
+  },
+  "supports": {
+    "html": false
+  },
+  "textdomain": "content-social-podcast",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "viewScript": "file:./view.js"
+}

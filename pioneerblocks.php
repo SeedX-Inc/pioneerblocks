@@ -59,6 +59,8 @@ function create_block_pioneerblocks_block_init() {
 		__DIR__ . '/build/content-social',
 		__DIR__ . '/build/podcast-banner',
 		__DIR__ . '/build/favourite-episodes',
+		__DIR__ . '/build/podcast-hero-slider',
+		__DIR__ . '/build/content-social-podcast',
 	];
 
 	foreach ($block_paths as $path) {

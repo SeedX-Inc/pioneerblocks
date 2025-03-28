@@ -20,7 +20,6 @@ export default function Edit({ attributes, setAttributes }) {
 			setAttributes({ selectedEpisodes: [...selectedEpisodes, episodeId] });
 		}
 	};
-	
 
     const removeEpisode = (episodeId) => {
         setAttributes({ selectedEpisodes: selectedEpisodes.filter(id => id !== episodeId) });
