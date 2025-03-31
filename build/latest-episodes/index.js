@@ -54,14 +54,12 @@ function Edit({
     const episodes = select('core').getEntityRecords('postType', 'episode', {
       per_page: -1
     }) || [];
-    return episodes.filter(episode => episode.podcast && episode.podcast.length > 0) // Ensure episode has at least one podcast taxonomy term
-    .map(episode => ({
+    return episodes.filter(episode => episode.podcast && episode.podcast.length > 0).map(episode => ({
       label: episode.title.rendered,
       value: encodeId(episode.id)
     }));
   }, []);
   const addEpisode = episodeId => {
-    console.log(episodeId);
     if (!selectedEpisodes.includes(episodeId)) {
       setAttributes({
         selectedEpisodes: [...selectedEpisodes, episodeId]

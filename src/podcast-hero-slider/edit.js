@@ -8,7 +8,7 @@ import {
 import { Button, PanelBody, TextControl } from '@wordpress/components';
 
 const Edit = ( { attributes, setAttributes } ) => {
-	const { title, button, heroImage, gradient } = attributes;
+	const { title, buttonText, buttonLink, heroImage, gradient } = attributes;
 
 	return (
 		<div { ...useBlockProps() }>
@@ -16,13 +16,13 @@ const Edit = ( { attributes, setAttributes } ) => {
 				<PanelBody title="Block Settings" initialOpen={ true }>
 					<TextControl
 						label="Button Text"
-						value={ button.text }
-						onChange={ ( value ) => setAttributes( { button: { ...button, text: value } } ) }
+						value={ buttonText }
+						onChange={ ( value ) => setAttributes( { buttonText: value } ) }
 					/>
 					<TextControl
 						label="Button Link"
-						value={ button.link }
-						onChange={ ( value ) => setAttributes( { button: { ...button, link: value } } ) }
+						value={ buttonLink }
+						onChange={ ( value ) => setAttributes( { buttonLink: value } ) }
 					/>
 					<PanelColorSettings
 						title="Background Gradient"
@@ -54,8 +54,8 @@ const Edit = ( { attributes, setAttributes } ) => {
 						onChange={ ( value ) => setAttributes( { title: value } ) }
 						placeholder="Enter title..."
 					/>
-					<a href={ button.link } className="block-button">
-						{ button.text }
+					<a href={ buttonLink } className="block-button">
+						{ buttonText }
 					</a>
 				</div>
 				{ heroImage && <img src={ heroImage } width="400" alt="Block Image" className="block-image col-6" /> }

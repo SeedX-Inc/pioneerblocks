@@ -38,7 +38,7 @@ export default function Edit({ attributes, setAttributes }) {
 						options={[{ label: __('Select an Episode', 'episodes-list'), value: '' }, ...episodeOptions]}
 						value={selectedEpisode}
 						onChange={(value) => setEpisode(value)}
-					/>
+					/> 
 				</PanelBody>
 			</InspectorControls>
 

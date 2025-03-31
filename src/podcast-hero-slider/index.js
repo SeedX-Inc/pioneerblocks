@@ -11,9 +11,13 @@ registerBlockType( metadata.name, {
 			type: 'string',
 			default: 'Innovate, Educate, Elevate',
 		},
-		button: {
-			type: 'object',
-			default: { text: 'Learn More', link: '#' },
+		buttonText: {
+			type: 'string',
+			default: 'Learn More',
+		},
+		buttonLink: {
+			type: 'string',
+			default: '#',
 		},
 		heroImage: {
 			type: 'string',

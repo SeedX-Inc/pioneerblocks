@@ -49,7 +49,8 @@ const Edit = ({
 }) => {
   const {
     title,
-    button,
+    buttonText,
+    buttonLink,
     heroImage,
     gradient
   } = attributes;
@@ -61,21 +62,15 @@ const Edit = ({
         initialOpen: true,
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
           label: "Button Text",
-          value: button.text,
+          value: buttonText,
           onChange: value => setAttributes({
-            button: {
-              ...button,
-              text: value
-            }
+            buttonText: value
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
           label: "Button Link",
-          value: button.link,
+          value: buttonLink,
           onChange: value => setAttributes({
-            button: {
-              ...button,
-              link: value
-            }
+            buttonLink: value
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.PanelColorSettings, {
           title: "Background Gradient",
@@ -115,9 +110,9 @@ const Edit = ({
           }),
           placeholder: "Enter title..."
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
-          href: button.link,
+          href: buttonLink,
           className: "block-button",
-          children: button.text
+          children: buttonText
         })]
       }), heroImage && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
         src: heroImage,
@@ -158,12 +153,13 @@ __webpack_require__.r(__webpack_exports__);
       type: 'string',
       default: 'Innovate, Educate, Elevate'
     },
-    button: {
-      type: 'object',
-      default: {
-        text: 'Learn More',
-        link: '#'
-      }
+    buttonText: {
+      type: 'string',
+      default: 'Learn More'
+    },
+    buttonLink: {
+      type: 'string',
+      default: '#'
     },
     heroImage: {
       type: 'string',
