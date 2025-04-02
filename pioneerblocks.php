@@ -63,6 +63,8 @@ function create_block_pioneerblocks_block_init() {
 		__DIR__ . '/build/content-social-podcast',
 		__DIR__ . '/build/latest-episodes',
 		__DIR__ . '/build/featured-episode',
+		__DIR__ . '/build/books-list',
+		__DIR__ . '/build/our-history',
 	];
 
 	foreach ($block_paths as $path) {

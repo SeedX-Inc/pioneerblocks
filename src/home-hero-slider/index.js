@@ -7,6 +7,18 @@ import save from './save';
 
 registerBlockType( metadata.name, {
 	attributes: {
+		hasBreadcrumbs: {
+			type: 'boolean',
+			default: false,
+		}, 
+		hasTitleOnMobile: {
+			type: 'boolean',
+			default: false,
+		}, 
+		breadcrumbs: {
+			type: 'array',
+			default: [],
+		},
 		slides: {
 			type: 'array',
 			default: [
