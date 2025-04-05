@@ -65,6 +65,9 @@ function create_block_pioneerblocks_block_init() {
 		__DIR__ . '/build/featured-episode',
 		__DIR__ . '/build/books-list',
 		__DIR__ . '/build/our-history',
+		__DIR__ . '/build/careers-page',
+		__DIR__ . '/build/career-content-section', // Sub-block for repeatable content
+		__DIR__ . '/build/internship-subsection',
 	];
 
 	foreach ($block_paths as $path) {

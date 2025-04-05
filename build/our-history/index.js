@@ -89,26 +89,22 @@ function Edit({
         })
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
         className: "col-6",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText, {
-          tagName: "div" // This allows multiple blocks inside
-          ,
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextareaControl, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Content Right to Image (use # for headings, - for lists)', 'text-domain'),
           value: contentRightToImage,
-          onChange: newContent => setAttributes({
-            contentRightToImage: newContent
+          onChange: value => setAttributes({
+            contentRightToImage: value
           }),
-          placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Enter content...', 'text-domain'),
-          allowedFormats: ['core/bold', 'core/italic', 'core/link', 'core/heading']
+          placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('# Heading\nText here\n- List item\n- Another item', 'text-domain')
         })
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText, {
-      tagName: "div" // This allows multiple blocks inside
-      ,
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextareaControl, {
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Content Below Image (use # for headings, - for lists)', 'text-domain'),
       value: contentBelowImage,
-      onChange: newContent => setAttributes({
-        contentBelowImage: newContent
+      onChange: value => setAttributes({
+        contentBelowImage: value
       }),
-      placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Enter content...', 'text-domain'),
-      allowedFormats: ['core/bold', 'core/italic', 'core/link', 'core/heading']
+      placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('# Heading\nText here\n- List item\n- Another item', 'text-domain')
     })]
   });
 }
@@ -145,13 +141,11 @@ __webpack_require__.r(__webpack_exports__);
     },
     contentBelowImage: {
       type: 'string',
-      source: 'html',
-      selector: 'div'
+      default: ''
     },
     contentRightToImage: {
       type: 'string',
-      source: 'html',
-      selector: 'div'
+      default: ''
     },
     imageUrl: {
       type: 'string',

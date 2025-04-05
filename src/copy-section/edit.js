@@ -61,7 +61,6 @@ export default function Edit({ attributes, setAttributes }) {
 				value={columnText}
 				onChange={(value) => setAttributes({ columnText: value })}
 			/>
-
 			<div className="buttons-container">
 				{buttons.map((button, index) => (
 					<div key={index} className="button-settings">

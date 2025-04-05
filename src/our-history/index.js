@@ -17,14 +17,12 @@ registerBlockType( metadata.name, {
             default: ''
         },
         contentBelowImage: {
-            type: 'string',
-            source: 'html',
-            selector: 'div',
+			type: 'string',
+			default: ''
         },
         contentRightToImage: {
-            type: 'string',
-            source: 'html',
-            selector: 'div',
+			type: 'string',
+			default: ''
         },
         imageUrl: {
             type: 'string',
