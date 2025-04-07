@@ -13,6 +13,18 @@ registerBlockType('create-block/careers-page', {
 			type: 'string',
 			default: 'career-content', // Default to the Career Content tab
 		},
+		faqTitle: {
+			type: 'string',
+			default: 'career-content', // Default to the Career Content tab
+		},
+		icons: {
+			type: 'array',
+			default: [],
+		},
+		faqItems: {
+			type: 'array',
+			default: [],
+		},
 		careerContentTabs: {
 			type: 'object',
 			default: {

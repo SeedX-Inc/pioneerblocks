@@ -82,7 +82,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _internship_block__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./internship-block */ "./src/careers-page/internship-block.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__);
-// edit.js
 
 
  // Import the Career Content Tab component
@@ -115,7 +114,66 @@ const Edit = ({
   };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
     ...blockProps,
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("p", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InspectorControls, {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_0__.PanelBody, {
+        title: "Social Media Links",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_0__.TextControl, {
+          label: "Print URL",
+          value: attributes.icons[0]?.printUrl || '',
+          onChange: value => setAttributes({
+            icons: [{
+              ...attributes.icons[0],
+              printUrl: value
+            }]
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_0__.TextControl, {
+          label: "Facebook URL",
+          value: attributes.icons[0]?.facebookUrl || '',
+          onChange: value => setAttributes({
+            icons: [{
+              ...attributes.icons[0],
+              facebookUrl: value
+            }]
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_0__.TextControl, {
+          label: "Twitter URL",
+          value: attributes.icons[0]?.twitterUrl || '',
+          onChange: value => setAttributes({
+            icons: [{
+              ...attributes.icons[0],
+              twitterUrl: value
+            }]
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_0__.TextControl, {
+          label: "LinkedIn URL",
+          value: attributes.icons[0]?.linkedinUrl || '',
+          onChange: value => setAttributes({
+            icons: [{
+              ...attributes.icons[0],
+              linkedinUrl: value
+            }]
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_0__.TextControl, {
+          label: "Mail URL",
+          value: attributes.icons[0]?.mailUrl || '',
+          onChange: value => setAttributes({
+            icons: [{
+              ...attributes.icons[0],
+              mailUrl: value
+            }]
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_0__.TextControl, {
+          label: "Share URL",
+          value: attributes.icons[0]?.shareUrl || '',
+          onChange: value => setAttributes({
+            icons: [{
+              ...attributes.icons[0],
+              shareUrl: value
+            }]
+          })
+        })]
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("p", {
       style: {
         fontStyle: 'italic',
         color: '#666',
@@ -282,11 +340,10 @@ const Internship = ({
               className: "btn",
               children: "Change/select image"
             })
-          }), block.useContentInsteadOfImage && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
-            label: "Text Content Instead of Image",
+          }), block.useContentInsteadOfImage && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.RichText, {
             value: block.contentInsteadOfImage,
             onChange: value => handleContentChange(index, 'contentInsteadOfImage', value),
-            placeholder: "Enter plain text content instead of image"
+            placeholder: "Text Content Instead of Image..."
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.ColorPalette, {
             value: block.backgroundColor,
             onChange: color => handleContentChange(index, 'backgroundColor', color)
@@ -306,7 +363,7 @@ const Internship = ({
               src: block.imageUrl,
               alt: "Internship"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
-              label: "Text Content Instead of Image",
+              label: "Text Content Below Image",
               value: block.extraContentBelowImage,
               onChange: value => handleContentChange(index, 'extraContentBelowImage', value),
               placeholder: "Enter content below the image..."
@@ -315,12 +372,10 @@ const Internship = ({
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
           className: "internship-text col-6",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.RichText, {
-            tagName: "div",
-            multiline: "p",
             value: block.internshipDescription,
             onChange: value => handleContentChange(index, 'internshipDescription', value),
             placeholder: "Enter description with paragraphs and lists...",
-            allowedFormats: ['core/bold', 'core/italic', 'core/list']
+            allowedFormats: ['core/bold', 'core/italic', 'core/list', 'core/link']
           })
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
@@ -330,24 +385,24 @@ const Internship = ({
       })]
     }, index)), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("hr", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("h3", {
       children: "FAQ Section"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.RichText, {
-      tagName: "h4",
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
+      label: `FAQ title`,
       value: faqTitle,
       onChange: value => setAttributes({
         faqTitle: value
-      }),
-      placeholder: "Enter FAQ section title..."
+      })
     }), faqItems.map((faq, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
       className: "faq-item",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
         label: `Question ${index + 1}`,
         value: faq.question,
         onChange: value => updateFaqItem(index, 'question', value)
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
-        label: `Answer ${index + 1}`,
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.RichText, {
         value: faq.answer,
-        onChange: value => updateFaqItem(index, 'answer', value)
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
+        onChange: value => updateFaqItem(index, 'answer', value),
+        placeholder: "Enter Answer to faq...",
+        label: `Answer ${index + 1}`
+      }, index), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
         isDestructive: true,
         onClick: () => removeFaqItem(index),
         children: "Remove FAQ"
@@ -537,6 +592,18 @@ __webpack_require__.r(__webpack_exports__);
     activeMainTab: {
       type: 'string',
       default: 'career-content' // Default to the Career Content tab
+    },
+    faqTitle: {
+      type: 'string',
+      default: 'career-content' // Default to the Career Content tab
+    },
+    icons: {
+      type: 'array',
+      default: []
+    },
+    faqItems: {
+      type: 'array',
+      default: []
     },
     careerContentTabs: {
       type: 'object',

@@ -91,11 +91,10 @@ const Internship = ({ attributes, setAttributes }) => {
 							)}
 
 							{block.useContentInsteadOfImage && (
-								<TextControl
-									label="Text Content Instead of Image"
+								<RichText
 									value={block.contentInsteadOfImage}
 									onChange={(value) => handleContentChange(index, 'contentInsteadOfImage', value)}
-									placeholder="Enter plain text content instead of image"
+									placeholder="Text Content Instead of Image..."
 								/>
 							)}
 
@@ -117,7 +116,7 @@ const Internship = ({ attributes, setAttributes }) => {
 									<div>
 										{block.imageUrl && <img src={block.imageUrl} alt="Internship" />}
 										<TextControl
-											label="Text Content Instead of Image"
+											label="Text Content Below Image"
 											value={block.extraContentBelowImage}
 											onChange={(value) => handleContentChange(index, 'extraContentBelowImage', value)}
 											placeholder="Enter content below the image..."
@@ -127,12 +126,10 @@ const Internship = ({ attributes, setAttributes }) => {
 						</div>
 						<div className="internship-text col-6">
 							<RichText
-								tagName="div"
-								multiline="p"
 								value={block.internshipDescription}
 								onChange={(value) => handleContentChange(index, 'internshipDescription', value)}
 								placeholder="Enter description with paragraphs and lists..."
-								allowedFormats={['core/bold', 'core/italic', 'core/list']}
+								allowedFormats={['core/bold', 'core/italic', 'core/list', 'core/link']}
 							/>
 						</div>
 					</div>
@@ -146,11 +143,10 @@ const Internship = ({ attributes, setAttributes }) => {
 			<hr />
 
 			<h3>FAQ Section</h3>
-			<RichText
-				tagName="h4"
+			<TextControl
+				label={`FAQ title`}
 				value={faqTitle}
 				onChange={(value) => setAttributes({ faqTitle: value })}
-				placeholder="Enter FAQ section title..."
 			/>
 			{faqItems.map((faq, index) => (
 				<div className="faq-item" key={index}>
@@ -159,10 +155,12 @@ const Internship = ({ attributes, setAttributes }) => {
 						value={faq.question}
 						onChange={(value) => updateFaqItem(index, 'question', value)}
 					/>
-					<TextControl
-						label={`Answer ${index + 1}`}
+					<RichText
+						key={index}
 						value={faq.answer}
 						onChange={(value) => updateFaqItem(index, 'answer', value)}
+						placeholder="Enter Answer to faq..."
+						label={`Answer ${index + 1}`}
 					/>
 					<Button isDestructive onClick={() => removeFaqItem(index)}>
 						Remove FAQ

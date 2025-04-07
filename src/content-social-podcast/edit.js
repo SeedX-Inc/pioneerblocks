@@ -36,7 +36,7 @@ export default function Edit({ attributes, setAttributes }) {
             label={__('Description', '')}
             value={description}
             onChange={(value) => setAttributes({ description: value })}
-          /> 
+          />
         </PanelBody>
         <PanelBody title={__('Social Media Links', '')}>
           <TextControl

@@ -1,6 +1,5 @@
-// edit.js
-import { TabPanel } from '@wordpress/components';
-import { useBlockProps } from '@wordpress/block-editor';
+import { TabPanel, PanelBody, TextControl } from '@wordpress/components';
+import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import Career from './career-block'; // Import the Career Content Tab component
 import Internship from './internship-block'; // Import the Internship Tab component
 
@@ -26,6 +25,94 @@ const Edit = ({ attributes, setAttributes }) => {
 	};
 	return (
 		<div {...blockProps}>
+			<InspectorControls>
+				<PanelBody title='Social Media Links'>
+					<TextControl
+						label='Print URL'
+						value={attributes.icons[0]?.printUrl || ''}
+						onChange={(value) =>
+							setAttributes({
+								icons: [
+									{
+										...attributes.icons[0],
+										printUrl: value,
+									},
+								],
+							})
+						}
+					/>
+					<TextControl
+						label='Facebook URL'
+						value={attributes.icons[0]?.facebookUrl || ''}
+						onChange={(value) =>
+							setAttributes({
+								icons: [
+									{
+										...attributes.icons[0],
+										facebookUrl: value,
+									},
+								],
+							})
+						}
+					/>
+					<TextControl
+						label='Twitter URL'
+						value={attributes.icons[0]?.twitterUrl || ''}
+						onChange={(value) =>
+							setAttributes({
+								icons: [
+									{
+										...attributes.icons[0],
+										twitterUrl: value,
+									},
+								],
+							})
+						}
+					/>
+					<TextControl
+						label='LinkedIn URL'
+						value={attributes.icons[0]?.linkedinUrl || ''}
+						onChange={(value) =>
+							setAttributes({
+								icons: [
+									{
+										...attributes.icons[0],
+										linkedinUrl: value,
+									},
+								],
+							})
+						}
+					/>
+					<TextControl
+						label='Mail URL'
+						value={attributes.icons[0]?.mailUrl || ''}
+						onChange={(value) =>
+							setAttributes({
+								icons: [
+									{
+										...attributes.icons[0],
+										mailUrl: value,
+									},
+								],
+							})
+						}
+					/>
+					<TextControl
+						label='Share URL'
+						value={attributes.icons[0]?.shareUrl || ''}
+						onChange={(value) =>
+							setAttributes({
+								icons: [
+									{
+										...attributes.icons[0],
+										shareUrl: value,
+									},
+								],
+							})
+						}
+					/>
+				</PanelBody>
+			</InspectorControls>
 			<p style={{fontStyle: 'italic', color: '#666', marginBottom: '1em'}}>
 				Hint: You can structure content using simple markers:<br/>
 				<code>##</code> for titles<br/>
