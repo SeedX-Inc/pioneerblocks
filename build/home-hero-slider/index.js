@@ -51,7 +51,10 @@ const Edit = ({
   setAttributes
 }) => {
   const {
-    slides = []
+    slides = [],
+    hasBreadcrumbs = false,
+    hasTitleOnMobile = false,
+    breadcrumbs = []
   } = attributes;
   const [activeIndex, setActiveIndex] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)(0);
   const updateSlide = (index, key, value) => {
@@ -123,10 +126,69 @@ const Edit = ({
   };
   const nextSlide = () => setActiveIndex(prev => (prev + 1) % slides.length);
   const prevSlide = () => setActiveIndex(prev => (prev - 1 + slides.length) % slides.length);
+  const toggleBreadcrumbs = value => setAttributes({
+    hasBreadcrumbs: value
+  });
+  const updateBreadcrumb = (index, key, value) => {
+    console.log(breadcrumbs);
+    const updatedBreadcrumbs = breadcrumbs.map((breadcrumb, i) => i === index ? {
+      ...breadcrumb,
+      [key]: value
+    } : breadcrumb);
+    setAttributes({
+      breadcrumbs: updatedBreadcrumbs
+    });
+  };
+  const addBreadcrumb = () => {
+    setAttributes({
+      breadcrumbs: [...breadcrumbs, {
+        text: 'New Item',
+        link: '#'
+      }]
+    });
+  };
+  const removeBreadcrumb = index => {
+    const updatedBreadcrumbs = breadcrumbs.filter((_, i) => i !== index);
+    setAttributes({
+      breadcrumbs: updatedBreadcrumbs
+    });
+  };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
     ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.useBlockProps)(),
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.InspectorControls, {
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.PanelBody, {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.InspectorControls, {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.ToggleControl, {
+        label: "Should title be displayed on mobile?",
+        checked: hasTitleOnMobile,
+        onChange: value => setAttributes({
+          hasTitleOnMobile: value
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.PanelBody, {
+        title: "Breadcrumbs Settings",
+        initialOpen: false,
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.ToggleControl, {
+          label: "Enable Breadcrumbs",
+          checked: hasBreadcrumbs,
+          onChange: toggleBreadcrumbs
+        }), hasBreadcrumbs && breadcrumbs.map((breadcrumb, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
+            label: "Breadcrumb Text",
+            value: breadcrumb.text,
+            onChange: value => updateBreadcrumb(index, 'text', value)
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
+            label: "Breadcrumb Link",
+            value: breadcrumb.link,
+            onChange: value => updateBreadcrumb(index, 'link', value)
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
+            variant: "destructive",
+            onClick: () => removeBreadcrumb(index),
+            children: "Remove"
+          })]
+        }, index)), hasBreadcrumbs && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
+          variant: "secondary",
+          onClick: addBreadcrumb,
+          children: "Add Breadcrumb"
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.PanelBody, {
         title: "Slides Settings",
         initialOpen: true,
         children: [slides.map((slide, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
@@ -223,7 +285,7 @@ const Edit = ({
           },
           children: "Add Slide"
         })]
-      })
+      })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
       className: "slider-wrapper",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
@@ -304,6 +366,18 @@ __webpack_require__.r(__webpack_exports__);
 
 (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.registerBlockType)(_block_json__WEBPACK_IMPORTED_MODULE_2__.name, {
   attributes: {
+    hasBreadcrumbs: {
+      type: 'boolean',
+      default: false
+    },
+    hasTitleOnMobile: {
+      type: 'boolean',
+      default: false
+    },
+    breadcrumbs: {
+      type: 'array',
+      default: []
+    },
     slides: {
       type: 'array',
       default: [{

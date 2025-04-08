@@ -21,7 +21,7 @@ const Edit = ({ attributes, setAttributes }) => {
 		updatedSlides[slideIndex].buttons[buttonIndex] = { ...updatedSlides[slideIndex].buttons[buttonIndex], [key]: value };
 		setAttributes({ slides: updatedSlides });
 	};
-	const addButton = (index) => updateSlide(index, 'buttons', [...slides[index].buttons, { text: '', link: '', color: '#000000' }]);
+	const addButton = (index) => updateSlide(index, 'buttons', [...slides[index].buttons, { text: '', link: '', color: '#000000', textColor: '#FFFFFF' }]);
 	const removeButton = (slideIndex, buttonIndex) => updateSlide(slideIndex, 'buttons', slides[slideIndex].buttons.filter((_, i) => i !== buttonIndex));
 
 	return (
@@ -42,7 +42,8 @@ const Edit = ({ attributes, setAttributes }) => {
 							<div key={buttonIndex}>
 								<TextControl label="Text" value={button.text} onChange={(value) => updateButton(index, buttonIndex, 'text', value)} />
 								<TextControl label="Link" value={button.link} onChange={(value) => updateButton(index, buttonIndex, 'link', value)} />
-								<ColorPicker label="Color" color={button.color} onChangeComplete={(value) => updateButton(index, buttonIndex, 'color', value.hex)} />
+								<ColorPicker label="Background Color" color={button.color} onChangeComplete={(value) => updateButton(index, buttonIndex, 'color', value.hex)} />
+								<ColorPicker label="Text Color" color={button.textColor} onChangeComplete={(value) => updateButton(index, buttonIndex, 'textColor', value.hex)} />
 								<Button onClick={() => removeButton(index, buttonIndex)} variant="secondary" isDestructive>Remove</Button>
 							</div>
 						))}
@@ -63,7 +64,7 @@ const Edit = ({ attributes, setAttributes }) => {
 						<RichText tagName="p" value={slides[activeIndex].subtitle} onChange={(value) => updateSlide(activeIndex, 'subtitle', value)} placeholder="Slide Subtitle" />
 						<div className="buttons">
 							{slides[activeIndex].buttons.map((button, i) => (
-								<a key={i} href={button.link} className="btn me-2" style={{ backgroundColor: button.color }}>{button.text}</a>
+								<a key={i} href={button.link} className="btn me-2" style={{ backgroundColor: button.color, color: button.textColor }}>{button.text}</a>
 							))}
 						</div>
 						{slides.length > 1 && <Button onClick={() => setActiveIndex((activeIndex + 1) % slides.length)} variant="secondary">Next Slide</Button>}

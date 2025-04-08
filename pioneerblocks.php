@@ -3,7 +3,7 @@
 /**
  * Plugin Name:       Pioneer blocks
  * Description:       Pioneer custom blocks.
- * Version:           0.1.16
+ * Version:           0.1.18
  * Requires at least: 6.7
  * Requires PHP:      7.4
  * Author:            The WordPress Contributors
@@ -57,6 +57,17 @@ function create_block_pioneerblocks_block_init() {
 		__DIR__ . '/build/email-banner',
 		__DIR__ . '/build/single-staff',
 		__DIR__ . '/build/content-social',
+		__DIR__ . '/build/podcast-banner',
+		__DIR__ . '/build/favourite-episodes',
+		__DIR__ . '/build/podcast-hero-slider',
+		__DIR__ . '/build/content-social-podcast',
+		__DIR__ . '/build/latest-episodes',
+		__DIR__ . '/build/featured-episode',
+		__DIR__ . '/build/books-list',
+		__DIR__ . '/build/our-history',
+		__DIR__ . '/build/careers-page',
+		__DIR__ . '/build/career-content-section', // Sub-block for repeatable content
+		__DIR__ . '/build/internship-subsection',
 	];
 
 	foreach ($block_paths as $path) {

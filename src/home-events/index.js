@@ -21,12 +21,25 @@ import Edit from './edit';
 import save from './save';
 import metadata from './block.json';
 
-/**
- * Every block starts by registering a new block type definition.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
- */
 registerBlockType( metadata.name, {
+	attributes: {
+		title: {
+			type: 'string',
+			default: '',
+		},
+		featuredEvent: {
+			type: 'string',
+			default: '',
+		},
+		rightSideEvents: {
+			type: 'array',
+			default: [],
+		},
+		bottomEvents: {
+			type: 'array',
+			default: [],
+		},
+	},
 	/**
 	 * @see ./edit.js
 	 */

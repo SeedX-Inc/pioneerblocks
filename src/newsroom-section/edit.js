@@ -10,16 +10,6 @@ export default function Edit({ attributes, setAttributes }) {
 	// Function to encode WordPress numeric ID to GraphQL format
 	const encodeId = (id) => btoa(`post:${id}`);
 
-	// Function to decode GraphQL ID back to WordPress numeric ID
-	const decodeId = (graphqlId) => {
-		try {
-			const decoded = atob(graphqlId); // Convert from base64
-			return parseInt(decoded.replace('post:', ''), 10); // Extract numeric ID
-		} catch (e) {
-			return null;
-		}
-	};
-
 	// Fetch published news posts
 	const newsOptions = useSelect(select => {
 		const posts = select('core').getEntityRecords('postType', 'post', { per_page: -1 }) || [];
@@ -40,6 +30,11 @@ export default function Edit({ attributes, setAttributes }) {
 		<div {...useBlockProps({ className: 'news-list' })}>
 			<InspectorControls>
 				<PanelBody title={__('Select News', 'news-list')} initialOpen={true}>
+					<TextControl
+						label={__('Title', 'directors-list')}
+						value={title || ''}
+						onChange={newTitle => setAttributes({ title: newTitle })}
+					/>
 					<SelectControl
 						label={__('Add News', 'news-list')}
 						options={[{ label: __('Select a News', 'news-list'), value: '' }, ...newsOptions]}
