@@ -4,6 +4,7 @@ import { PanelBody, TextControl } from '@wordpress/components';
 
 export default function Edit({ attributes, setAttributes }) {
   const {
+	  title,
     firstNamePlaceholder,
     lastNamePlaceholder,
     emailPlaceholder,
@@ -30,25 +31,15 @@ export default function Edit({ attributes, setAttributes }) {
     <div {...blockProps}>
       <InspectorControls>
         <PanelBody title={__('Form Settings', '')}>
+			<TextControl
+				label={__('Title', '')}
+				value={title}
+				onChange={(value) => setAttributes({ title: value })}
+			/>
           <TextControl
             label={__('Description', '')}
             value={description}
             onChange={(value) => setAttributes({ description: value })}
-          />
-          <TextControl
-            label={__('First Name Placeholder', '')}
-            value={firstNamePlaceholder}
-            onChange={(value) => setAttributes({ firstNamePlaceholder: value })}
-          />
-          <TextControl
-            label={__('Last Name Placeholder', '')}
-            value={lastNamePlaceholder}
-            onChange={(value) => setAttributes({ lastNamePlaceholder: value })}
-          />
-          <TextControl
-            label={__('Email Placeholder', '')}
-            value={emailPlaceholder}
-            onChange={(value) => setAttributes({ emailPlaceholder: value })}
           />
           <TextControl
             label={__('Button Text', '')}
@@ -85,24 +76,24 @@ export default function Edit({ attributes, setAttributes }) {
         </PanelBody>
       </InspectorControls>
       <p>{description}</p>
-      <h2 className='text-light fs-5'>Get Updates</h2>
+      <h2 className='text-light fs-5'>{title}</h2>
       <div className="d-flex justify-content-center gap-2 mb-2">
         <input
           type="text"
-          placeholder={firstNamePlaceholder}
+          placeholder="first name"
 		      className='p-2'
           disabled
         />
         <input
           type="text"
-          placeholder={lastNamePlaceholder}
+          placeholder="last name"
 		      className='p-2'
           disabled
         />
       </div>
       <input
         type="email"
-        placeholder={emailPlaceholder}
+        placeholder="email"
 		    className='p-2 mb-2 w-75'
         disabled
       />

@@ -54,6 +54,7 @@ function Edit({
     const episodes = select('core').getEntityRecords('postType', 'episode', {
       per_page: -1
     }) || [];
+    console.log(episodes);
     return episodes.filter(episode => episode.podcast && episode.podcast.length > 0) // Ensure episode has at least one podcast taxonomy term
     .map(episode => ({
       label: episode.title.rendered,

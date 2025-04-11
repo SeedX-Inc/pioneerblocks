@@ -7,6 +7,10 @@
 	"category": "seedx_blocks",
 	"icon": "layout",
 	"attributes": {
+		"title": {
+			"type": "string",
+			"default": ""
+		},
 		"firstNamePlaceholder": {
 			"type": "string",
 			"default": ""

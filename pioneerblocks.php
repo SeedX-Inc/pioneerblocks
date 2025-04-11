@@ -63,11 +63,20 @@ function create_block_pioneerblocks_block_init() {
 		__DIR__ . '/build/content-social-podcast',
 		__DIR__ . '/build/latest-episodes',
 		__DIR__ . '/build/featured-episode',
+		__DIR__ . '/build/featured-event',
 		__DIR__ . '/build/books-list',
 		__DIR__ . '/build/our-history',
 		__DIR__ . '/build/careers-page',
 		__DIR__ . '/build/career-content-section', // Sub-block for repeatable content
 		__DIR__ . '/build/internship-subsection',
+		__DIR__ . '/build/upcoming-previous-events',
+		__DIR__ . '/build/signature-events',
+		__DIR__ . '/build/annual-reports',
+		__DIR__ . '/build/reports-list',
+		__DIR__ . '/build/pioneer-stewards-accordeon',
+		__DIR__ . '/build/donation-accordeon',
+		__DIR__ . '/build/donation-page-banner',
+		__DIR__ . '/build/stewards-content-block',
 	];
 
 	foreach ($block_paths as $path) {
