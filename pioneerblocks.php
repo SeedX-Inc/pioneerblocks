@@ -77,6 +77,7 @@ function create_block_pioneerblocks_block_init() {
 		__DIR__ . '/build/donation-accordeon',
 		__DIR__ . '/build/donation-page-banner',
 		__DIR__ . '/build/stewards-content-block',
+		__DIR__ . '/build/search-page',
 	];
 
 	foreach ($block_paths as $path) {
