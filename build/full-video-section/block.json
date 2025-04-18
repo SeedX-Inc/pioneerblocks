@@ -4,7 +4,7 @@
   "name": "create-block/full-video-section",
   "version": "0.1.0",
   "title": "Full-Width Video Section",
-  "category": "seedx_blocks",
+  "category": "seedx_blocks_other",
   "attributes": {
     "title": {
       "type": "string",

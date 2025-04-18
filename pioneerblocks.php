@@ -23,12 +23,56 @@ function pioneerblocks_register_block_category($categories, $post) {
 	return array_merge(
 		[
 			[
-				'slug'  => 'seedx_blocks',
-				'title' => __('Pioneer Blocks', 'pioneerblocks'),
+				'slug'  => 'seedx_blocks_other',
+				'title' => __('Pioneer Blocks: Other pages and common blocks', 'pioneerblocks'),
+				'icon'  => 'blocks',
+			],
+			[
+				'slug'  => 'seedx_blocks_home',
+				'title' => __('Pioneer Blocks: Home page', 'pioneerblocks'),
+				'icon'  => 'blocks',
+			],
+			[
+				'slug'  => 'seedx_blocks_pillar',
+				'title' => __('Pioneer Blocks: Pillar pages', 'pioneerblocks'),
+				'icon'  => 'blocks',
+			],
+			[
+				'slug'  => 'seedx_blocks_podcasts',
+				'title' => __('Pioneer Blocks: Podcasts pages', 'pioneerblocks'),
+				'icon'  => 'blocks',
+			],
+			[
+				'slug'  => 'seedx_blocks_donate',
+				'title' => __('Pioneer Blocks: Donate page', 'pioneerblocks'),
+				'icon'  => 'blocks',
+			],
+			[
+				'slug'  => 'seedx_blocks_about',
+				'title' => __('Pioneer Blocks: About, Career and Mission pages', 'pioneerblocks'),
+				'icon'  => 'blocks',
+			],
+			[
+				'slug'  => 'seedx_blocks_staff',
+				'title' => __('Pioneer Blocks: Staff pages', 'pioneerblocks'),
+				'icon'  => 'blocks',
+			],
+			[
+				'slug'  => 'seedx_blocks_finances',
+				'title' => __('Pioneer Blocks: Finances page', 'pioneerblocks'),
+				'icon'  => 'blocks',
+			],
+			[
+				'slug'  => 'seedx_blocks_events',
+				'title' => __('Pioneer Blocks: Events page', 'pioneerblocks'),
+				'icon'  => 'blocks',
+			],
+			[
+				'slug'  => 'seedx_blocks_pages',
+				'title' => __('Pioneer Blocks: Bookshelf page, ', 'pioneerblocks'),
 				'icon'  => 'blocks',
 			],
 		],
-
 		$categories
 	);
 }

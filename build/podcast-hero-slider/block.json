@@ -4,7 +4,7 @@
   "name": "create-block/podcast-hero-slider",
   "version": "0.1.0",
   "title": "Podcast Hero Slider",
-  "category": "seedx_blocks",
+  "category": "seedx_blocks_podcasts",
   "icon": "slides",
   "description": "Example block scaffolded with Create Block tool.",
   "example": {},

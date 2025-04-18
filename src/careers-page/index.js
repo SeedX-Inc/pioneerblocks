@@ -7,7 +7,7 @@ registerBlockType('create-block/careers-page', {
 	apiVersion: 2,
 	title: 'Careers Page',
 	icon: 'businessperson',
-	category: 'layout',
+	category: 'seedx_blocks_about',
 	attributes: {
 		activeMainTab: {
 			type: 'string',

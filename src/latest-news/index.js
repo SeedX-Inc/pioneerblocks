@@ -3,7 +3,7 @@ import Edit from './edit';
 
 registerBlockType("create-block/latest-news", {
 	title: "Latest News Block",
-	category: "seedx_blocks",
+	category: "seedx_blocks_home",
 	icon: "list-view",
 	attributes: {
 		title: {

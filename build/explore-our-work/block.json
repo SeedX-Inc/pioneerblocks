@@ -4,7 +4,7 @@
   "name": "create-block/explore-our-work",
   "version": "0.1.0",
   "title": "Explore our work",
-  "category": "seedx_blocks",
+  "category": "seedx_blocks_pillar",
   "icon": "layout",
   "description": "Example block scaffolded with Create Block tool.",
   "example": {},

@@ -4,7 +4,7 @@
   "name": "create-block/our-history",
   "version": "0.1.0",
   "title": "Our history",
-  "category": "",
+  "category": "seedx_blocks_about",
   "icon": "layout",
   "description": "Example block scaffolded with Create Block tool.",
   "example": {},
