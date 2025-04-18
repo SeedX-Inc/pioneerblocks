@@ -4,7 +4,7 @@
   "name": "create-block/internship-subsection",
   "version": "0.1.0",
   "title": "internship subsection",
-  "category": "",
+  "category": "seedx_blocks_about",
   "icon": "layout",
   "description": "Example block scaffolded with Create Block tool.",
   "example": {},
