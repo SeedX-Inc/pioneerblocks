@@ -3,7 +3,7 @@
 /**
  * Plugin Name:       Pioneer blocks
  * Description:       Pioneer custom blocks.
- * Version:           0.1.18
+ * Version:           0.1.19
  * Requires at least: 6.7
  * Requires PHP:      7.4
  * Author:            The WordPress Contributors
