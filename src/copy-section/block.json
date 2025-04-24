@@ -4,7 +4,7 @@
 	"name": "create-block/copy-section",
 	"version": "0.1.0",
 	"title": "Copy Section",
-	"category": "seedx_blocks",
+	"category": "seedx_blocks_other",
 	"attributes": {
 		"title": {
 			"type": "string",

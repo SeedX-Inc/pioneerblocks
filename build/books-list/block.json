@@ -4,7 +4,7 @@
   "name": "create-block/books-list",
   "version": "0.1.0",
   "title": "Books list",
-  "category": "",
+  "category": "seedx_blocks_pages",
   "icon": "layout",
   "description": "Example block scaffolded with Create Block tool.",
   "example": {},

@@ -8,7 +8,7 @@
   \*************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"create-block/email-banner","version":"0.1.0","title":"email banner","category":"seedx_blocks","icon":"layout","attributes":{"firstNamePlaceholder":{"type":"string","default":""},"lastNamePlaceholder":{"type":"string","default":""},"emailPlaceholder":{"type":"string","default":""},"buttonText":{"type":"string","default":""},"description":{"type":"string","default":""},"facebookUrl":{"type":"string","default":"#"},"youtubeUrl":{"type":"string","default":"#"},"twitterUrl":{"type":"string","default":"#"},"instagramUrl":{"type":"string","default":"#"},"linkedinUrl":{"type":"string","default":"#"}},"description":"Example block scaffolded with Create Block tool.","example":{},"supports":{"html":false},"textdomain":"email-banner","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"create-block/email-banner","version":"0.1.0","title":"email banner","category":"seedx_blocks_other","icon":"layout","attributes":{"title":{"type":"string","default":""},"firstNamePlaceholder":{"type":"string","default":""},"lastNamePlaceholder":{"type":"string","default":""},"emailPlaceholder":{"type":"string","default":""},"buttonText":{"type":"string","default":""},"description":{"type":"string","default":""},"facebookUrl":{"type":"string","default":"#"},"youtubeUrl":{"type":"string","default":"#"},"twitterUrl":{"type":"string","default":"#"},"instagramUrl":{"type":"string","default":"#"},"linkedinUrl":{"type":"string","default":"#"}},"description":"Example block scaffolded with Create Block tool.","example":{},"supports":{"html":false},"textdomain":"email-banner","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ }),
 
@@ -39,6 +39,7 @@ function Edit({
   setAttributes
 }) {
   const {
+    title,
     firstNamePlaceholder,
     lastNamePlaceholder,
     emailPlaceholder,
@@ -65,28 +66,16 @@ function Edit({
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.PanelBody, {
         title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Form Settings', ''),
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Title', ''),
+          value: title,
+          onChange: value => setAttributes({
+            title: value
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
           label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Description', ''),
           value: description,
           onChange: value => setAttributes({
             description: value
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
-          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('First Name Placeholder', ''),
-          value: firstNamePlaceholder,
-          onChange: value => setAttributes({
-            firstNamePlaceholder: value
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
-          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Last Name Placeholder', ''),
-          value: lastNamePlaceholder,
-          onChange: value => setAttributes({
-            lastNamePlaceholder: value
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
-          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Email Placeholder', ''),
-          value: emailPlaceholder,
-          onChange: value => setAttributes({
-            emailPlaceholder: value
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
           label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Button Text', ''),
@@ -133,23 +122,23 @@ function Edit({
       children: description
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h2", {
       className: "text-light fs-5",
-      children: "Get Updates"
+      children: title
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
       className: "d-flex justify-content-center gap-2 mb-2",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
         type: "text",
-        placeholder: firstNamePlaceholder,
+        placeholder: "first name",
         className: "p-2",
         disabled: true
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
         type: "text",
-        placeholder: lastNamePlaceholder,
+        placeholder: "last name",
         className: "p-2",
         disabled: true
       })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
       type: "email",
-      placeholder: emailPlaceholder,
+      placeholder: "email",
       className: "p-2 mb-2 w-75",
       disabled: true
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {

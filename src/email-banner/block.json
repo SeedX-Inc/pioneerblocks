@@ -4,9 +4,13 @@
 	"name": "create-block/email-banner",
 	"version": "0.1.0",
 	"title": "email banner",
-	"category": "seedx_blocks",
+	"category": "seedx_blocks_other",
 	"icon": "layout",
 	"attributes": {
+		"title": {
+			"type": "string",
+			"default": ""
+		},
 		"firstNamePlaceholder": {
 			"type": "string",
 			"default": ""

@@ -11,6 +11,7 @@ export default function Edit({ attributes, setAttributes }) {
     // Fetch episodes that belong to any podcast taxonomy
     const episodeOptions = useSelect(select => {
         const episodes = select('core').getEntityRecords('postType', 'episode', { per_page: -1 }) || [];
+		console.log(episodes)
         return episodes
             .filter(episode => episode.podcast && episode.podcast.length > 0) // Ensure episode has at least one podcast taxonomy term
             .map(episode => ({ label: episode.title.rendered, value: encodeId(episode.id) }));
@@ -22,7 +23,7 @@ export default function Edit({ attributes, setAttributes }) {
 			setAttributes({ selectedEpisodes: [...selectedEpisodes, episodeId] });
 		}
 	};
-	
+
 
     const removeEpisode = (episodeId) => {
         setAttributes({ selectedEpisodes: selectedEpisodes.filter(id => id !== episodeId) });

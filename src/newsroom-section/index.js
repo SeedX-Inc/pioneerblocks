@@ -12,7 +12,11 @@ registerBlockType( metadata.name, {
 			type: 'string',
 			default: '',
 		},
-		selectedNews: {
+		featuredPost: {
+			type: 'string',
+			default: '',
+		},
+		rightSideNews: {
 			type: 'array',
 			default: [],
 		},

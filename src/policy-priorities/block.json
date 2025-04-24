@@ -4,7 +4,7 @@
 	"name": "create-block/policy-priorities",
 	"version": "0.1.0",
 	"title": "Policy Priorities",
-	"category": "seedx_blocks",
+	"category": "seedx_blocks_home",
 	"icon": "layout",
 	"description": "A block to display policy priorities with descriptions and tags.",
 	"supports": {

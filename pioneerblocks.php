@@ -3,7 +3,7 @@
 /**
  * Plugin Name:       Pioneer blocks
  * Description:       Pioneer custom blocks.
- * Version:           0.1.18
+ * Version:           0.1.19
  * Requires at least: 6.7
  * Requires PHP:      7.4
  * Author:            The WordPress Contributors
@@ -23,12 +23,56 @@ function pioneerblocks_register_block_category($categories, $post) {
 	return array_merge(
 		[
 			[
-				'slug'  => 'seedx_blocks',
-				'title' => __('Pioneer Blocks', 'pioneerblocks'),
+				'slug'  => 'seedx_blocks_other',
+				'title' => __('Pioneer Blocks: Other pages and common blocks', 'pioneerblocks'),
+				'icon'  => 'blocks',
+			],
+			[
+				'slug'  => 'seedx_blocks_home',
+				'title' => __('Pioneer Blocks: Home page', 'pioneerblocks'),
+				'icon'  => 'blocks',
+			],
+			[
+				'slug'  => 'seedx_blocks_pillar',
+				'title' => __('Pioneer Blocks: Pillar pages', 'pioneerblocks'),
+				'icon'  => 'blocks',
+			],
+			[
+				'slug'  => 'seedx_blocks_podcasts',
+				'title' => __('Pioneer Blocks: Podcasts pages', 'pioneerblocks'),
+				'icon'  => 'blocks',
+			],
+			[
+				'slug'  => 'seedx_blocks_donate',
+				'title' => __('Pioneer Blocks: Donate page', 'pioneerblocks'),
+				'icon'  => 'blocks',
+			],
+			[
+				'slug'  => 'seedx_blocks_about',
+				'title' => __('Pioneer Blocks: About, Career and Mission pages', 'pioneerblocks'),
+				'icon'  => 'blocks',
+			],
+			[
+				'slug'  => 'seedx_blocks_staff',
+				'title' => __('Pioneer Blocks: Staff pages', 'pioneerblocks'),
+				'icon'  => 'blocks',
+			],
+			[
+				'slug'  => 'seedx_blocks_finances',
+				'title' => __('Pioneer Blocks: Finances page', 'pioneerblocks'),
+				'icon'  => 'blocks',
+			],
+			[
+				'slug'  => 'seedx_blocks_events',
+				'title' => __('Pioneer Blocks: Events page', 'pioneerblocks'),
+				'icon'  => 'blocks',
+			],
+			[
+				'slug'  => 'seedx_blocks_pages',
+				'title' => __('Pioneer Blocks: Bookshelf page, ', 'pioneerblocks'),
 				'icon'  => 'blocks',
 			],
 		],
-
 		$categories
 	);
 }
@@ -63,11 +107,21 @@ function create_block_pioneerblocks_block_init() {
 		__DIR__ . '/build/content-social-podcast',
 		__DIR__ . '/build/latest-episodes',
 		__DIR__ . '/build/featured-episode',
+		__DIR__ . '/build/featured-event',
 		__DIR__ . '/build/books-list',
 		__DIR__ . '/build/our-history',
 		__DIR__ . '/build/careers-page',
 		__DIR__ . '/build/career-content-section', // Sub-block for repeatable content
 		__DIR__ . '/build/internship-subsection',
+		__DIR__ . '/build/upcoming-previous-events',
+		__DIR__ . '/build/signature-events',
+		__DIR__ . '/build/annual-reports',
+		__DIR__ . '/build/reports-list',
+		__DIR__ . '/build/pioneer-stewards-accordeon',
+		__DIR__ . '/build/donation-accordeon',
+		__DIR__ . '/build/donation-page-banner',
+		__DIR__ . '/build/stewards-content-block',
+		__DIR__ . '/build/search-page',
 	];
 
 	foreach ($block_paths as $path) {

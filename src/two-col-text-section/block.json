@@ -4,7 +4,7 @@
 	"name": "create-block/two-col-text-section",
 	"version": "0.1.0",
 	"title": "Two Column text Section",
-	"category": "seedx_blocks",
+	"category": "seedx_blocks_other",
 	"attributes": {
 		"title": {
 			"type": "string",

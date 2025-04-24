@@ -4,7 +4,7 @@
   "name": "create-block/directors-list",
   "version": "0.1.0",
   "title": "Directors List",
-  "category": "seedx_blocks",
+  "category": "seedx_blocks_staff",
   "icon": "editor-table",
   "description": "Example block scaffolded with Create Block tool.",
   "example": {},

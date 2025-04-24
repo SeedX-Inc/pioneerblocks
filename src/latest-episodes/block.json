@@ -4,7 +4,7 @@
 	"name": "create-block/latest-episodes",
 	"version": "0.1.0",
 	"title": "Latest episodes",
-	"category": "",
+	"category": "seedx_blocks_podcasts",
 	"icon": "layout",
 	"description": "Example block scaffolded with Create Block tool.",
 	"example": {},
