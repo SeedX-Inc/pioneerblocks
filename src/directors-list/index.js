@@ -10,6 +10,14 @@ registerBlockType(metadata.name, {
 			type: 'string',
 			default: '',
 		},
+		isImages: {
+			type: 'boolean',
+			default: false,
+		},
+		isIcons: {
+			type: 'boolean',
+			default: false,
+		},
 		selectedStaff: {
 			type: 'array',
 			default: [],
