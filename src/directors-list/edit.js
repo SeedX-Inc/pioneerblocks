@@ -6,6 +6,7 @@ import './editor.scss';
 
 export default function Edit({ attributes, setAttributes }) {
 	const { title, selectedStaff, isImages, isIcons } = attributes;
+
 	const encodeId = (id) => btoa(`post:${id}`);
 	const decodeId = (graphqlId) => {
 		try {
@@ -15,18 +16,34 @@ export default function Edit({ attributes, setAttributes }) {
 			return null;
 		}
 	};
-	const staffOptions = useSelect(select => {
+
+	const staffOptions = useSelect((select) => {
 		const posts = select('core').getEntityRecords('postType', 'staff', { per_page: -1 }) || [];
-		return posts.map(post => ({ label: post.title.rendered, value: encodeId(post.id) }));
+		return posts.map((post) => ({ label: post.title.rendered, value: encodeId(post.id) }));
 	}, []);
+
 	const addStaff = (staffId) => {
-		if (!selectedStaff.includes(staffId)) {
-			setAttributes({ selectedStaff: [...selectedStaff, staffId] });
+		if (!selectedStaff.some((staff) => staff.id === staffId)) {
+			setAttributes({
+				selectedStaff: [...selectedStaff, { id: staffId, subtitle: '' }],
+			});
 		}
 	};
+
 	const removeStaff = (staffId) => {
-		setAttributes({ selectedStaff: selectedStaff.filter(id => id !== staffId) });
+		setAttributes({
+			selectedStaff: selectedStaff.filter((staff) => staff.id !== staffId),
+		});
 	};
+
+	const updateSubtitle = (staffId, newSubtitle) => {
+		setAttributes({
+			selectedStaff: selectedStaff.map((staff) =>
+				staff.id === staffId ? { ...staff, subtitle: newSubtitle } : staff
+			),
+		});
+	};
+
 	return (
 		<div {...useBlockProps({ className: 'directors-list' })}>
 			<InspectorControls>
@@ -36,13 +53,11 @@ export default function Edit({ attributes, setAttributes }) {
 						value={title || ''}
 						onChange={(newTitle) => setAttributes({ title: newTitle })}
 					/>
-
 					<ToggleControl
 						label={__('Show Images', 'directors-list')}
 						checked={isImages}
 						onChange={(value) => setAttributes({ isImages: value })}
 					/>
-
 					<ToggleControl
 						label={__('Show Icons', 'directors-list')}
 						checked={isIcons}
@@ -61,12 +76,22 @@ export default function Edit({ attributes, setAttributes }) {
 
 			<h2>{__('Selected Staff Members', 'directors-list')}</h2>
 			<ul>
-				{selectedStaff.map((staffId) => {
-					const staff = staffOptions.find(staff => staff.value === staffId);
+				{selectedStaff.map((staff) => {
+					const staffOption = staffOptions.find((option) => option.value === staff.id);
 					return (
-						<li key={staffId}>
-							{staff?.label || __('Unknown Staff', 'directors-list')}
-							<Button isDestructive onClick={() => removeStaff(staffId)}>Remove</Button>
+						<li key={staff.id}>
+							<div>
+								<strong>{staffOption?.label || __('Unknown Staff', 'directors-list')}</strong>
+								<TextControl
+									label={__('Subtitle', 'directors-list')}
+									value={staff.subtitle}
+									onChange={(newSubtitle) => updateSubtitle(staff.id, newSubtitle)}
+									placeholder={__('Enter subtitle', 'directors-list')}
+								/>
+								<Button isDestructive onClick={() => removeStaff(staff.id)}>
+									{__('Remove', 'directors-list')}
+								</Button>
+							</div>
 						</li>
 					);
 				})}
