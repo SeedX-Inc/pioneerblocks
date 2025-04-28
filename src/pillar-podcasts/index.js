@@ -1,24 +1,26 @@
 import { registerBlockType } from '@wordpress/blocks';
+
 import './style.scss';
+
 import Edit from './edit';
 import save from './save';
 import metadata from './block.json';
 
-registerBlockType(metadata.name, {
+registerBlockType( metadata.name, {
 	attributes: {
 		title: {
 			type: 'string',
 			default: '',
 		},
-		isImages: {
-			type: 'boolean',
-			default: false,
+		description: {
+			type: 'string',
+			default: '',
 		},
-		isIcons: {
-			type: 'boolean',
-			default: false,
+		selectedPillar: {
+			type: "string",
+			default: "all"
 		},
-		selectedStaff: {
+		selectedEpisodes: {
 			type: 'array',
 			default: [],
 		},
@@ -31,5 +33,5 @@ registerBlockType(metadata.name, {
 	/**
 	 * @see ./save.js
 	 */
-	// save,
-});
+	save,
+} );

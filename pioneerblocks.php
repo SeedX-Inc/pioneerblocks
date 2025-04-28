@@ -3,7 +3,7 @@
 /**
  * Plugin Name:       Pioneer blocks
  * Description:       Pioneer custom blocks.
- * Version:           0.1.19
+ * Version:           0.1.20
  * Requires at least: 6.7
  * Requires PHP:      7.4
  * Author:            The WordPress Contributors
@@ -122,6 +122,7 @@ function create_block_pioneerblocks_block_init() {
 		__DIR__ . '/build/donation-page-banner',
 		__DIR__ . '/build/stewards-content-block',
 		__DIR__ . '/build/search-page',
+		__DIR__ . '/build/pillar-podcasts',
 	];
 
 	foreach ($block_paths as $path) {

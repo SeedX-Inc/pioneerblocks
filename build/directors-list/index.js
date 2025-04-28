@@ -45,23 +45,19 @@ function Edit({
 }) {
   const {
     title,
-    selectedStaff
+    selectedStaff,
+    isImages,
+    isIcons
   } = attributes;
-
-  // Function to encode WordPress numeric ID to GraphQL format
   const encodeId = id => btoa(`post:${id}`);
-
-  // Function to decode GraphQL ID back to WordPress numeric ID
   const decodeId = graphqlId => {
     try {
-      const decoded = atob(graphqlId); // Convert from base64
-      return parseInt(decoded.replace('post:', ''), 10); // Extract numeric ID
+      const decoded = atob(graphqlId);
+      return parseInt(decoded.replace('post:', ''), 10);
     } catch (e) {
       return null;
     }
   };
-
-  // Fetch published staff posts
   const staffOptions = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(select => {
     const posts = select('core').getEntityRecords('postType', 'staff', {
       per_page: -1
@@ -69,30 +65,61 @@ function Edit({
     return posts.map(post => ({
       label: post.title.rendered,
       value: encodeId(post.id)
-    })); // Encode IDs
+    }));
   }, []);
-
-  // Handle staff selection
   const addStaff = staffId => {
-    if (!selectedStaff.includes(staffId)) {
+    if (!selectedStaff.some(staff => staff.id === staffId)) {
       setAttributes({
-        selectedStaff: [...selectedStaff, staffId]
+        selectedStaff: [...selectedStaff, {
+          id: staffId,
+          subtitle: ''
+        }]
       });
     }
   };
   const removeStaff = staffId => {
     setAttributes({
-      selectedStaff: selectedStaff.filter(id => id !== staffId)
+      selectedStaff: selectedStaff.filter(staff => staff.id !== staffId)
+    });
+  };
+  const updateSubtitle = (staffId, newSubtitle) => {
+    setAttributes({
+      selectedStaff: selectedStaff.map(staff => staff.id === staffId ? {
+        ...staff,
+        subtitle: newSubtitle
+      } : staff)
     });
   };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
     ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.useBlockProps)({
       className: 'directors-list'
     }),
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.InspectorControls, {
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.PanelBody, {
-        title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Select Staff Members', 'directors-list'),
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.InspectorControls, {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.PanelBody, {
+        title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Settings', 'directors-list'),
         initialOpen: true,
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Block Title', 'data-lab'),
+          value: title || '',
+          onChange: newTitle => setAttributes({
+            title: newTitle
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.ToggleControl, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Show Images', 'directors-list'),
+          checked: isImages,
+          onChange: value => setAttributes({
+            isImages: value
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.ToggleControl, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Show Icons', 'directors-list'),
+          checked: isIcons,
+          onChange: value => setAttributes({
+            isIcons: value
+          })
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.PanelBody, {
+        title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Select Staff Members', 'directors-list'),
+        initialOpen: false,
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.SelectControl, {
           label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Add Staff Member', 'directors-list'),
           options: [{
@@ -101,19 +128,28 @@ function Edit({
           }, ...staffOptions],
           onChange: value => value && addStaff(value)
         })
-      })
+      })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("h2", {
       children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Selected Staff Members', 'directors-list')
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("ul", {
-      children: selectedStaff.map(staffId => {
-        const staff = staffOptions.find(staff => staff.value === staffId);
-        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("li", {
-          children: [staff?.label || (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Unknown Staff', 'directors-list'), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
-            isDestructive: true,
-            onClick: () => removeStaff(staffId),
-            children: "Remove"
-          })]
-        }, staffId);
+      children: selectedStaff.map(staff => {
+        const staffOption = staffOptions.find(option => option.value === staff.id);
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("li", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("strong", {
+              children: staffOption?.label || (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Unknown Staff', 'directors-list')
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
+              label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Subtitle', 'directors-list'),
+              value: staff.subtitle,
+              onChange: newSubtitle => updateSubtitle(staff.id, newSubtitle),
+              placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Enter subtitle', 'directors-list')
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
+              isDestructive: true,
+              onClick: () => removeStaff(staff.id),
+              children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Remove', 'directors-list')
+            })]
+          })
+        }, staff.id);
       })
     })]
   });
@@ -156,6 +192,14 @@ __webpack_require__.r(__webpack_exports__);
     title: {
       type: 'string',
       default: ''
+    },
+    isImages: {
+      type: 'boolean',
+      default: false
+    },
+    isIcons: {
+      type: 'boolean',
+      default: false
     },
     selectedStaff: {
       type: 'array',

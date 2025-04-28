@@ -1,105 +1,103 @@
-import { useState } from '@wordpress/element';
-import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, SelectControl, Button, TextControl } from '@wordpress/components';
-import { useSelect } from '@wordpress/data';
-import { __ } from '@wordpress/i18n';
+import {useBlockProps, InspectorControls} from '@wordpress/block-editor';
+import {PanelBody, SelectControl, TextControl, ToggleControl} from '@wordpress/components';
+import {useSelect} from '@wordpress/data';
+import {__} from '@wordpress/i18n';
 import './editor.scss';
 
-export default function Edit({ attributes, setAttributes }) {
-	const { title, featuredEvent, rightSideEvents = [], bottomEvents = [] } = attributes;
-	const [searchTerm, setSearchTerm] = useState('');
+export default function Edit({attributes, setAttributes}) {
+	const {title, featuredEvent, selectedPillar, showBottomBlock} = attributes;
 
 	// Encode WordPress numeric ID to GraphQL format
-	const encodeId = (id) => btoa(`post:${id}`);
-	// Decode GraphQL encoded ID back to numeric ID
-	const decodeId = (encodedId) => {
-		try {
-			const decoded = atob(encodedId);
-			const match = decoded.match(/^post:(\d+)$/);
-			return match ? match[1] : null;
-		} catch (e) {
-			return null;
-		}
-	};
+	const encodeId = (id) => btoa(`event:${id}`);
 
-	// Fetch published event posts with search filter
+	// Fetch event posts for featured event selection
 	const eventOptions = useSelect(select => {
-		const query = { per_page: 20, search: searchTerm };
-		const events = select('core').getEntityRecords('postType', 'event', query) || [];
-		return events.map(event => ({ label: event.title.rendered, value: encodeId(event.id) }));
-	}, [searchTerm]);
+		const events = select('core').getEntityRecords('postType', 'event', {per_page: 20}) || [];
+		return events.map(event => ({label: event.title.rendered, value: encodeId(event.id)}));
+	}, []);
 
-	// Add event item to selected list
-	const addEvent = (list, value) => {
-		if (value && !attributes[list].includes(value)) {
-			setAttributes({ [list]: [...attributes[list], value] });
-		}
-	};
+	// Fetch and organize pillar taxonomy terms
+	const pillarOptions = useSelect(select => {
+		const terms = select('core').getEntityRecords('taxonomy', 'pillar', {per_page: -1, hierarchical: true}) || [];
+		const options = [{label: __('All', 'event-list'), value: 'all'}];
 
-	// Remove event item from selected list
-	const removeEvent = (list, value) => {
-		setAttributes({ [list]: attributes[list].filter(id => id !== value) });
-	};
+		// Create a map for quick lookup of terms
+		const termMap = new Map(terms.map(term => [term.id, {...term, children: []}]));
+
+		// Build hierarchical structure by assigning children to parents
+		terms.forEach(term => {
+			if (term.parent && termMap.has(term.parent)) {
+				termMap.get(term.parent).children.push(term.id);
+			}
+		});
+
+		// Function to recursively add terms to options
+		const addTermToOptions = (termId, prefix = '') => {
+			const term = termMap.get(termId);
+			if (!term) return;
+
+			// Add the current term
+			const label = prefix ? `${prefix} / ${term.name}` : term.name;
+			options.push({label, value: term.slug});
+
+			// Add children recursively
+			term.children.forEach(childId => {
+				addTermToOptions(childId, prefix ? `${prefix} / ${term.name}` : term.name);
+			});
+		};
+
+		// Add top-level terms (no parent) and their children
+		terms.filter(term => !term.parent).forEach(term => {
+			addTermToOptions(term.id);
+		});
+
+		return options;
+	}, []);
 
 	return (
-		<div {...useBlockProps({ className: 'event-list' })}>
+		<div {...useBlockProps({className: 'event-list'})}>
 			<InspectorControls>
 				<PanelBody title={__('Event Block Settings', 'event-list')} initialOpen={true}>
 					<TextControl
 						label={__('Title', 'event-list')}
 						value={title || ''}
-						onChange={newTitle => setAttributes({ title: newTitle })}
+						onChange={newTitle => setAttributes({title: newTitle})}
 					/>
-					<TextControl
-						label={__('Search Events', 'event-list')}
-						value={searchTerm}
-						onChange={setSearchTerm}
-						placeholder={__('Type to search...', 'event-list')}
-					/>
-
 					<SelectControl
 						label={__('Featured Event', 'event-list')}
-						options={[{ label: __('Select an Event', 'event-list'), value: '' }, ...eventOptions]}
+						options={[{label: __('Select an Event', 'event-list'), value: ''}, ...eventOptions]}
 						value={featuredEvent}
-						onChange={(value) => setAttributes({ featuredEvent: value })}
+						onChange={(value) => setAttributes({featuredEvent: value})}
 					/>
-
 					<SelectControl
-						label={__('Add to Right-Side Events', 'event-list')}
-						options={[{ label: __('Select an Event', 'event-list'), value: '' }, ...eventOptions]}
-						onChange={(value) => addEvent('rightSideEvents', value)}
+						label={__('Select Pillar', 'event-list')}
+						options={pillarOptions}
+						value={selectedPillar || 'all'}
+						onChange={(value) => setAttributes({selectedPillar: value})}
 					/>
-					<ul>
-						{rightSideEvents.map(id => (
-							<li key={id}>
-								{eventOptions.find(n => n.value === id)?.label || __('Unknown', 'event-list')}
-								<Button isDestructive onClick={() => removeEvent('rightSideEvents', id)}>Remove</Button>
-							</li>
-						))}
-					</ul>
-
-					<SelectControl
-						label={__('Add to Bottom Events', 'event-list')}
-						options={[{ label: __('Select an Event', 'event-list'), value: '' }, ...eventOptions]}
-						onChange={(value) => addEvent('bottomEvents', value)}
+					<ToggleControl
+						label={__('Show Events Bottom Block', 'event-list')}
+						checked={showBottomBlock || false}
+						onChange={(value) => setAttributes({showBottomBlock: value})}
 					/>
-					<ul>
-						{bottomEvents.map(id => (
-							<li key={id}>
-								{eventOptions.find(n => n.value === id)?.label || __('Unknown', 'event-list')}
-								<Button isDestructive onClick={() => removeEvent('bottomEvents', id)}>Remove</Button>
-							</li>
-						))}
-					</ul>
 				</PanelBody>
 			</InspectorControls>
 
 			<h2>{title || __('Event Block', 'event-list')}</h2>
 			<ul>
-				<li><strong>{__('Featured Event:', 'event-list')}</strong> {eventOptions.find(n => n.value === featuredEvent)?.label || __('None', 'event-list')}</li>
-				<li><strong>{__('Right-Side Events:', 'event-list')}</strong> {rightSideEvents.map(id => eventOptions.find(n => n.value === id)?.label || __('Unknown', 'event-list')).join(', ')}</li>
-				<li><strong>{__('Bottom Events:', 'event-list')}</strong> {bottomEvents.map(id => eventOptions.find(n => n.value === id)?.label || __('Unknown', 'event-list')).join(', ')}</li>
+				<li>
+					<strong>{__('Featured Event:', 'event-list')}</strong>{' '}
+					{eventOptions.find(n => n.value === featuredEvent)?.label || __('None', 'event-list')}
+				</li>
+				<li>
+					<strong>{__('Selected Pillar:', 'event-list')}</strong>{' '}
+					{pillarOptions.find(p => p.value === selectedPillar)?.label || __('All', 'event-list')}
+				</li>
+				<li>
+					<strong>{__('Show Events Bottom Block:', 'event-list')}</strong>{' '}
+					{showBottomBlock ? __('Yes', 'event-list') : __('No', 'event-list')}
+				</li>
 			</ul>
 		</div>
-	);
+	)
 }

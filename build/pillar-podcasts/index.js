@@ -2,20 +2,20 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/experts-slider/block.json":
-/*!***************************************!*\
-  !*** ./src/experts-slider/block.json ***!
-  \***************************************/
+/***/ "./src/pillar-podcasts/block.json":
+/*!****************************************!*\
+  !*** ./src/pillar-podcasts/block.json ***!
+  \****************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"create-block/experts-slider","version":"0.1.0","title":"Experts slider","category":"seedx_blocks_pillar","icon":"layout","description":"Example block scaffolded with Create Block tool.","example":{},"supports":{"html":false},"textdomain":"experts-slider","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"create-block/pillar-podcasts","version":"0.1.0","title":"Pillar Podcasts","category":"seedx_blocks_pillar","icon":"layout","description":"Example block scaffolded with Create Block tool.","example":{},"supports":{"html":false},"textdomain":"pillar-podcasts","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ }),
 
-/***/ "./src/experts-slider/edit.js":
-/*!************************************!*\
-  !*** ./src/experts-slider/edit.js ***!
-  \************************************/
+/***/ "./src/pillar-podcasts/edit.js":
+/*!*************************************!*\
+  !*** ./src/pillar-podcasts/edit.js ***!
+  \*************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -30,7 +30,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./editor.scss */ "./src/experts-slider/editor.scss");
+/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./editor.scss */ "./src/pillar-podcasts/editor.scss");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__);
 
@@ -45,112 +45,147 @@ function Edit({
 }) {
   const {
     title,
-    selectedStaff
+    description,
+    selectedEpisodes,
+    selectedPillar
   } = attributes;
 
   // Function to encode WordPress numeric ID to GraphQL format
   const encodeId = id => btoa(`post:${id}`);
 
-  // Function to decode GraphQL ID back to WordPress numeric ID
-  const decodeId = graphqlId => {
-    try {
-      const decoded = atob(graphqlId);
-      return parseInt(decoded.replace('post:', ''), 10);
-    } catch (e) {
-      return null;
-    }
-  };
-
-  // Fetch published staff posts
-  const staffOptions = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(select => {
-    const posts = select('core').getEntityRecords('postType', 'staff', {
+  // Fetch episodes that belong to any podcast taxonomy
+  const episodeOptions = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(select => {
+    const episodes = select('core').getEntityRecords('postType', 'episode', {
       per_page: -1
     }) || [];
-    return posts.map(post => ({
-      label: post.title.rendered,
-      value: encodeId(post.id)
+    return episodes.filter(episode => episode.podcast && episode.podcast.length > 0).map(episode => ({
+      label: episode.title.rendered,
+      value: encodeId(episode.id)
     }));
   }, []);
 
-  // Handle staff selection
-  const addStaff = staffId => {
-    if (!selectedStaff.some(staff => staff.id === staffId)) {
+  // Fetch and organize pillar taxonomy terms
+  const pillarOptions = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(select => {
+    const terms = select('core').getEntityRecords('taxonomy', 'pillar', {
+      per_page: -1,
+      hierarchical: true
+    }) || [];
+    const options = [{
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('All', 'episodes-list'),
+      value: 'all'
+    }];
+
+    // Create a map for quick lookup of terms
+    const termMap = new Map(terms.map(term => [term.id, {
+      ...term,
+      children: []
+    }]));
+
+    // Build hierarchical structure by assigning children to parents
+    terms.forEach(term => {
+      if (term.parent && termMap.has(term.parent)) {
+        termMap.get(term.parent).children.push(term.id);
+      }
+    });
+
+    // Function to recursively add terms to options
+    const addTermToOptions = (termId, prefix = '') => {
+      const term = termMap.get(termId);
+      if (!term) return;
+
+      // Add the current term
+      const label = prefix ? `${prefix} / ${term.name}` : term.name;
+      options.push({
+        label,
+        value: term.slug
+      });
+
+      // Add children recursively
+      term.children.forEach(childId => {
+        addTermToOptions(childId, prefix ? `${prefix} / ${term.name}` : term.name);
+      });
+    };
+
+    // Add top-level terms (no parent) and their children
+    terms.filter(term => !term.parent).forEach(term => {
+      addTermToOptions(term.id);
+    });
+    return options;
+  }, []);
+  const addEpisode = episodeId => {
+    if (!selectedEpisodes.includes(episodeId)) {
       setAttributes({
-        selectedStaff: [...selectedStaff, {
-          id: staffId,
-          subtitle: ''
-        }]
+        selectedEpisodes: [...selectedEpisodes, episodeId]
       });
     }
   };
-  const removeStaff = staffId => {
+  const removeEpisode = episodeId => {
     setAttributes({
-      selectedStaff: selectedStaff.filter(staff => staff.id !== staffId)
-    });
-  };
-  const updateSubtitle = (staffId, newSubtitle) => {
-    setAttributes({
-      selectedStaff: selectedStaff.map(staff => staff.id === staffId ? {
-        ...staff,
-        subtitle: newSubtitle
-      } : staff)
+      selectedEpisodes: selectedEpisodes.filter(id => id !== episodeId)
     });
   };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
     ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.useBlockProps)({
-      className: 'directors-list'
+      className: 'episodes-list'
     }),
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.InspectorControls, {
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.PanelBody, {
-        title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Select Experts', 'directors-list'),
+        title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Select Episodes', 'episodes-list'),
         initialOpen: true,
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
-          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Title', 'directors-list'),
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Title', 'episodes-list'),
           value: title || '',
           onChange: newTitle => setAttributes({
             title: newTitle
           })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Description', 'episodes-list'),
+          value: description || '',
+          onChange: newDescription => setAttributes({
+            description: newDescription
+          })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.SelectControl, {
-          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Add Expert', 'directors-list'),
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Add Episode', 'episodes-list'),
           options: [{
-            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Select an Expert', 'directors-list'),
+            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Select an Episode', 'episodes-list'),
             value: ''
-          }, ...staffOptions],
-          onChange: value => value && addStaff(value)
+          }, ...episodeOptions],
+          onChange: value => value && addEpisode(value)
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.SelectControl, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Select Pillar', 'episodes-list'),
+          options: pillarOptions,
+          value: selectedPillar || 'all',
+          onChange: value => setAttributes({
+            selectedPillar: value
+          })
         })]
       })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("h2", {
-      children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Selected Experts', 'directors-list')
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("ul", {
-      children: selectedStaff.map(staff => {
-        const staffOption = staffOptions.find(option => option.value === staff.id);
-        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("li", {
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("strong", {
-              children: staffOption?.label || (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Unknown Staff', 'directors-list')
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
-              label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Subtitle', 'directors-list'),
-              value: staff.subtitle,
-              onChange: newSubtitle => updateSubtitle(staff.id, newSubtitle),
-              placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Enter subtitle', 'directors-list')
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
-              isDestructive: true,
-              onClick: () => removeStaff(staff.id),
-              children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Remove', 'directors-list')
-            })]
-          })
-        }, staff.id);
-      })
+      children: title || (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Episodes Block', 'episodes-list')
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("ul", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("li", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("strong", {
+          children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Description:', 'episodes-list')
+        }), ' ', description || (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('None', 'episodes-list')]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("li", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("strong", {
+          children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Selected Pillar:', 'episodes-list')
+        }), ' ', pillarOptions.find(p => p.value === selectedPillar)?.label || (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('All', 'episodes-list')]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("li", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("strong", {
+          children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Selected Episodes:', 'episodes-list')
+        }), ' ', selectedEpisodes.map(id => episodeOptions.find(e => e.value === id)?.label || (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Unknown', 'episodes-list')).join(', ')]
+      })]
     })]
   });
 }
 
 /***/ }),
 
-/***/ "./src/experts-slider/editor.scss":
-/*!****************************************!*\
-  !*** ./src/experts-slider/editor.scss ***!
-  \****************************************/
+/***/ "./src/pillar-podcasts/editor.scss":
+/*!*****************************************!*\
+  !*** ./src/pillar-podcasts/editor.scss ***!
+  \*****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -159,54 +194,39 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/experts-slider/index.js":
-/*!*************************************!*\
-  !*** ./src/experts-slider/index.js ***!
-  \*************************************/
+/***/ "./src/pillar-podcasts/index.js":
+/*!**************************************!*\
+  !*** ./src/pillar-podcasts/index.js ***!
+  \**************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./style.scss */ "./src/experts-slider/style.scss");
-/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./edit */ "./src/experts-slider/edit.js");
-/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./save */ "./src/experts-slider/save.js");
-/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./block.json */ "./src/experts-slider/block.json");
-/**
- * Registers a new block provided a unique name and an object defining its behavior.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
- */
-
-
-/**
- * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
- * All files containing `style` keyword are bundled together. The code used
- * gets applied both to the front of your site and to the editor.
- *
- * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
- */
-
-
-/**
- * Internal dependencies
- */
+/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./style.scss */ "./src/pillar-podcasts/style.scss");
+/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./edit */ "./src/pillar-podcasts/edit.js");
+/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./save */ "./src/pillar-podcasts/save.js");
+/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./block.json */ "./src/pillar-podcasts/block.json");
 
 
 
 
-/**
- * Every block starts by registering a new block type definition.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
- */
+
 (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.registerBlockType)(_block_json__WEBPACK_IMPORTED_MODULE_4__.name, {
   attributes: {
     title: {
       type: 'string',
       default: ''
     },
-    selectedStaff: {
+    description: {
+      type: 'string',
+      default: ''
+    },
+    selectedPillar: {
+      type: "string",
+      default: "all"
+    },
+    selectedEpisodes: {
       type: 'array',
       default: []
     }
@@ -223,10 +243,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/experts-slider/save.js":
-/*!************************************!*\
-  !*** ./src/experts-slider/save.js ***!
-  \************************************/
+/***/ "./src/pillar-podcasts/save.js":
+/*!*************************************!*\
+  !*** ./src/pillar-podcasts/save.js ***!
+  \*************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -264,10 +284,10 @@ function save() {
 
 /***/ }),
 
-/***/ "./src/experts-slider/style.scss":
-/*!***************************************!*\
-  !*** ./src/experts-slider/style.scss ***!
-  \***************************************/
+/***/ "./src/pillar-podcasts/style.scss":
+/*!****************************************!*\
+  !*** ./src/pillar-podcasts/style.scss ***!
+  \****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -446,8 +466,8 @@ module.exports = window["ReactJSXRuntime"];
 /******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
 /******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
 /******/ 		var installedChunks = {
-/******/ 			"experts-slider/index": 0,
-/******/ 			"experts-slider/style-index": 0
+/******/ 			"pillar-podcasts/index": 0,
+/******/ 			"pillar-podcasts/style-index": 0
 /******/ 		};
 /******/ 		
 /******/ 		// no chunk on demand loading
@@ -497,7 +517,7 @@ module.exports = window["ReactJSXRuntime"];
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["experts-slider/style-index"], () => (__webpack_require__("./src/experts-slider/index.js")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["pillar-podcasts/style-index"], () => (__webpack_require__("./src/pillar-podcasts/index.js")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

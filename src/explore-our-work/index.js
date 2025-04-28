@@ -12,9 +12,10 @@ registerBlockType( metadata.name, {
 			type: 'string',
 			default: '',
 		},
-		selectedNews: {
-			type: 'array',
-			default: [],
+
+		selectedPillar: {
+			type: "string",
+			default: "all"
 		},
 	},
 	edit: Edit,

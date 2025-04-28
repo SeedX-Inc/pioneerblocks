@@ -14,13 +14,13 @@ registerBlockType("create-block/latest-news", {
 			type: 'string',
 			default: '',
 		},
-		rightSideNews: {
-			type: 'array',
-			default: [],
+		showBottomBlock: {
+			type: 'boolean',
+			default: false,
 		},
-		bottomNews: {
-			type: 'array',
-			default: [],
+		selectedPillar: {
+			type: "string",
+			default: "all"
 		},
 	},
 	edit: Edit,

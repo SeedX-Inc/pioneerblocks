@@ -16,9 +16,9 @@ registerBlockType( metadata.name, {
 			type: 'string',
 			default: '',
 		},
-		rightSideNews: {
-			type: 'array',
-			default: [],
+		selectedPillar: {
+			type: "string",
+			default: "all"
 		},
 	},
 	/**
