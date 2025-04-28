@@ -12,13 +12,17 @@ registerBlockType( metadata.name, {
 			type: 'string',
 			default: '',
 		},
-		featuredPost: {
+		description: {
 			type: 'string',
 			default: '',
 		},
 		selectedPillar: {
 			type: "string",
 			default: "all"
+		},
+		selectedEpisodes: {
+			type: 'array',
+			default: [],
 		},
 	},
 	/**

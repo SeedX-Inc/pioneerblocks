@@ -1,92 +1,103 @@
-import { useState } from '@wordpress/element';
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, SelectControl, Button, TextControl } from '@wordpress/components';
+import { PanelBody, SelectControl, TextControl, ToggleControl } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 import './editor.scss';
 
 export default function Edit({ attributes, setAttributes }) {
-    const { title, featuredPost, rightSideNews = [], bottomNews = [] } = attributes;
-    const [searchTerm, setSearchTerm] = useState('');
+	const { title, featuredPost, selectedPillar, showBottomBlock } = attributes;
 
-    // Encode WordPress numeric ID to GraphQL format
-    const encodeId = (id) => btoa(`post:${id}`);
-    const newsOptions = useSelect(select => {
-        const query = { per_page: 20, search: searchTerm };
-        const posts = select('core').getEntityRecords('postType', 'post', query) || [];
-        return posts.map(post => ({ label: post.title.rendered, value: encodeId(post.id) }));
-    }, [searchTerm]);
+	// Encode WordPress numeric ID to GraphQL format
+	const encodeId = (id) => btoa(`post:${id}`);
 
-    const addNews = (list, value) => {
-        if (value && !list.includes(value)) {
-            setAttributes({ [list]: [...attributes[list], value] });
-        }
-    };
+	// Fetch news posts for featured post selection
+	const newsOptions = useSelect(select => {
+		const posts = select('core').getEntityRecords('postType', 'post', { per_page: 20 }) || [];
+		return posts.map(post => ({ label: post.title.rendered, value: encodeId(post.id) }));
+	}, []);
 
-    // Remove news item from selected list
-    const removeNews = (list, value) => {
-        setAttributes({ [list]: attributes[list].filter(id => id !== value) });
-    };
+	// Fetch and organize pillar taxonomy terms
+	const pillarOptions = useSelect(select => {
+		const terms = select('core').getEntityRecords('taxonomy', 'pillar', { per_page: -1, hierarchical: true }) || [];
+		const options = [{ label: __('All', 'news-list'), value: 'all' }];
 
-    return (
-        <div {...useBlockProps({ className: 'news-list' })}>
-            <InspectorControls>
-                <PanelBody title={__('News Block Settings', 'news-list')} initialOpen={true}>
+		// Create a map for quick lookup of terms
+		const termMap = new Map(terms.map(term => [term.id, { ...term, children: [] }]));
+
+		// Build hierarchical structure by assigning children to parents
+		terms.forEach(term => {
+			if (term.parent && termMap.has(term.parent)) {
+				termMap.get(term.parent).children.push(term.id);
+			}
+		});
+
+		// Function to recursively add terms to options
+		const addTermToOptions = (termId, prefix = '') => {
+			const term = termMap.get(termId);
+			if (!term) return;
+
+			// Add the current term
+			const label = prefix ? `${prefix} / ${term.name}` : term.name;
+			options.push({ label, value: term.slug });
+
+			// Add children recursively
+			term.children.forEach(childId => {
+				addTermToOptions(childId, prefix ? `${prefix} / ${term.name}` : term.name);
+			});
+		};
+
+		// Add top-level terms (no parent) and their children
+		terms.filter(term => !term.parent).forEach(term => {
+			addTermToOptions(term.id);
+		});
+
+		return options;
+	}, []);
+
+	return (
+		<div {...useBlockProps({ className: 'news-list' })}>
+			<InspectorControls>
+				<PanelBody title={__('News Block Settings', 'news-list')} initialOpen={true}>
 					<TextControl
-						label={__('Title', 'directors-list')}
+						label={__('Title', 'news-list')}
 						value={title || ''}
 						onChange={newTitle => setAttributes({ title: newTitle })}
 					/>
-                    <TextControl
-                        label={__('Search News', 'news-list')}
-                        value={searchTerm}
-                        onChange={setSearchTerm}
-                        placeholder={__('Type to search...', 'news-list')}
-                    />
+					<SelectControl
+						label={__('Featured Post', 'news-list')}
+						options={[{ label: __('Select a Post', 'news-list'), value: '' }, ...newsOptions]}
+						value={featuredPost}
+						onChange={(value) => setAttributes({ featuredPost: value })}
+					/>
+					<SelectControl
+						label={__('Select Pillar', 'news-list')}
+						options={pillarOptions}
+						value={selectedPillar || 'all'}
+						onChange={(value) => setAttributes({ selectedPillar: value })}
+					/>
+					<ToggleControl
+						label={__('Show News Bottom Block', 'news-list')}
+						checked={showBottomBlock || false}
+						onChange={(value) => setAttributes({ showBottomBlock: value })}
+					/>
+				</PanelBody>
+			</InspectorControls>
 
-                    <SelectControl
-                        label={__('Featured Post', 'news-list')}
-                        options={[{ label: __('Select a Post', 'news-list'), value: '' }, ...newsOptions]}
-                        value={featuredPost}
-                        onChange={(value) => setAttributes({ featuredPost: value })}
-                    />
-
-                    <SelectControl
-                        label={__('Add to Right-Side News', 'news-list')}
-                        options={[{ label: __('Select a Post', 'news-list'), value: '' }, ...newsOptions]}
-                        onChange={(value) => addNews('rightSideNews', value)}
-                    />
-                    <ul>
-                        {rightSideNews.map(id => (
-                            <li key={id}>
-                                {newsOptions.find(n => n.value === id)?.label || __('Unknown', 'news-list')}
-                                <Button isDestructive onClick={() => removeNews('rightSideNews', id)}>Remove</Button>
-                            </li>
-                        ))}
-                    </ul>
-
-                    <SelectControl
-                        label={__('Add to Bottom News', 'news-list')}
-                        options={[{ label: __('Select a Post', 'news-list'), value: '' }, ...newsOptions]}
-                        onChange={(value) => addNews('bottomNews', value)}
-                    />
-                    <ul>
-                        {bottomNews.map(id => (
-                            <li key={id}>
-                                {newsOptions.find(n => n.value === id)?.label || __('Unknown', 'news-list')}
-                                <Button isDestructive onClick={() => removeNews('bottomNews', id)}>Remove</Button>
-                            </li>
-                        ))}
-                    </ul>
-                </PanelBody>
-            </InspectorControls>
-
-            <h2>{title || __('News Block', 'news-list')}</h2>
-            <ul>
-                <li><strong>{__('Featured Post:', 'news-list')}</strong> {newsOptions.find(n => n.value === featuredPost)?.label || __('None', 'news-list')}</li>
-                <li><strong>{__('Right-Side News:', 'news-list')}</strong> {rightSideNews.map(id => newsOptions.find(n => n.value === id)?.label || __('Unknown', 'news-list')).join(', ')}</li>
-                <li><strong>{__('Bottom News:', 'news-list')}</strong> {bottomNews.map(id => newsOptions.find(n => n.value === id)?.label || __('Unknown', 'news-list')).join(', ')}</li>
-            </ul>
-        </div>
-    );
+			<h2>{title || __('News Block', 'news-list')}</h2>
+			<ul>
+				<li>
+					<strong>{__('Featured Post:', 'news-list')}</strong>{' '}
+					{newsOptions.find(n => n.value === featuredPost)?.label || __('None', 'news-list')}
+				</li>
+				<li>
+					<strong>{__('Selected Pillar:', 'news-list')}</strong>{' '}
+					{pillarOptions.find(p => p.value === selectedPillar)?.label || __('All', 'news-list')}
+				</li>
+				<li>
+					<strong>{__('Show News Bottom Block:', 'news-list')}</strong>{' '}
+					{showBottomBlock ? __('Yes', 'news-list') : __('No', 'news-list')}
+				</li>
+			</ul>
+		</div>
+	);
 }

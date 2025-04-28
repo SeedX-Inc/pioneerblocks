@@ -45,79 +45,87 @@ function Edit({
 }) {
   const {
     title,
-    selectedNews
+    selectedPillar
   } = attributes;
 
-  // Function to encode WordPress numeric ID to GraphQL format
-  const encodeId = id => btoa(`post:${id}`);
-
-  // Function to decode GraphQL ID back to WordPress numeric ID
-  const decodeId = graphqlId => {
-    try {
-      const decoded = atob(graphqlId); // Convert from base64
-      return parseInt(decoded.replace('post:', ''), 10); // Extract numeric ID
-    } catch (e) {
-      return null;
-    }
-  };
-
-  // Fetch published news posts
-  const newsOptions = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(select => {
-    const posts = select('core').getEntityRecords('postType', 'post', {
-      per_page: -1
+  // Fetch and organize pillar taxonomy terms
+  const pillarOptions = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(select => {
+    const terms = select('core').getEntityRecords('taxonomy', 'pillar', {
+      per_page: -1,
+      hierarchical: true
     }) || [];
-    return posts.map(post => ({
-      label: post.title.rendered,
-      value: encodeId(post.id)
-    })); // Encode IDs
-  }, []);
-  const addNews = newsId => {
-    if (!selectedNews.includes(newsId)) {
-      setAttributes({
-        selectedNews: [...selectedNews, newsId]
-      });
-    }
-  };
-  const removeNews = newsId => {
-    setAttributes({
-      selectedNews: selectedNews.filter(id => id !== newsId)
+    const options = [{
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('All', 'news-list'),
+      value: 'all'
+    }];
+
+    // Create a map for quick lookup of terms
+    const termMap = new Map(terms.map(term => [term.id, {
+      ...term,
+      children: []
+    }]));
+
+    // Build hierarchical structure by assigning children to parents
+    terms.forEach(term => {
+      if (term.parent && termMap.has(term.parent)) {
+        termMap.get(term.parent).children.push(term.id);
+      }
     });
-  };
+
+    // Function to recursively add terms to options
+    const addTermToOptions = (termId, prefix = '') => {
+      const term = termMap.get(termId);
+      if (!term) return;
+
+      // Add the current term
+      const label = prefix ? `${prefix} / ${term.name}` : term.name;
+      options.push({
+        label,
+        value: term.slug
+      });
+
+      // Add children recursively
+      term.children.forEach(childId => {
+        addTermToOptions(childId, prefix ? `${prefix} / ${term.name}` : term.name);
+      });
+    };
+
+    // Add top-level terms (no parent) and their children
+    terms.filter(term => !term.parent).forEach(term => {
+      addTermToOptions(term.id);
+    });
+    return options;
+  }, []);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
     ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.useBlockProps)({
       className: 'news-list'
     }),
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.InspectorControls, {
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.PanelBody, {
-        title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Select News', 'news-list'),
+        title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('News Block Settings', 'news-list'),
         initialOpen: true,
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
-          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Title', 'directors-list'),
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Title', 'news-list'),
           value: title || '',
           onChange: newTitle => setAttributes({
             title: newTitle
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.SelectControl, {
-          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Add News', 'news-list'),
-          options: [{
-            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Select a News', 'news-list'),
-            value: ''
-          }, ...newsOptions],
-          onChange: value => value && addNews(value)
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Select Pillar', 'news-list'),
+          options: pillarOptions,
+          value: selectedPillar || 'all',
+          onChange: value => setAttributes({
+            selectedPillar: value
+          })
         })]
       })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("h2", {
-      children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Selected News', 'news-list')
+      children: title || (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('News Block', 'news-list')
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("ul", {
-      children: selectedNews.map(newsId => {
-        const news = newsOptions.find(news => news.value === newsId);
-        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("li", {
-          children: [news?.label || (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Unknown News', 'news-list'), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
-            isDestructive: true,
-            onClick: () => removeNews(newsId),
-            children: "Remove"
-          })]
-        }, newsId);
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("li", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("strong", {
+          children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Selected Pillar:', 'news-list')
+        }), ' ', pillarOptions.find(p => p.value === selectedPillar)?.label || (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('All', 'news-list')]
       })
     })]
   });
@@ -161,9 +169,9 @@ __webpack_require__.r(__webpack_exports__);
       type: 'string',
       default: ''
     },
-    selectedNews: {
-      type: 'array',
-      default: []
+    selectedPillar: {
+      type: "string",
+      default: "all"
     }
   },
   edit: _edit__WEBPACK_IMPORTED_MODULE_2__["default"],
