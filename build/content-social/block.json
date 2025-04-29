@@ -53,9 +53,32 @@
       "type": "string",
       "default": ""
     },
-    "shareUrl": {
-      "type": "string",
-      "default": ""
+    "additionalContent": {
+      "type": "array",
+      "default": []
+    },
+    "showMoreButton": {
+      "type": "object",
+      "default": {
+        "text": "",
+        "url": "",
+        "bgColor": "#0073aa",
+        "textColor": "#ffffff"
+      },
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "bgColor": {
+          "type": "string"
+        },
+        "textColor": {
+          "type": "string"
+        }
+      }
     }
   },
   "supports": {

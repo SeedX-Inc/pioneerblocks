@@ -8,7 +8,7 @@
   \***************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"create-block/content-social","version":"0.1.0","title":"content social","category":"seedx_blocks_pillar","icon":"layout","description":"Example block scaffolded with Create Block tool.","example":{},"attributes":{"title":{"type":"string","default":""},"description":{"type":"string","default":""},"facebookUrl":{"type":"string","default":""},"youtubeUrl":{"type":"string","default":""},"twitterUrl":{"type":"string","default":""},"instagramUrl":{"type":"string","default":""},"linkedinUrl":{"type":"string","default":""},"tiktokUrl":{"type":"string","default":""},"githubUrl":{"type":"string","default":""},"printUrl":{"type":"string","default":""},"mailUrl":{"type":"string","default":""},"shareUrl":{"type":"string","default":""}},"supports":{"html":false},"textdomain":"content-social","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"create-block/content-social","version":"0.1.0","title":"content social","category":"seedx_blocks_pillar","icon":"layout","description":"Example block scaffolded with Create Block tool.","example":{},"attributes":{"title":{"type":"string","default":""},"description":{"type":"string","default":""},"facebookUrl":{"type":"string","default":""},"youtubeUrl":{"type":"string","default":""},"twitterUrl":{"type":"string","default":""},"instagramUrl":{"type":"string","default":""},"linkedinUrl":{"type":"string","default":""},"tiktokUrl":{"type":"string","default":""},"githubUrl":{"type":"string","default":""},"printUrl":{"type":"string","default":""},"mailUrl":{"type":"string","default":""},"additionalContent":{"type":"array","default":[]},"showMoreButton":{"type":"object","default":{"text":"","url":"","bgColor":"#0073aa","textColor":"#ffffff"},"properties":{"text":{"type":"string"},"url":{"type":"string"},"bgColor":{"type":"string"},"textColor":{"type":"string"}}}},"supports":{"html":false},"textdomain":"content-social","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ }),
 
@@ -39,32 +39,135 @@ function Edit({
   setAttributes
 }) {
   const {
-    title,
-    description,
-    facebookUrl,
-    twitterUrl,
-    linkedinUrl,
-    mailUrl,
-    shareUrl,
-    printUrl
+    title = '',
+    description = '',
+    facebookUrl = '',
+    twitterUrl = '',
+    linkedinUrl = '',
+    mailUrl = '',
+    shareUrl = '',
+    printUrl = '',
+    additionalContent = [],
+    showMoreButton = {
+      text: '',
+      url: '',
+      bgColor: '#0073aa',
+      textColor: '#ffffff'
+    }
   } = attributes;
+
+  // Add a new additional content item
+  const addAdditionalContent = () => {
+    setAttributes({
+      additionalContent: [...additionalContent, {
+        title: '',
+        description: ''
+      }]
+    });
+  };
+
+  // Remove an additional content item
+  const removeAdditionalContent = index => {
+    setAttributes({
+      additionalContent: additionalContent.filter((_, i) => i !== index)
+    });
+  };
+
+  // Update an additional content item
+  const updateAdditionalContent = (index, field, value) => {
+    const updatedContent = [...additionalContent];
+    updatedContent[index] = {
+      ...updatedContent[index],
+      [field]: value
+    };
+    setAttributes({
+      additionalContent: updatedContent
+    });
+  };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
     ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)(),
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InspectorControls, {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.PanelBody, {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.PanelBody, {
         title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Block Settings', ''),
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
           label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Title', ''),
           value: title,
           onChange: value => setAttributes({
             title: value
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
-          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Description', ''),
-          value: description,
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.PanelBody, {
+        title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Show More Button', ''),
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Button Text', ''),
+          value: showMoreButton.text,
           onChange: value => setAttributes({
-            description: value
+            showMoreButton: {
+              ...showMoreButton,
+              text: value
+            }
           })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Button URL', ''),
+          value: showMoreButton.url,
+          onChange: value => setAttributes({
+            showMoreButton: {
+              ...showMoreButton,
+              url: value
+            }
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.ColorPicker, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Background Color', ''),
+          color: showMoreButton.bgColor,
+          onChangeComplete: value => setAttributes({
+            showMoreButton: {
+              ...showMoreButton,
+              bgColor: value.hex
+            }
+          }),
+          defaultValue: "#0073aa"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.ColorPicker, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Text Color', ''),
+          color: showMoreButton.textColor,
+          onChangeComplete: value => setAttributes({
+            showMoreButton: {
+              ...showMoreButton,
+              textColor: value.hex
+            }
+          }),
+          defaultValue: "#ffffff"
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.PanelBody, {
+        title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Additional Content', ''),
+        children: [additionalContent.map((item, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+          style: {
+            marginBottom: '20px'
+          },
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
+            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Additional Title', ''),
+            value: item.title,
+            onChange: value => updateAdditionalContent(index, 'title', value)
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText, {
+            tagName: "div",
+            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Additional Description', ''),
+            value: item.description,
+            onChange: value => updateAdditionalContent(index, 'description', value),
+            placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Enter additional description...', '')
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
+            isDestructive: true,
+            onClick: () => removeAdditionalContent(index),
+            style: {
+              marginTop: '10px'
+            },
+            children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Remove Content', '')
+          })]
+        }, index)), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
+          isPrimary: true,
+          onClick: addAdditionalContent,
+          style: {
+            marginTop: '10px'
+          },
+          children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Add Content', '')
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.PanelBody, {
         title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Social Media Links', ''),
@@ -109,7 +212,7 @@ function Edit({
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
       className: "d-flex justify-content-between",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h2", {
-        children: title
+        children: title || (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Enter title...', '')
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
         children: [facebookUrl && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
           href: facebookUrl,
@@ -149,9 +252,38 @@ function Edit({
           })
         })]
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
-      children: description
-    })]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText, {
+      tagName: "div",
+      value: description,
+      onChange: value => setAttributes({
+        description: value
+      }),
+      placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Enter description...', '')
+    }), showMoreButton.text && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+      href: showMoreButton.url,
+      style: {
+        backgroundColor: showMoreButton.bgColor,
+        color: showMoreButton.textColor,
+        padding: '10px 20px',
+        display: 'inline-block',
+        textDecoration: 'none',
+        borderRadius: '5px',
+        marginTop: '10px'
+      },
+      children: showMoreButton.text
+    }), additionalContent.map((item, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+      style: {
+        marginTop: '20px'
+      },
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h3", {
+        children: item.title || (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Enter additional title...', '')
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText, {
+        tagName: "div",
+        value: item.description,
+        onChange: value => updateAdditionalContent(index, 'description', value),
+        placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Enter additional description...', '')
+      })]
+    }, index))]
   });
 }
 
