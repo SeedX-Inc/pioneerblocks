@@ -8,7 +8,7 @@
   \******************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"create-block/be-pioneer-banner","version":"0.1.0","title":"be a pioneer banner","category":"seedx_blocks_other","icon":"money","description":"Example block scaffolded with Create Block tool.","example":{},"supports":{"html":false},"attributes":{"backgroundImage":{"type":"string","default":""},"mobileBackgroundImage":{"type":"string","default":""},"title":{"type":"string","default":"Latest News"},"description":{"type":"string","default":"Stay updated with the latest news and insights."},"buttons":{"type":"array","default":[],"items":{"type":"object","properties":{"text":{"type":"string","default":""},"textColor":{"type":"string","default":"#000000"},"backgroundColor":{"type":"string","default":"#ffffff"}}}}},"textdomain":"be-pioneer-banner","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"create-block/be-pioneer-banner","version":"0.1.0","title":"be a pioneer banner","category":"seedx_blocks_other","icon":"money","description":"Example block scaffolded with Create Block tool.","example":{},"supports":{"html":false},"attributes":{"backgroundImage":{"type":"string","default":""},"mobileBackgroundImage":{"type":"string","default":""},"title":{"type":"string","default":"Latest News"},"description":{"type":"string","default":"Stay updated with the latest news and insights."},"buttons":{"type":"array","default":[],"items":{"type":"object","properties":{"text":{"type":"string","default":""},"link":{"type":"string","default":""},"textColor":{"type":"string","default":"#000000"},"backgroundColor":{"type":"string","default":"#ffffff"}}}}},"textdomain":"be-pioneer-banner","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ }),
 
@@ -48,7 +48,7 @@ function Edit({
     mobileBackgroundImage,
     title,
     description,
-    buttons
+    buttons = []
   } = attributes;
   const [activeButtonIndex, setActiveButtonIndex] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_3__.useState)(0);
 
@@ -63,7 +63,8 @@ function Edit({
       buttons: [...buttons, {
         text: '',
         textColor: '#000000',
-        backgroundColor: '#ffffff'
+        backgroundColor: '#ffffff',
+        link: ''
       }]
     });
     setActiveButtonIndex(buttons.length);
@@ -136,10 +137,18 @@ function Edit({
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("h4", {
           children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Buttons', 'latest-news')
         }), buttons.map((button, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+          style: {
+            marginBottom: '20px'
+          },
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
             label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Button Text', 'latest-news'),
             value: button.text,
             onChange: value => updateButton(index, 'text', value)
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
+            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Button Link', 'latest-news'),
+            value: button.link,
+            onChange: value => updateButton(index, 'link', value),
+            placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Enter URL...', 'latest-news')
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.ColorPicker, {
             label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Text Color', 'latest-news'),
             color: button.textColor,
@@ -152,6 +161,9 @@ function Edit({
             onClick: () => removeButton(index),
             variant: "secondary",
             isDestructive: true,
+            style: {
+              marginTop: '10px'
+            },
             children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Remove Button', 'latest-news')
           })]
         }, index)), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
@@ -182,7 +194,7 @@ function Edit({
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
           className: "buttons",
           children: buttons.map((button, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("a", {
-            href: "#",
+            href: button.link || '#',
             className: "btn",
             style: {
               color: button.textColor,
