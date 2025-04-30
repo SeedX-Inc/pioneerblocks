@@ -38,6 +38,10 @@
             "type": "string",
             "default": ""
           },
+          "link": {
+            "type": "string",
+            "default": ""
+          },
           "textColor": {
             "type": "string",
             "default": "#000000"

@@ -5,7 +5,7 @@ import { useState } from '@wordpress/element';
 import './editor.scss';
 
 export default function Edit({ attributes, setAttributes }) {
-	const { backgroundImage, mobileBackgroundImage, title, description, buttons } = attributes;
+	const { backgroundImage, mobileBackgroundImage, title, description, buttons = [] } = attributes;
 	const [activeButtonIndex, setActiveButtonIndex] = useState(0);
 
 	// Update block attributes
@@ -14,7 +14,7 @@ export default function Edit({ attributes, setAttributes }) {
 	// Add a new button
 	const addButton = () => {
 		setAttributes({
-			buttons: [...buttons, { text: '', textColor: '#000000', backgroundColor: '#ffffff' }],
+			buttons: [...buttons, { text: '', textColor: '#000000', backgroundColor: '#ffffff', link: '' }],
 		});
 		setActiveButtonIndex(buttons.length);
 	};
@@ -73,11 +73,17 @@ export default function Edit({ attributes, setAttributes }) {
 					/>
 					<h4>{__('Buttons', 'latest-news')}</h4>
 					{buttons.map((button, index) => (
-						<div key={index}>
+						<div key={index} style={{ marginBottom: '20px' }}>
 							<TextControl
 								label={__('Button Text', 'latest-news')}
 								value={button.text}
 								onChange={(value) => updateButton(index, 'text', value)}
+							/>
+							<TextControl
+								label={__('Button Link', 'latest-news')}
+								value={button.link}
+								onChange={(value) => updateButton(index, 'link', value)}
+								placeholder={__('Enter URL...', 'latest-news')}
 							/>
 							<ColorPicker
 								label={__('Text Color', 'latest-news')}
@@ -93,6 +99,7 @@ export default function Edit({ attributes, setAttributes }) {
 								onClick={() => removeButton(index)}
 								variant="secondary"
 								isDestructive
+								style={{ marginTop: '10px' }}
 							>
 								{__('Remove Button', 'latest-news')}
 							</Button>
@@ -105,7 +112,11 @@ export default function Edit({ attributes, setAttributes }) {
 			</InspectorControls>
 			<div
 				className="latest-news-block"
-				style={{ backgroundImage: backgroundImage ? `url(${backgroundImage})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center' }}
+				style={{
+					backgroundImage: backgroundImage ? `url(${backgroundImage})` : 'none',
+					backgroundSize: 'cover',
+					backgroundPosition: 'center',
+				}}
 			>
 				<div className="content-wrapper container text-white">
 					<RichText
@@ -124,7 +135,7 @@ export default function Edit({ attributes, setAttributes }) {
 						{buttons.map((button, index) => (
 							<a
 								key={index}
-								href="#"
+								href={button.link || '#'}
 								className="btn"
 								style={{
 									color: button.textColor,
