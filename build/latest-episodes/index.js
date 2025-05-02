@@ -45,19 +45,73 @@ function Edit({
 }) {
   const {
     title,
-    description,
-    selectedEpisodes
+    description = '',
+    selectedEpisodes = [],
+    selectedPodcast = 'all'
   } = attributes;
+
+  // Function to encode WordPress numeric ID to GraphQL format
   const encodeId = id => btoa(`post:${id}`);
-  // Fetch episodes that belong to any podcast taxonomy
+
+  // Fetch episodes filtered by selected podcast
   const episodeOptions = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(select => {
     const episodes = select('core').getEntityRecords('postType', 'episode', {
-      per_page: -1
+      per_page: -1,
+      podcast: selectedPodcast !== 'all' ? selectedPodcast : undefined
     }) || [];
     return episodes.filter(episode => episode.podcast && episode.podcast.length > 0).map(episode => ({
       label: episode.title.rendered,
       value: encodeId(episode.id)
     }));
+  }, [selectedPodcast]);
+
+  // Fetch and organize podcast taxonomy terms
+  const podcastOptions = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(select => {
+    const terms = select('core').getEntityRecords('taxonomy', 'podcast', {
+      per_page: -1,
+      hierarchical: true
+    }) || [];
+    const options = [{
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('All', 'episodes-list'),
+      value: 'all'
+    }];
+
+    // Create a map for quick lookup of terms
+    const termMap = new Map(terms.map(term => [term.id, {
+      ...term,
+      children: []
+    }]));
+
+    // Build hierarchical structure by assigning children to parents
+    terms.forEach(term => {
+      if (term.parent && termMap.has(term.parent)) {
+        termMap.get(term.parent).children.push(term.id);
+      }
+    });
+
+    // Function to recursively add terms to options
+    const addTermToOptions = (termId, prefix = '') => {
+      const term = termMap.get(termId);
+      if (!term) return;
+
+      // Add the current term
+      const label = prefix ? `${prefix} / ${term.name}` : term.name;
+      options.push({
+        label,
+        value: term.slug
+      });
+
+      // Add children recursively
+      term.children.forEach(childId => {
+        addTermToOptions(childId, prefix ? `${prefix} / ${term.name}` : term.name);
+      });
+    };
+
+    // Add top-level terms (no parent) and their children
+    terms.filter(term => !term.parent).forEach(term => {
+      addTermToOptions(term.id);
+    });
+    return options;
   }, []);
   const addEpisode = episodeId => {
     if (!selectedEpisodes.includes(episodeId)) {
@@ -85,28 +139,33 @@ function Edit({
           onChange: newTitle => setAttributes({
             title: newTitle
           })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Description', 'episodes-list'),
+          value: description || '',
+          onChange: newDescription => setAttributes({
+            description: newDescription
+          })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.SelectControl, {
-          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Add Episode', 'episodes-list'),
-          options: [{
-            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Select an Episode', 'episodes-list'),
-            value: ''
-          }, ...episodeOptions],
-          onChange: value => value && addEpisode(value)
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Select Podcast', 'episodes-list'),
+          options: podcastOptions,
+          value: selectedPodcast,
+          onChange: value => setAttributes({
+            selectedPodcast: value
+          })
         })]
       })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("h2", {
-      children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Selected Episodes', 'episodes-list')
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("ul", {
-      children: selectedEpisodes.map(episodeId => {
-        const episode = episodeOptions.find(episode => episode.value === episodeId);
-        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("li", {
-          children: [episode?.label || (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Unknown Episode', 'episodes-list'), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
-            isDestructive: true,
-            onClick: () => removeEpisode(episodeId),
-            children: "Remove"
-          })]
-        }, episodeId);
-      })
+      children: title || (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Episodes Block', 'episodes-list')
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("ul", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("li", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("strong", {
+          children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Description:', 'episodes-list')
+        }), ' ', description || (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('None', 'episodes-list')]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("li", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("strong", {
+          children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Selected Podcast:', 'episodes-list')
+        }), ' ', podcastOptions.find(p => p.value === selectedPodcast)?.label || (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('All', 'episodes-list')]
+      })]
     })]
   });
 }
@@ -148,6 +207,14 @@ __webpack_require__.r(__webpack_exports__);
     title: {
       type: 'string',
       default: ''
+    },
+    selectedPillar: {
+      type: "string",
+      default: "all"
+    },
+    selectedPodcast: {
+      type: "string",
+      default: "all"
     },
     selectedEpisodes: {
       type: 'array',

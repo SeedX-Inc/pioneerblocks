@@ -32,15 +32,23 @@ registerBlockType( metadata.name, {
 			type: 'string',
 			default: '',
 		},
-		selectedEpisodes: {	
+		selectedEpisodes: {
 			type: 'array',
 			default: [],
 		},
-		links: {	
+		links: {
 			type: 'array',
 			default: [],
 		},
-		learnMore: {	
+		selectedPillar: {
+			type: "string",
+			default: "all"
+		},
+		selectedPodcast: {
+			type: "string",
+			default: "all"
+		},
+		learnMore: {
 			type: 'array',
 			default: [],
 		},

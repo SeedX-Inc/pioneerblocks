@@ -12,6 +12,14 @@ registerBlockType(metadata.name, {
 			type: 'string',
 			default: '',
 		},
+		selectedPillar: {
+			type: "string",
+			default: "all"
+		},
+		selectedPodcast: {
+			type: "string",
+			default: "all"
+		},
 		selectedEpisodes: {
 			type: 'array',
 			default: [],
