@@ -123,6 +123,9 @@ function create_block_pioneerblocks_block_init() {
 		__DIR__ . '/build/stewards-content-block',
 		__DIR__ . '/build/search-page',
 		__DIR__ . '/build/pillar-podcasts',
+		__DIR__ . '/build/get-involved-page',
+		__DIR__ . '/build/release-page',
+		__DIR__ . '/build/facts-page',
 	];
 
 	foreach ($block_paths as $path) {

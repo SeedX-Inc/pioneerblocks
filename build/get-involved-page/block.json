@@ -1,0 +1,25 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "create-block/get-involved-page",
+  "version": "0.1.0",
+  "title": "Get Involved Page",
+  "category": "seedx_blocks_other",
+  "icon": "layout",
+  "description": "Example block scaffolded with Create Block tool.",
+  "example": {},
+  "supports": {
+    "html": false
+  },
+  "attributes": {
+    "description": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "textdomain": "get-involved-page",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "viewScript": "file:./view.js"
+}
