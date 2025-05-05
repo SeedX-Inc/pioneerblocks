@@ -2,180 +2,78 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/latest-episodes/block.json":
-/*!****************************************!*\
-  !*** ./src/latest-episodes/block.json ***!
-  \****************************************/
+/***/ "./src/facts-page/block.json":
+/*!***********************************!*\
+  !*** ./src/facts-page/block.json ***!
+  \***********************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"create-block/latest-episodes","version":"0.1.0","title":"Latest episodes","category":"seedx_blocks_podcasts","icon":"layout","description":"Example block scaffolded with Create Block tool.","example":{},"supports":{"html":false},"textdomain":"latest-episodes","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"create-block/facts-page","version":"0.1.0","title":"Facts page","category":"seedx_blocks_other","icon":"layout","description":"Example block scaffolded with Create Block tool.","example":{},"supports":{"html":false},"textdomain":"facts-page","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ }),
 
-/***/ "./src/latest-episodes/edit.js":
-/*!*************************************!*\
-  !*** ./src/latest-episodes/edit.js ***!
-  \*************************************/
+/***/ "./src/facts-page/edit.js":
+/*!********************************!*\
+  !*** ./src/facts-page/edit.js ***!
+  \********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ Edit)
 /* harmony export */ });
-/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
-/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./editor.scss */ "./src/latest-episodes/editor.scss");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./editor.scss */ "./src/facts-page/editor.scss");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__);
+/**
+ * Retrieves the translation of text.
+ *
+ * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
+ */
 
 
+/**
+ * React hook that is used to mark the block wrapper element.
+ * It provides all the necessary props like the class name.
+ *
+ * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
+ */
 
 
+/**
+ * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
+ * Those files can contain any CSS code that gets applied to the editor.
+ *
+ * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
+ */
 
 
-function Edit({
-  attributes,
-  setAttributes
-}) {
-  const {
-    title,
-    description = '',
-    selectedEpisodes = [],
-    selectedPodcast = 'all'
-  } = attributes;
+/**
+ * The edit function describes the structure of your block in the context of the
+ * editor. This represents what the editor will render when the block is used.
+ *
+ * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
+ *
+ * @return {Element} Element to render.
+ */
 
-  // Function to encode WordPress numeric ID to GraphQL format
-  const encodeId = id => btoa(`post:${id}`);
-
-  // Fetch episodes filtered by selected podcast
-  const episodeOptions = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(select => {
-    const episodes = select('core').getEntityRecords('postType', 'episode', {
-      per_page: -1,
-      podcast: selectedPodcast !== 'all' ? selectedPodcast : undefined
-    }) || [];
-    return episodes.filter(episode => episode.podcast && episode.podcast.length > 0).map(episode => ({
-      label: episode.title.rendered,
-      value: encodeId(episode.id)
-    }));
-  }, [selectedPodcast]);
-
-  // Fetch and organize podcast taxonomy terms
-  const podcastOptions = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_2__.useSelect)(select => {
-    const terms = select('core').getEntityRecords('taxonomy', 'podcast', {
-      per_page: -1,
-      hierarchical: true
-    }) || [];
-    const options = [{
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('All', 'episodes-list'),
-      value: 'all'
-    }];
-
-    // Create a map for quick lookup of terms
-    const termMap = new Map(terms.map(term => [term.id, {
-      ...term,
-      children: []
-    }]));
-
-    // Build hierarchical structure by assigning children to parents
-    terms.forEach(term => {
-      if (term.parent && termMap.has(term.parent)) {
-        termMap.get(term.parent).children.push(term.id);
-      }
-    });
-
-    // Function to recursively add terms to options
-    const addTermToOptions = (termId, prefix = '') => {
-      const term = termMap.get(termId);
-      if (!term) return;
-
-      // Add the current term
-      const label = prefix ? `${prefix} / ${term.name}` : term.name;
-      options.push({
-        label,
-        value: term.slug
-      });
-
-      // Add children recursively
-      term.children.forEach(childId => {
-        addTermToOptions(childId, prefix ? `${prefix} / ${term.name}` : term.name);
-      });
-    };
-
-    // Add top-level terms (no parent) and their children
-    terms.filter(term => !term.parent).forEach(term => {
-      addTermToOptions(term.id);
-    });
-    return options;
-  }, []);
-  const addEpisode = episodeId => {
-    if (!selectedEpisodes.includes(episodeId)) {
-      setAttributes({
-        selectedEpisodes: [...selectedEpisodes, episodeId]
-      });
-    }
-  };
-  const removeEpisode = episodeId => {
-    setAttributes({
-      selectedEpisodes: selectedEpisodes.filter(id => id !== episodeId)
-    });
-  };
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-    ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.useBlockProps)({
-      className: 'episodes-list'
-    }),
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.InspectorControls, {
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.PanelBody, {
-        title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Select Episodes', 'episodes-list'),
-        initialOpen: true,
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
-          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Title', 'episodes-list'),
-          value: title || '',
-          onChange: newTitle => setAttributes({
-            title: newTitle
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
-          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Description', 'episodes-list'),
-          value: description || '',
-          onChange: newDescription => setAttributes({
-            description: newDescription
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.SelectControl, {
-          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Select Podcast', 'episodes-list'),
-          options: podcastOptions,
-          value: selectedPodcast,
-          onChange: value => setAttributes({
-            selectedPodcast: value
-          })
-        })]
-      })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("h2", {
-      children: title || (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Episodes Block', 'episodes-list')
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("ul", {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("li", {
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("strong", {
-          children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Description:', 'episodes-list')
-        }), ' ', description || (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('None', 'episodes-list')]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("li", {
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("strong", {
-          children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Selected Podcast:', 'episodes-list')
-        }), ' ', podcastOptions.find(p => p.value === selectedPodcast)?.label || (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('All', 'episodes-list')]
-      })]
-    })]
+function Edit() {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
+    ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)(),
+    children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('This is a block, that is meant to be on a facts page. No more actions here needed.', 'latest-news')
   });
 }
 
 /***/ }),
 
-/***/ "./src/latest-episodes/editor.scss":
-/*!*****************************************!*\
-  !*** ./src/latest-episodes/editor.scss ***!
-  \*****************************************/
+/***/ "./src/facts-page/editor.scss":
+/*!************************************!*\
+  !*** ./src/facts-page/editor.scss ***!
+  \************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -184,43 +82,48 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/latest-episodes/index.js":
-/*!**************************************!*\
-  !*** ./src/latest-episodes/index.js ***!
-  \**************************************/
+/***/ "./src/facts-page/index.js":
+/*!*********************************!*\
+  !*** ./src/facts-page/index.js ***!
+  \*********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./style.scss */ "./src/latest-episodes/style.scss");
-/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./edit */ "./src/latest-episodes/edit.js");
-/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./save */ "./src/latest-episodes/save.js");
-/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./block.json */ "./src/latest-episodes/block.json");
+/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./style.scss */ "./src/facts-page/style.scss");
+/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./edit */ "./src/facts-page/edit.js");
+/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./save */ "./src/facts-page/save.js");
+/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./block.json */ "./src/facts-page/block.json");
+/**
+ * Registers a new block provided a unique name and an object defining its behavior.
+ *
+ * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
+ */
+
+
+/**
+ * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
+ * All files containing `style` keyword are bundled together. The code used
+ * gets applied both to the front of your site and to the editor.
+ *
+ * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
+ */
+
+
+/**
+ * Internal dependencies
+ */
 
 
 
 
-
+/**
+ * Every block starts by registering a new block type definition.
+ *
+ * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
+ */
 (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.registerBlockType)(_block_json__WEBPACK_IMPORTED_MODULE_4__.name, {
-  attributes: {
-    title: {
-      type: 'string',
-      default: ''
-    },
-    selectedPillar: {
-      type: "string",
-      default: "all"
-    },
-    selectedPodcast: {
-      type: "string",
-      default: "all"
-    },
-    selectedEpisodes: {
-      type: 'array',
-      default: []
-    }
-  },
   /**
    * @see ./edit.js
    */
@@ -233,10 +136,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/latest-episodes/save.js":
-/*!*************************************!*\
-  !*** ./src/latest-episodes/save.js ***!
-  \*************************************/
+/***/ "./src/facts-page/save.js":
+/*!********************************!*\
+  !*** ./src/facts-page/save.js ***!
+  \********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -268,16 +171,16 @@ __webpack_require__.r(__webpack_exports__);
 function save() {
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
     ..._wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.useBlockProps.save(),
-    children: 'Latest News – hello from the saved content!'
+    children: 'Search page'
   });
 }
 
 /***/ }),
 
-/***/ "./src/latest-episodes/style.scss":
-/*!****************************************!*\
-  !*** ./src/latest-episodes/style.scss ***!
-  \****************************************/
+/***/ "./src/facts-page/style.scss":
+/*!***********************************!*\
+  !*** ./src/facts-page/style.scss ***!
+  \***********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -303,26 +206,6 @@ module.exports = window["wp"]["blockEditor"];
 /***/ ((module) => {
 
 module.exports = window["wp"]["blocks"];
-
-/***/ }),
-
-/***/ "@wordpress/components":
-/*!************************************!*\
-  !*** external ["wp","components"] ***!
-  \************************************/
-/***/ ((module) => {
-
-module.exports = window["wp"]["components"];
-
-/***/ }),
-
-/***/ "@wordpress/data":
-/*!******************************!*\
-  !*** external ["wp","data"] ***!
-  \******************************/
-/***/ ((module) => {
-
-module.exports = window["wp"]["data"];
 
 /***/ }),
 
@@ -456,8 +339,8 @@ module.exports = window["ReactJSXRuntime"];
 /******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
 /******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
 /******/ 		var installedChunks = {
-/******/ 			"latest-episodes/index": 0,
-/******/ 			"latest-episodes/style-index": 0
+/******/ 			"facts-page/index": 0,
+/******/ 			"facts-page/style-index": 0
 /******/ 		};
 /******/ 		
 /******/ 		// no chunk on demand loading
@@ -507,7 +390,7 @@ module.exports = window["ReactJSXRuntime"];
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["latest-episodes/style-index"], () => (__webpack_require__("./src/latest-episodes/index.js")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["facts-page/style-index"], () => (__webpack_require__("./src/facts-page/index.js")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

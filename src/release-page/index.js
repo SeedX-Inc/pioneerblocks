@@ -27,32 +27,6 @@ import metadata from './block.json';
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
  */
 registerBlockType( metadata.name, {
-	attributes: {
-		title: {
-			type: 'string',
-			default: '',
-		},
-		selectedEpisodes: {
-			type: 'array',
-			default: [],
-		},
-		links: {
-			type: 'array',
-			default: [],
-		},
-		selectedPillar: {
-			type: "string",
-			default: "all"
-		},
-		selectedPodcast: {
-			type: "string",
-			default: "all"
-		},
-		learnMore: {
-			type: 'array',
-			default: [],
-		},
-	},
 	/**
 	 * @see ./edit.js
 	 */
