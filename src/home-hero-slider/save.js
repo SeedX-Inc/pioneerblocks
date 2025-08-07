@@ -1,12 +1,12 @@
 const Save = ({attributes}) => {
-	const {slides} = attributes;
+	const { slides } = attributes;
 
 	if (!slides || slides.length === 0) return null;
 
 	const slide = slides[0];
 
 	return (
-		<div className="slider-wrapper"
+		<div className="slider-wrapper heroHomeSlider"
 			 style={{
 				 maxWidth: '100%',
 			 }}>

@@ -275,6 +275,7 @@ function Save({
 }) {
   const {
     backgroundImage,
+    mobileBackgroundImage,
     title,
     description,
     buttons
@@ -284,28 +285,39 @@ function Save({
     style: {
       backgroundImage: backgroundImage ? `url(${backgroundImage})` : 'none',
       backgroundSize: 'cover',
-      backgroundPosition: 'center'
+      backgroundPosition: 'center',
+      margin: '24px 0'
     },
+    "data-mobile-background": mobileBackgroundImage,
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
       className: "content-wrapper container py-4 text-white",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.RichText.Content, {
-        tagName: "h2",
-        value: title
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.RichText.Content, {
         tagName: "p",
-        value: description
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-        className: "buttons",
-        children: buttons.map((button, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
-          href: button.link || '#',
-          className: "btn",
-          style: {
-            color: button.textColor,
-            backgroundColor: button.backgroundColor,
-            marginRight: '10px'
-          },
-          children: button.text
-        }, index))
+        value: title || '',
+        className: "text-white fs-2 fw-bold text-uppercase mb-4"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+        className: "description d-block",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.RichText.Content, {
+          tagName: "p",
+          value: description || '',
+          className: "mb-4"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+          className: "buttons",
+          children: buttons && buttons.length > 0 ? buttons.map((button, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
+            href: button.link || '#',
+            className: "btn",
+            style: {
+              fontWeight: '700',
+              color: button.textColor || '#000000',
+              backgroundColor: button.backgroundColor || '#ffffff',
+              marginRight: '10px',
+              borderRadius: 0,
+              padding: '10px 20px',
+              wordBreak: 'normal'
+            },
+            children: button.text || 'Button'
+          }, index)) : null
+        })]
       })]
     })
   });

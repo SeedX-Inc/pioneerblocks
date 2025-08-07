@@ -6,10 +6,19 @@
   max-width: 100%;
 }
 
+.video-wrapper h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
 .video-thumbnail {
   width: 100%;
   height: auto;
   border-radius: 10px;
+}
+
+.media-wrapper {
+  height: auto;
 }
 
 .play-button {
@@ -31,6 +40,7 @@
 
 .buttons-wrapper {
   margin-top: 15px;
+  justify-content: flex-start;
 }
 
 .button-slider {
@@ -38,17 +48,48 @@
   border: none;
   font-size: 16px;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 0 !important;
 }
 
 .button-subscribe {
-  background-color: #506ea8;
   color: white;
 }
 
 .button-engage {
-  background-color: #c6aa60;
   color: white;
+}
+
+.custom-pagination {
+  display: flex;
+  gap: 8px;
+  margin: 20px 0;
+  margin-left: 52%;
+}
+
+.custom-pagination .swiper-pagination-bullet {
+  width: 40px;
+  height: 5px;
+  background-color: #849DC1;
+  border-radius: 0;
+  transition: all 0.3s ease;
+}
+
+.custom-pagination .swiper-pagination-bullet-active {
+  width: 100px; /* 10px longer */
+  background-color: #293C5C;
+}
+
+@media (max-width: 768px) {
+  .custom-pagination {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin: 20px 0;
+  }
+  .buttons-wrapper {
+    margin-top: 15px !important;
+    padding: 0;
+  }
 }
 
 /*# sourceMappingURL=style-index.css.map*/

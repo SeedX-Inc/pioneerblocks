@@ -1,12 +1,46 @@
-/**
- * The following styles get applied both on the front of your site
- * and in the editor.
- *
- * Replace them with your own styles or remove the file completely.
- */
-
-.wp-block-create-block-latest-news {
-	background-color: #21759b;
+.latest-news-block {
+	padding: 20px;
+	min-height: 200px;
+	position: relative;
 	color: #fff;
-	padding: 2px;
+	overflow: hidden;
+}
+
+.content-wrapper {
+	padding: 60px 0;
+	border-radius: 8px;
+}
+
+.buttons {
+	margin-top: 20px;
+}
+
+.buttons .btn {
+	padding: 10px 20px;
+	border: none;
+	border-radius: 5px;
+	text-decoration: none;
+	display: inline-block;
+	cursor: pointer;
+	transition: background-color 0.3s, color 0.3s;
+}
+
+.buttons .btn:hover {
+	opacity: 0.8;
+}
+.description{
+	max-width: 50%;
+}
+
+@media (max-width: 992px) {
+
+	.content-wrapper {
+		padding: 12px;
+	}
+
+	.description{
+		margin-top: 100px;
+		max-width: 100%;
+		gap: 24px;
+	}
 }

@@ -1,62 +1,68 @@
 .policy-priorities-block {
-	padding: 20px;
+	padding: 34px 0;
+}
 
-	h2 {
-		font-size: 24px;
-		margin-bottom: 20px;
-	}
+.policy-priorities-block p.font-bodoni {
+	font-size: 24px;
+	margin-bottom: 20px;
+}
 
-	.row {
-		display: flex;
-	}
+.row {
+	display: flex;
+}
 
-	.col-4 {
-		width: 33.33%;
-		padding-right: 20px;
-	}
+.col-md-4 {
+	border-right: 1px solid #B0B5BB;
+	padding-right: 20px;
+}
 
-	.col-8 {
-		width: 66.67%;
-	}
+.col-md-8 {
+	width: 66.67%;
+}
 
-	.policy-list {
-		list-style: none;
-		padding: 0;
-		margin: 0;
+.policy-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
 
-		li {
-			padding: 10px 0;
-			cursor: pointer;
-			border-bottom: 1px solid #ddd;
+.policy-list li {
+	cursor: pointer;
+	color: #333;
+	padding: 8px 12px;
+	margin: 0;
+}
 
-			&.active {
-				background-color: #007bff;
-				color: #fff;
-				font-weight: bold;
-			}
+.policy-list li.active {
+	background-color: #293C5C;
+	color: #fff;
+	font-weight: bold;
+}
 
-			&:hover {
-				background-color: #f0f0f0;
-			}
-		}
-	}
+.policy-list li:hover {
+	border-bottom: 1px solid #ddd;
+}
 
-	.policy-content {
-		p {
-			font-size: 18px;
-			margin-bottom: 20px;
-		}
+.policy-content {
+	padding-left: 20px;
+}
 
-		.tags {
-			display: flex;
-			gap: 10px;
+.policy-content p.text-black {
+	font-size: 18px;
+	margin-bottom: 20px;
+	color: #666;
+}
 
-			.tag {
-				padding: 5px 10px;
-				border-radius: 5px;
-				font-size: 14px;
-				color: #333;
-			}
-		}
-	}
+.tags {
+	display: flex;
+	gap: 10px;
+	flex-wrap: wrap;
+}
+
+.tags .tag {
+	padding: 5px 10px;
+	border-radius: 5px;
+	font-size: 14px;
+	color: #fff;
+	display: inline-block;
 }

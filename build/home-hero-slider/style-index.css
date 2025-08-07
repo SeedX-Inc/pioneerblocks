@@ -16,26 +16,43 @@
   position: relative;
   overflow: hidden;
   width: 100%;
-  max-width: 800px;
+  max-width: 100vw;
+  height: 60vh;
   margin: auto;
   text-align: center;
+  color: #293C5C;
+}
+
+.slider-wrapper h1,
+.slider-wrapper p {
+  color: #293C5C;
+}
+
+.slider-wrapper h1 {
+  margin-bottom: 15px;
+  max-width: 400px;
+}
+
+.slider-wrapper p {
+  margin-bottom: 40px;
 }
 
 .slides-container {
   display: flex;
+  height: 60vh;
   transition: transform 0.3s ease-in-out;
   width: 100%;
 }
 
-.slide {
-  min-width: 100%;
-  display: none;
-  padding: 0;
-  text-align: center;
+.slide-column {
+  height: 60vh;
 }
 
-.slide.active {
-  display: block;
+.slide {
+  min-width: 100%;
+  padding: 0;
+  height: 60vh;
+  text-align: center;
 }
 
 .nav-button {
@@ -50,14 +67,18 @@
 }
 
 .button-slider {
+  border-radius: 0 !important;
   background: #293C5C;
   padding: 10px 12px;
   color: white;
+  border: none;
+  transition: 0.4s ease;
 }
 
 .button-slider:hover {
   background: #849DC1;
   color: white !important;
+  transition: 0.4s ease;
 }
 
 .prev {
@@ -68,9 +89,20 @@
   right: 10px;
 }
 
+.hero-image img {
+  -o-object-fit: contain !important;
+     object-fit: contain !important;
+}
+
+.title-image {
+  margin-bottom: 20px;
+  max-width: 570px;
+}
+
 .hero-image {
   width: 100%;
   height: auto;
+  max-height: 60vh;
   margin-top: 10px;
 }
 
@@ -102,6 +134,65 @@
   border-left: 3px solid;
   transform: rotate(-135deg);
   right: 10px;
+}
+
+.subtitle-hero-slider {
+  font-size: 22px;
+}
+
+@media (max-width: 992px) {
+  .title-image {
+    margin-top: 40px;
+  }
+  .subtitle-hero-slider {
+    font-size: 16px;
+  }
+  .w-mobile-100 {
+    width: 100%;
+  }
+  .hero-image {
+    max-height: 40vh;
+  }
+  .image-right .content-image {
+    margin-left: 0;
+    width: 100%;
+    height: auto;
+  }
+  .buttons-wrapper button {
+    font-size: 14px;
+  }
+  .slider-wrapper,
+  .slide,
+  .slide-column {
+    height: 40vh;
+  }
+}
+@media (max-width: 576px) {
+  .hero-image {
+    height: auto;
+    max-height: 175px;
+  }
+  .buttons-wrapper {
+    margin-top: 0 !important;
+    padding-left: 20px;
+    font-size: 14px;
+  }
+  .slide,
+  .slide-column {
+    height: auto;
+    max-height: 100%;
+  }
+  .heroHomeSlider {
+    height: auto;
+    max-height: 100%;
+  }
+  .button-slider {
+    background: #293C5C;
+    border-radius: 0 !important;
+  }
+}
+.bg-secondary {
+  background: #849DC1 !important;
 }
 
 /*# sourceMappingURL=style-index.css.map*/

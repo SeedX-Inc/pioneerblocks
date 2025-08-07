@@ -429,7 +429,7 @@ const Save = ({
   if (!slides || slides.length === 0) return null;
   const slide = slides[0];
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-    className: "slider-wrapper",
+    className: "slider-wrapper heroHomeSlider",
     style: {
       maxWidth: '100%'
     },
