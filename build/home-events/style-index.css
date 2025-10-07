@@ -1,16 +1,1 @@
-/*!***************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./src/home-events/style.scss ***!
-  \***************************************************************************************************************************************************************************************************************************************************/
-/**
- * The following styles get applied both on the front of your site
- * and in the editor.
- *
- * Replace them with your own styles or remove the file completely.
- */
-.wp-block-create-block-latest-news {
-  background-color: #21759b;
-  color: #fff;
-  padding: 2px;
-}
-
-/*# sourceMappingURL=style-index.css.map*/
+.featuredImg{width:95%}.card{color:#222;padding-right:20px;text-decoration:none}.card,.cardBody{border:none;font-size:20px}.cardBody{margin-top:12px}.cardBodyFeatured{color:#293c5c;font-weight:700;margin:0;padding:0}.cardBodyTitle{color:#293c5c;font-size:36px;font-weight:700;margin:8px 0}.cardDescr{color:#222;font-weight:400;margin:0}.cardDate{color:#849dc1;font-size:16px;font-weight:400;margin:16px 0 0}.imgRight{max-height:111px;max-width:185px}.imgBottom{max-height:208px;max-width:306px}.cardBody h6.sideTitle{color:#293c5c;font-size:18px}.eventCard{border-bottom:1px solid #cdcdcd;color:#222;gap:20px;padding:0 0 24px!important;text-decoration:none}.dateBadge{align-items:center;background-color:#849dc1;border-radius:8px;box-shadow:0 2px 4px rgba(0,0,0,.1);color:#fff;display:flex;flex-direction:column;height:100px;justify-content:center;text-align:center;width:100px}.dateNumber{font-size:36px;font-weight:700;line-height:1;margin-bottom:2px}.eventTitle{color:#293c5c;font-size:18px;font-weight:700;margin:8px 0}.dateText{font-size:12px;font-weight:400;letter-spacing:1px;text-transform:uppercase}.eventSpeakers{color:#8f8f8f;margin:0}.eventType{margin:0}.authorLink,.eventType{color:#293c5c;font-weight:700}@media(max-width:992px){.card{padding:0}.eventCard{border-bottom:none;border-top:1px solid #cdcdcd}.eventCard>div{padding-top:10px}.eventCard{gap:12px}.cardBodyTitle{color:#293c5c;font-size:24px;font-weight:700;line-height:120%;margin:8px 0}.cardDescr,.eventTitle{font-size:18px;line-height:120%}.cardDescr{color:#222;font-weight:400;margin:0}.speakerList{font-size:12px}.featuredImg{width:100%}}

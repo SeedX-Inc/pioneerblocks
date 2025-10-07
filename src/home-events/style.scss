@@ -1,12 +1,150 @@
-/**
- * The following styles get applied both on the front of your site
- * and in the editor.
- *
- * Replace them with your own styles or remove the file completely.
- */
+.featuredImg{
+	width: 95%;
+}
+.card{
+	font-size: 20px;
+	border: none;
+	padding-right: 20px;
+	text-decoration: none;
+	color: #222222;
+}
+.cardBody{
+	margin-top: 12px;
+	font-size: 20px;
+	border: none;
+}
+.cardBodyFeatured{
+	color: #293C5C;
+	font-weight: 700;
+	margin: 0;
+	padding: 0;
+}
+.cardBodyTitle{
+	color: #293C5C;
+	font-weight: 700;
+	font-size: 36px;
+	margin: 8px 0;
+}
+.cardDescr{
+	color: #222222;
+	font-weight: 400;
+	margin: 0;
+}
+.cardDate{
+	margin: 16px 0 0;
+	color: #849DC1;
+	font-weight: 400;
+	font-size: 16px;
+}
+.imgRight{
+	max-width: 185px;
+	max-height: 111px;
+}
+.imgBottom{
+	max-width: 306px;
+	max-height: 208px;
+}
 
-.wp-block-create-block-latest-news {
-	background-color: #21759b;
-	color: #fff;
-	padding: 2px;
+.cardBody h6.sideTitle{
+	color: #293C5C;
+	font-size: 18px;
+
+}
+.speakerList{
+}
+.andText{}
+.eventCard{
+	gap: 20px;
+	padding: 0 0 24px !important;
+	border-bottom: 1px solid #cdcdcd;
+	text-decoration: none;
+	color: #222222;
+}
+.dateBadge {
+	background-color: #849DC1;
+	color: white;
+	width: 100px; /* Fixed width to match the photo */
+	height: 100px; /* Fixed height to match the photo */
+	border-radius: 8px; /* Rounded corners to match the soft square shape */
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: slight shadow for depth */
+}
+
+.dateNumber {
+	font-size: 36px;
+	font-weight: bold;
+	line-height: 1;
+	margin-bottom: 2px;
+}
+.eventTitle {
+	margin: 8px 0;
+
+	color: #293C5C;
+	font-weight: 700;
+	font-size: 18px
+}
+.dateText {
+	font-size: 12px;
+	font-weight: normal;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+}
+.eventSpeakers{
+	margin: 0;
+	color: #8F8F8F;
+}
+.eventType{
+	font-weight: 700;
+	margin: 0;
+	color: #293C5C;
+}
+.eventTitle{}
+.authorLink{
+	color: #293C5C;
+	font-weight: 700;
+}
+@media (max-width: 992px) {
+	.card {
+		padding: 0;
+	}
+	.eventCard {
+		border-bottom: none;
+		border-top: 1px solid #cdcdcd;
+	}
+	.eventCard>div{
+		padding-top: 10px;
+	}
+	.eventCard{
+		gap: 12px;
+	}
+	.cardBodyTitle{
+		color: #293C5C;
+		font-weight: 700;
+		font-size: 24px;
+		line-height: 120%;
+		margin: 8px 0;
+	}
+	.eventTitle{
+		line-height: 120%;
+		font-size: 18px;
+
+	}
+	.cardDescr{
+		color: #222222;
+		font-weight: 400;
+		font-size: 18px;
+		line-height: 120%;
+		margin: 0;
+	}
+
+	.speakerList{
+		font-size: 12px;
+	}
+	.featuredImg{
+		width: 100%;
+	}
 }

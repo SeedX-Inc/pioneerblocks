@@ -1,5 +1,6 @@
 import { registerBlockType } from '@wordpress/blocks';
 import Edit from './edit';
+import save from './save';
 
 registerBlockType("create-block/latest-news", {
 	title: "Latest News Block",
@@ -24,7 +25,5 @@ registerBlockType("create-block/latest-news", {
 		},
 	},
 	edit: Edit,
-	save: () => {
-		return null; // Dynamic block, rendering happens server-side
-	},
+	save: save,
 });

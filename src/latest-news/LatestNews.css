@@ -1,0 +1,99 @@
+.featuredImg{
+
+}
+.card{
+    font-size: 20px;
+    border: none;
+    padding-right: 20px;
+    text-decoration: none;
+    color: #222222;
+}
+.cardBody{
+    margin-top: 12px;
+    font-size: 20px;
+    border: none;
+}
+.cardBodyFeatured{
+    color: #293C5C;
+    font-weight: 700;
+    margin: 0;
+    padding: 0;
+}
+.cardBody h5{
+    color: #293C5C;
+    font-weight: 700;
+    font-size: 36px;
+    margin: 8px 0;
+}
+.cardDescr{
+    color: #222222;
+    font-weight: 400;
+    margin: 0;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+}
+.cardDate{
+    margin: 16px 0 0;
+    color: #293C5C;
+    font-weight: 400;
+    font-size: 16px;
+}
+.imgRight{
+    max-width: 185px;
+    max-height: 111px;
+}
+.imgBottom{
+    max-width: 306px;
+    max-height: 208px;
+}
+
+.cardBody h6.sideTitle{
+    color: #293C5C;
+    font-size: 18px;
+
+}
+.rightCards{
+    padding: 0;
+}
+.mobileBottomNews{
+    padding: 12px 0 12px;
+    border-top: 1px solid #CBCBCB;
+
+}
+@media (max-width: 992px) {
+    .card{
+        text-align: center;
+        padding-right: 0;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #CBCBCB;
+    }
+    .rightCards>div{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 20px;
+    }
+    .rightCard>div{
+        flex-direction: column;
+    }
+    .imgRight{
+        max-width: 100%;
+    }
+
+    .cardDescr p {
+        margin-bottom: 8px;
+    }
+    .cardDate{
+        margin-top: 0;
+    }
+    .sideTitle{
+        font-size: 16px;
+
+    }
+    .mobSizeFont,
+    .cardDate{
+        font-size: 12px !important;
+    }
+}

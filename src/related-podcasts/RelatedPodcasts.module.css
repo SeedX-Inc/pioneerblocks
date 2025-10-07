@@ -1,0 +1,204 @@
+.podcastSection {
+    padding: 2rem 0;
+}
+
+.sectionTitle {
+    font-size: 24px;
+    color: #293C5C;
+    margin: 0;
+    font-weight: 700;
+}
+
+.authorImage{
+    margin-top: 15px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+
+}
+.authorImage img{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+
+}
+.podcastDescription {
+    font-size: 1rem;
+    color: #222;
+    margin-bottom: 1rem;
+}
+
+.podcastCard {
+    display: flex;
+}
+
+.card {
+    border: none;
+    overflow: hidden;
+    width: 100%;
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+    color: #222222;
+}
+
+.podcastImage {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-bottom: 1px solid #eee;
+}
+
+.cardBody {
+    padding: 1rem 0;
+}
+
+.podcastTitle {
+    font-size: 24px;
+    color: #293C5C;
+    font-weight: 700;
+    margin: 0 0 0.5rem;
+}
+
+
+.podcastFooter {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    text-decoration: none;
+}
+
+.speakerImage {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.listenLink {
+    color: #293C5C; /* Bootstrap primary blue, adjust to match your design */
+    font-size: 18px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.listenLink:hover {
+    color: #334970;
+}
+
+.shareLink {
+    color: #666;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.shareLink:hover {
+    color: #333;
+}
+
+.border-bottom-light {
+    border-bottom: 1px solid #eee; /* Light border for the header row */
+}
+@media (max-width: 992px) {
+    .podcastImage{
+    }
+    .shareLink>svg{
+        width: 20px;
+        height: 20px;
+    }
+    .listenLink>svg{
+        width: 20px;
+        height: 20px;
+
+    }
+}
+.podcastSection{
+    margin-top: 24px;
+    background-color: #FBFAF8;
+}
+.podcastSection{
+    padding: 48px 0;
+}
+.podcastImage{
+    width: 100%;
+    height: 200px;
+}
+.podcastCard{
+    margin: 0;
+}
+.authorImage{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+
+}
+.card{
+    margin-top: 22px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid #eee;
+}
+.shareLink svg,
+.listenLink svg{
+    margin-right: 8px;
+}
+.episodeDate{
+    font-weight: 400;
+    font-size: 14px;
+    color: #98B3DC;
+    margin: 0;
+}
+.episodeTitle{
+    margin: 12px 0;
+    font-weight: 400;
+    font-size: 22px;
+    color: #293C5C;
+    max-width: 600px;
+}
+.pagination li,
+.pagination li a,
+.pagination span{
+    border: none;
+    background-color: transparent !important;
+    color: #000 !important;
+    font-weight: 400;
+}
+
+.pagination li svg{
+    margin-bottom: 5px;
+}
+.cardTextMobile{
+    display: none;
+}
+
+.cardTextMobile svg{
+    width: 60px;
+    height: 60px;
+}
+.cardText{
+    max-width: 250px;
+}
+@media (max-width: 568px) {
+    .cardText{
+        display: none;
+    }
+    .cardBody{
+        margin-top: 12px;
+    }
+    .cardTextMobile{
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: 15px;
+    }
+    .episodeTitle{
+        max-width: 60vw;
+    }
+    .listenLink{
+        display: flex;
+        flex-direction: row-reverse;
+        gap: 10px;
+        align-items: center;
+    }
+}
